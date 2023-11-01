@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GUI : MonoBehaviour
+public class GUI_ : MonoBehaviour
 {
     [SerializeField] bool Show = false;
     // Start is called before the first frame update
@@ -35,4 +35,6 @@ public class GUI : MonoBehaviour
     }
 
     
+
+
 }

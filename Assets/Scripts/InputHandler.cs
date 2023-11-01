@@ -10,16 +10,12 @@ public class InputHandler : MonoBehaviour
         Event, InputMgr, InputSys
     }
     [SerializeField] InputMode inputMode = InputMode.Event;
-    // Start is called before the first frame update
-    void Awake()
-    {
-        
-    }
 
-    void Start()
-    {
-        
-    }
+    public Vector2 MovementInput { get; private set; }
+    public delegate void OnJumpKeyPressed();
+
+    public OnJumpKeyPressed DoJump;
+
 
     // Update is called once per frame
     void Update()
@@ -47,9 +43,10 @@ public class InputHandler : MonoBehaviour
     #region InputSystemÊÂ¼þÐ´·¨
     public void MoveCallBack(InputAction.CallbackContext context)
     {
+        MovementInput = context.action.ReadValue<Vector2>();
         if (inputMode == InputMode.Event && context.action.name == "Move")
         {
-            print(context.action.ReadValue<Vector2>());
+            print(MovementInput);
         }
     }
 
@@ -58,7 +55,13 @@ public class InputHandler : MonoBehaviour
         if (inputMode == InputMode.Event && context.action.name == "Jump")
         {
             print(context.action.IsPressed());
+
+            if (context.action.IsPressed())
+            {
+                DoJump();
+            }
         }
+
     }
     #endregion
 
