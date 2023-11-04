@@ -34,8 +34,8 @@ public class InputHandler : MonoBehaviour
 
         //Input System
         if (inputMode == InputMode.InputSys && Keyboard.current.spaceKey.isPressed)
-        {
-            print("InputSys: press [space]");
+   {
+  print("InputSys: press [space]");
         }
     }
 

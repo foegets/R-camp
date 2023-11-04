@@ -13,9 +13,7 @@ public class ItemCtrl : MonoBehaviour
             PlayerCtrl plr = collision.gameObject.GetComponent<PlayerCtrl>();
             if(plr)
             {
-                Vector2 v = plr.rb.velocity;
-                v.y +=120;
-                plr.rb.velocity = v;
+                print("in");
             }
         }
     }
