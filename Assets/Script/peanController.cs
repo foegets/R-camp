@@ -5,21 +5,42 @@ using UnityEngine;
 public class peanController : MonoBehaviour
 {
     private Rigidbody2D rb;
+    private CircleCollider2D coll;
     [Header("移动参数")]
     public float speed = 8f;
     private float xVelocity;
-    // Start is called before the first frame update
+
+    [Header("跳跃参数")]
+    public float jumpForce = 10f;
+
+    [Header("状态")]
+    public bool isOnGround;
+    public bool isJump;
+
+    [Header("环境检测")]
+    public LayerMask platform;
+    //按键设置
+    private bool jumpPressed;
+ 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        coll = GetComponent<CircleCollider2D>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         Movement();
+        jumpPressed = Input.GetButtonDown("Jump");
+        Jump();
     }
 
+    private void FixedUpdate()
+    {
+        IsOnGround();
+    }
     void  Movement()
     {
         xVelocity = Input.GetAxis("Horizontal");
@@ -34,4 +55,24 @@ public class peanController : MonoBehaviour
         else if (rb.velocity.x > 0)
             transform.localScale = new Vector2(1, 1);
     }
+
+    void IsOnGround()
+    {
+        if (coll.IsTouchingLayers(platform))
+            isOnGround = true;
+        else
+            isOnGround = false;
+    }
+
+    void Jump()
+    {
+        if(jumpPressed&&isOnGround)
+        {
+            isOnGround = false;
+            isJump = true;
+            rb.AddForce(new Vector2(0f, jumpForce),ForceMode2D.Impulse);
+        }
+    }
+
+    
 }
