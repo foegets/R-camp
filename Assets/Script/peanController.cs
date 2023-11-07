@@ -9,6 +9,7 @@ public class peanController : MonoBehaviour
     [Header("移动参数")]
     public float speed = 8f;
     private float xVelocity;
+    private Vector2 boomDirection;
 
     [Header("跳跃参数")]
     public float jumpForce = 10f;
@@ -16,6 +17,7 @@ public class peanController : MonoBehaviour
     [Header("状态")]
     public bool isOnGround;
     public bool isJump;
+    public bool boom;     //触碰地雷了
 
     [Header("环境检测")]
     public LayerMask platform;
@@ -40,6 +42,11 @@ public class peanController : MonoBehaviour
     private void FixedUpdate()
     {
         IsOnGround();
+        if (boom)
+        {
+            rb.AddForce(boomDirection, ForceMode2D.Impulse);
+            boom = false;
+        }
     }
     void  Movement()
     {
@@ -73,6 +80,11 @@ public class peanController : MonoBehaviour
             rb.AddForce(new Vector2(0f, jumpForce),ForceMode2D.Impulse);
         }
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log(collision.Distance(coll).normal.x+"+"+ collision.Distance(coll).normal.y);
+        boomDirection = (collision.Distance(coll).normal)*30;
+        boom = true;
+    }
 
-    
 }
