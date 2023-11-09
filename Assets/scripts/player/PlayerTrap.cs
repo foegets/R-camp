@@ -26,7 +26,7 @@ public class PlayerTrap : MonoBehaviour
         if (gameObject.tag == "Player")
         {
             Debug.Log("TRAP!");
-            rb.AddForce(pc.inputDirection * speed,ForceMode2D.Force);
+            rb.AddForce(transform.up * speed,ForceMode2D.Force);
         }
     }
 }
