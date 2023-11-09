@@ -19,11 +19,13 @@ public class TrapPlots : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        
-        if (other.collider.name == "Player");
+        //检测碰撞
+        Debug.Log(other.collider.CompareTag("Player"));
+        if (other.collider.CompareTag("Player"))
         {
+            //当接触到Player时陷阱地块消失
             Destroy(gameObject);
-            Debug.Log(other.collider.name == "Player");
+            Debug.Log(other.collider.CompareTag("Player"));
         }
     }
 }
