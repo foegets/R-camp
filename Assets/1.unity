@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 48402910}
   - component: {fileID: 48402909}
   - component: {fileID: 48402908}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4559,7 +4559,7 @@ Tilemap:
       - {fileID: -1755315963, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
       - {fileID: -1370407909, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
       - {fileID: -1074515659, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
-      m_AnimationSpeed: 7.0000005
+      m_AnimationSpeed: 7
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 2, y: -5, z: 0}
@@ -4713,7 +4713,7 @@ Tilemap:
       - {fileID: 997208710, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
       - {fileID: -50812410, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
       - {fileID: 1165565432, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -2, y: -2, z: 0}
@@ -4801,7 +4801,7 @@ Tilemap:
       - {fileID: -1755315963, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
       - {fileID: -1370407909, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
       - {fileID: -1074515659, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
-      m_AnimationSpeed: 7.0000005
+      m_AnimationSpeed: 7
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 0, y: -1, z: 0}
@@ -4812,7 +4812,7 @@ Tilemap:
       - {fileID: -1755315963, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
       - {fileID: -1370407909, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
       - {fileID: -1074515659, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
-      m_AnimationSpeed: 7.0000005
+      m_AnimationSpeed: 7
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 1, y: -1, z: 0}
@@ -4944,7 +4944,7 @@ Tilemap:
       - {fileID: -1755315963, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
       - {fileID: -1370407909, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
       - {fileID: -1074515659, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 1, y: 1, z: 0}
@@ -5076,7 +5076,7 @@ Tilemap:
       - {fileID: -1755315963, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
       - {fileID: -1370407909, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
       - {fileID: -1074515659, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 1, y: 3, z: 0}
@@ -5328,6 +5328,7 @@ GameObject:
   - component: {fileID: 1029827776}
   - component: {fileID: 1029827778}
   - component: {fileID: 1029827779}
+  - component: {fileID: 1029827780}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -5396,7 +5397,7 @@ Transform:
   m_GameObject: {fileID: 1029827773}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.22, y: 2.19, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5452,8 +5453,8 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_GravityScale: 4.3
+  m_Material: {fileID: 6200000, guid: f2581968abb6c444f96fc8d057a2c035, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -5541,6 +5542,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: b122ef3f-45c1-4ef9-965b-effe00c4d943
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 38bcc681-1cab-4d0f-bd34-91259ed05de0
+    m_ActionName: Gameplay/Jump[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -5560,7 +5565,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 1029827777}
   inputDirection: {x: 0, y: 0}
-  speed: 290
+  speed: 265
+  jumpForce: 16.5
+--- !u!114 &1029827780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029827773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ed9cb1619e1134458da15eb8b79b933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bottomOffset: {x: -0.05, y: 0}
+  checkRaduis: 0.08
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  isGround: 0
 --- !u!1 &1031593263
 GameObject:
   m_ObjectHideFlags: 0
