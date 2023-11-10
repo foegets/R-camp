@@ -10,11 +10,11 @@ public class PlayerControl : MonoBehaviour
     public float jumpSpeed;
 
     //设置动画
-    public SkeletonAnimation texasAnimation;
+    //记得设置！！！！！！！！！
+    public SkeletonAnimation chooseAnimation;
     public AnimationReferenceAsset idle, attack;
     private string currentState;
-    private string currentAnimation;
-    bool isAttack;
+    bool attackFinish;
 
     private Rigidbody2D myRigidbody;
     private BoxCollider2D myFeet;
@@ -30,7 +30,7 @@ public class PlayerControl : MonoBehaviour
         //初始化动画
         currentState = "Idle";
         SetCharacterState(currentState);
-        isAttack = false;
+        attackFinish = false;
     }
 
     // Update is called once per frame
@@ -63,17 +63,14 @@ public class PlayerControl : MonoBehaviour
 
     void Attack()
     {
-        //执行攻击
-        if (Input.GetKeyDown(KeyCode.F))
+        //执行攻击("J"键)
+        if (Input.GetButtonDown("Attack"))
         {
-            //判断是否已经
-            if(this.GetComponent<SkeletonAnimation>().AnimationName == "Attack_Loop")
+            //判断是否正在进行攻击
+            if(chooseAnimation.AnimationName == "Attack_Loop")
             {
                 return;
             }
-            currentAnimation = null;
-            //清空currentAnimation避免动画死循环
-            Debug.Log(Input.GetKeyDown(KeyCode.F));
             SetCharacterState("Attack");
         }       
     }
@@ -121,24 +118,24 @@ public class PlayerControl : MonoBehaviour
 
     void AnimationSet(AnimationReferenceAsset animation,bool loop,float timeScale)
     {
-        //判断动画状态并执行正确动画
-        if (currentAnimation == "Attack_Loop") 
+        //判断动画状态并执行/切换正确动画
+        if (chooseAnimation.AnimationName == "Attack_Loop") 
         {
-            if(isAttack == false)
+            if(attackFinish == false)
             {
-                texasAnimation.state.AddAnimation(0, animation, loop, 0).TimeScale = timeScale;
-                isAttack = true;
-                Debug.Log(isAttack);
+                //攻击结束切换为原动画
+                chooseAnimation.state.AddAnimation(0, animation, loop, 0).TimeScale = timeScale;
+                attackFinish = true;
             }   
             return;
         }
-        else if(animation.name.Equals(currentAnimation))
+        //避免每帧重复开始播放动画
+        else if(animation.name.Equals(chooseAnimation.AnimationName))
         {
             return;
         }
-        texasAnimation.state.SetAnimation(0,animation, loop).TimeScale = timeScale;
-        currentAnimation = animation.name;
-        isAttack = false;
+        chooseAnimation.state.SetAnimation(0,animation, loop).TimeScale = timeScale;
+        attackFinish = false;
     }
 
     void SetCharacterState(string state)

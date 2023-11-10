@@ -160,7 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runSpeed: 6
   jumpSpeed: 8
-  texasAnimation: {fileID: 86234276}
+  chooseAnimation: {fileID: 86234276}
   idle: {fileID: 11400000, guid: f4584dd22f6fc434aad058da84a04982, type: 2}
   attack: {fileID: 11400000, guid: 37254365de02af04db2b9d4295055e1d, type: 2}
 --- !u!114 &86234276
@@ -258,13 +258,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 86234274}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.77, y: 1.64, z: 0}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 12.02, y: 0.84, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!61 &86234280
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -676,7 +676,7 @@ GameObject:
   - component: {fileID: 1922535348}
   m_Layer: 0
   m_Name: Exusiai
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -720,7 +720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 4dbfd0f2e2d0b084ea4d43cfb3fc0b7b, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: b449c60b26e906940a8411c9a91192ff, type: 2}
   initialSkinName: 
   initialFlipX: 0
   initialFlipY: 0
@@ -742,7 +742,7 @@ MonoBehaviour:
     materialsInsideMask: []
     materialsOutsideMask: []
   disableRenderingOnOverride: 1
-  _animationName: Idle
+  _animationName: Sit
   loop: 1
   timeScale: 1
 --- !u!23 &1922535345
@@ -765,7 +765,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: dd3609f898b21c8498572ed0294cfd38, type: 2}
+  - {fileID: 2100000, guid: 80a7b1590456f9148bb4e6c268fbcceb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -804,7 +804,7 @@ Transform:
   m_GameObject: {fileID: 1922535342}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.77, y: 1.54, z: 0}
+  m_LocalPosition: {x: -12.82, y: -3.39, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
