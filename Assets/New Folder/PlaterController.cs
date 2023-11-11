@@ -19,10 +19,10 @@ public class PlaterController : MonoBehaviour
         rb.velocity = new Vector2(inputDirection.x * speed * Time.deltaTime, rb.velocity.y);//移动
 
         int dir = (int)transform.localScale.x;//临时变量，当inputDirection不等于1或-1时将其转化为1或-1
-        if(inputDirection.x > 0) dir = 1;
+        if (inputDirection.x > 0) dir = 1;
         if (inputDirection.x < 0) dir = -1;
 
-        transform.localScale = new Vector3(dir,1,1);  //人物反转
+        transform.localScale = new Vector3(dir, 1, 1);  //人物反转
 
     }
 
@@ -33,11 +33,11 @@ public class PlaterController : MonoBehaviour
 
         inputControl = new PlayerInputControl();
 
-        inputControl.GamePlay.Jump.started += Jump; 
+        inputControl.GamePlay.Jump.started += Jump;
 
     }
 
-   
+
 
     private void OnEnable()
     {
@@ -74,9 +74,8 @@ public class PlaterController : MonoBehaviour
     private void Jump(InputAction.CallbackContext context)
     {
         //Debug.Log("jump"); 
-        if(physicCheck.isGround)
-            rb.AddForce(transform.up*jumpForce,ForceMode2D.Impulse);
+        if (physicCheck.isGround)
+            rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
     }
 
 }
- 

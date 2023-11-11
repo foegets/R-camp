@@ -15,14 +15,14 @@ public class PhysicCheck : MonoBehaviour
 
     public void Check()
     {
-        isGround =  Physics2D.OverlapCircle(transform.position, checkRaduisJump, groundLayer);
+        isGround = Physics2D.OverlapCircle(transform.position, checkRaduisJump, groundLayer);
         isboom = Physics2D.OverlapCircle(transform.position, checkRaduisBoom, boomLayer);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
