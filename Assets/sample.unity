@@ -1691,6 +1691,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0734c0766c239e648a4f7ed840a6a961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputDirection: {x: 0, y: 0}
+  speed: 290
 --- !u!1 &1662966898
 GameObject:
   m_ObjectHideFlags: 0
@@ -1971,7 +1973,7 @@ Tilemap:
       - {fileID: -267187307, guid: e35ca7404f6bc2143b265b123333213e, type: 3}
       - {fileID: 74458443, guid: e35ca7404f6bc2143b265b123333213e, type: 3}
       - {fileID: 1276145251, guid: e35ca7404f6bc2143b265b123333213e, type: 3}
-      m_AnimationSpeed: 7.0000005
+      m_AnimationSpeed: 7
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 4, y: 0, z: 0}
