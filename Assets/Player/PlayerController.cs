@@ -27,6 +27,7 @@ public class PlayController : MonoBehaviour
         Flip();
         Jump();
         CheckGrounded();
+        SwitchAnimation();
     }
 
     void CheckGrounded()
@@ -66,8 +67,30 @@ public class PlayController : MonoBehaviour
         {
             if(isGround )
             {
+                myAnim.SetBool("Jump", true);
                 Vector2 jumpVel = new Vector2(0.0f, jumpSpeed);
                 myRigibody.velocity = Vector2.up * jumpVel;
+            }
+        }
+    }
+
+    void SwitchAnimation()
+    {
+        myAnim.SetBool("Idle", false);
+        if(myAnim.GetBool("Jump"))
+        {
+            if(myRigibody.velocity.y < 0.0f)
+            {
+                myAnim.SetBool("Jump", false);
+                myAnim.SetBool("Fall", true);
+            }
+        }
+        else
+        {
+            if(isGround)
+            {
+                myAnim.SetBool("Fall", false);
+                myAnim.SetBool("Idle", true);
             }
         }
     }
