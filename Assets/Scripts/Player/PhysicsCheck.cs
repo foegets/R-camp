@@ -12,7 +12,7 @@ public class PhysicsCheck : MonoBehaviour
     // Start is called before the first frame update
     public void Update()
     {
-        
+        Check();
     }
     public void Check()
     {

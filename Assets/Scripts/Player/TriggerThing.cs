@@ -5,6 +5,7 @@ using UnityEngine;
 public class TriggerThing : MonoBehaviour
 {
     public GameObject Player;
+    public GameObject Triangle;
     private void Awake()
     {
         
@@ -12,13 +13,17 @@ public class TriggerThing : MonoBehaviour
     // Start is called before the first frame update
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        Player.transform.position = new Vector3(-8, 0,0);
+        if (collision.CompareTag("Triangle"))
+            transform.position = new Vector3(-8, 0, 0);
     }
 
 
     // Update is called once per frame
     void Update()
     {
+        
+        
+            
         
     }
 }
