@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,14 @@ public class player : MonoBehaviour
     public Collider2D playColl;
     public Animator PlayerAnim;
 
+    private void OnGUI()
+    {
+        GUI.skin.label.fontSize = 50;
+        GUI.Label(new Rect(10, 10, 300, 100), "coin Num:" + coin.coinCount);
+
+    }
+
+
     void Start()
     {
         playColl = GetComponent<Collider2D>();              //让物体能产生碰撞 不会掉
@@ -35,6 +44,7 @@ public class player : MonoBehaviour
     void Update()
     {
         UpdateCheck();
+        AnimSwitch();   
     }
     private void FixedUpdate()
     {
@@ -58,6 +68,7 @@ public class player : MonoBehaviour
     }
     void PlayerJump()
     {
+        
         if(isGround)
         {
             playerJumpCount = 1;
@@ -67,7 +78,6 @@ public class player : MonoBehaviour
         {
             pressedJump = false;
             playerRB.velocity = new Vector2(playerRB.velocity.x, playerJumpSpeed);
-            PlayerAnim.SetBool("jump", true);
             playerJumpCount--;
         }
         else if ((pressedJump && playerJumpCount>0&& !isGround))   //在空中
@@ -76,10 +86,7 @@ public class player : MonoBehaviour
             playerRB.velocity = new Vector2(playerRB.velocity.x, playerJumpSpeed);  //可以二连跳
             playerJumpCount--;
         }
-        if (isGround)
-        {
-            PlayerAnim.SetBool("jump", false);
-        }
+       
     }
     void FixupdateCheck()
     {
@@ -87,10 +94,22 @@ public class player : MonoBehaviour
     }
     void UpdateCheck()
     {
-        if(Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump"))
         {
             pressedJump = true;
         }
-       
     }
+        void AnimSwitch()
+        {
+            if (isGround)
+            {
+                PlayerAnim.SetBool("jump", false);
+            }
+            if(!isGround&&playerRB.velocity.y!=0 )
+            {
+                PlayerAnim.SetBool("jump", true);
+            }
+        }
+    
+    
 }
