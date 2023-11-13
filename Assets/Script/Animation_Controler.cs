@@ -28,21 +28,66 @@ public class Animation_Controler : MonoBehaviour
         {
             if (Input.GetAxis("Horizontal") > 0)
             {
-                GetComponent<Animator>().SetBool("isrightwalking", true);
-                GetComponent<Animator>().SetBool("isfrontwalking", false);
-                GetComponent<Animator>().SetBool("isleftwalking", false);
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    GetComponent<Animator>().SetBool("isrightrunning", true);
+                    GetComponent<Animator>().SetBool("isfrontrunning", false);
+                    GetComponent<Animator>().SetBool("isleftrunning", false);
+                    GetComponent<Animator>().SetBool("isfrontwalking", false);
+                    GetComponent<Animator>().SetBool("isleftwalking", false);
+                    GetComponent<Animator>().SetBool("isrightwalking", false);
+                }
+                else
+                {
+                    GetComponent<Animator>().SetBool("isrightwalking", true);
+                    GetComponent<Animator>().SetBool("isfrontwalking", false);
+                    GetComponent<Animator>().SetBool("isleftwalking", false);
+                    GetComponent<Animator>().SetBool("isrightrunning", false);
+                    GetComponent<Animator>().SetBool("isfrontrunning", false);
+                    GetComponent<Animator>().SetBool("isleftrunning", false);
+                }               
             }
             else if (Input.GetAxis("Horizontal") < 0)
             {
-                GetComponent<Animator>().SetBool("isleftwalking", true);
-                GetComponent<Animator>().SetBool("isrightwalking", false);
-                GetComponent<Animator>().SetBool("isfrontwalking", false);
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    GetComponent<Animator>().SetBool("isrightrunning", false);
+                    GetComponent<Animator>().SetBool("isfrontrunning", false);
+                    GetComponent<Animator>().SetBool("isleftrunning", true);
+                    GetComponent<Animator>().SetBool("isfrontwalking", false);
+                    GetComponent<Animator>().SetBool("isleftwalking", false);
+                    GetComponent<Animator>().SetBool("isrightwalking", false);
+                }
+                else
+                {
+                    GetComponent<Animator>().SetBool("isleftwalking", true);
+                    GetComponent<Animator>().SetBool("isrightwalking", false);
+                    GetComponent<Animator>().SetBool("isfrontwalking", false);
+                    GetComponent<Animator>().SetBool("isrightrunning", false);
+                    GetComponent<Animator>().SetBool("isfrontrunning", false);
+                    GetComponent<Animator>().SetBool("isleftrunning", false);
+                }
             }
             else
             {
-                GetComponent<Animator>().SetBool("isfrontwalking", true);
-                GetComponent<Animator>().SetBool("isleftwalking", false);
-                GetComponent<Animator>().SetBool("isrightwalking", false);
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    GetComponent<Animator>().SetBool("isrightrunning", false);
+                    GetComponent<Animator>().SetBool("isfrontrunning", true);
+                    GetComponent<Animator>().SetBool("isleftrunning", false);
+                    GetComponent<Animator>().SetBool("isfrontwalking", false);
+                    GetComponent<Animator>().SetBool("isleftwalking", false);
+                    GetComponent<Animator>().SetBool("isrightwalking", false);
+                }
+                else
+                {
+                    GetComponent<Animator>().SetBool("isfrontwalking", true);
+                    GetComponent<Animator>().SetBool("isleftwalking", false);
+                    GetComponent<Animator>().SetBool("isrightwalking", false);
+                    GetComponent<Animator>().SetBool("isrightrunning", false);
+                    GetComponent<Animator>().SetBool("isfrontrunning", false);
+                    GetComponent<Animator>().SetBool("isleftrunning", false);
+                }               
             }
         }
         else
@@ -50,6 +95,9 @@ public class Animation_Controler : MonoBehaviour
             GetComponent<Animator>().SetBool("isfrontwalking", false);
             GetComponent<Animator>().SetBool("isleftwalking", false);
             GetComponent<Animator>().SetBool("isrightwalking", false);
+            GetComponent<Animator>().SetBool("isrightrunning", false);
+            GetComponent<Animator>().SetBool("isfrontrunning", false);
+            GetComponent<Animator>().SetBool("isleftrunning", false);
         }
         
     }
