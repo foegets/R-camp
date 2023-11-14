@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Normal_Trigger : MonoBehaviour
+public class Coin_Trigger : MonoBehaviour
 {
     AudioSource audio;
     // Start is called before the first frame update
@@ -19,7 +20,12 @@ public class Normal_Trigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        audio.Play();
-        Destroy(gameObject, 0.2f);
+        if (other.tag == "Player")
+        {
+            Player_Status_Monitor Player_Status = other.GetComponent<Player_Status_Monitor>();
+            Player_Status.Player_Engry.value += 1;
+            audio.Play();
+            Destroy(gameObject, 0.2f);
+        }
     }
 }
