@@ -4,11 +4,21 @@ using UnityEngine;
 
 public class Footsteps : MonoBehaviour
 {
-    AudioSource audio;
+    public GameObject walksteps;
+    public GameObject runsteps;
+    public GameObject jumpupsteps;
+    public GameObject jumpdownsteps;
+    AudioSource walksound;
+    AudioSource runsound;
+    AudioSource jumpupsound;
+    AudioSource jumpdownsound;
     // Start is called before the first frame update
     void Start()
     {
-        audio = GetComponent<AudioSource>();
+        walksound = walksteps.GetComponent<AudioSource>();
+        runsound = runsteps.GetComponent<AudioSource>();
+        jumpdownsound = jumpdownsteps.GetComponent<AudioSource>();
+        jumpupsound = jumpupsteps.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -17,8 +27,20 @@ public class Footsteps : MonoBehaviour
         
     }
     
-    void footsteps()
+    void walk()
     {
-        audio.Play();
+        walksound.Play();
+    }
+    void run()
+    {
+        runsound.Play();
+    }
+    void jumpup()
+    {
+        jumpupsound.Play();
+    }
+    void jumpdown()
+    {
+        jumpdownsound.Play();
     }
 }
