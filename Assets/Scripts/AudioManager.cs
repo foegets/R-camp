@@ -14,6 +14,9 @@ public class AudioManager : MonoBehaviour
     [Header("FX音效")]
     public AudioClip deathFXClip;
     public AudioClip orbFXClip;
+    public AudioClip doorFXClip;
+    public AudioClip startLevelClip;
+    public AudioClip winClip;
 
     [Header("Robbie")]
     public AudioClip[] walkStepClips;
@@ -31,8 +34,16 @@ public class AudioManager : MonoBehaviour
     AudioSource playerSource;
     AudioSource voiceSource;
 
+    public AudioMixerGroup ambientGroup, musicGroup, FXGroup, playerGroup, voiceGroup;
+
     private void Awake()
     {
+        if (current != null)                    //防止AudioManager在人物死后重复生成，导致声音越来越大
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
         current = this;
 
         DontDestroyOnLoad(gameObject);
@@ -42,6 +53,12 @@ public class AudioManager : MonoBehaviour
         fxSource = gameObject.AddComponent<AudioSource>();
         playerSource = gameObject.AddComponent<AudioSource>();
         voiceSource = gameObject.AddComponent<AudioSource>();
+
+        ambientSource.outputAudioMixerGroup = ambientGroup;
+        musicSource.outputAudioMixerGroup = musicGroup;
+        fxSource.outputAudioMixerGroup = FXGroup;
+        playerSource.outputAudioMixerGroup = playerGroup;
+        voiceSource.outputAudioMixerGroup = voiceGroup;
 
         StartLevelAudio();
     }
@@ -54,6 +71,21 @@ public class AudioManager : MonoBehaviour
         current.musicSource.clip = current.musicClip;
         current.musicSource.loop = true;
         current.musicSource.Play();
+
+        current.fxSource.clip = current.startLevelClip;
+        current.fxSource.Play();
+    }
+
+    public static void PlayerWonAudio()
+    {
+        current.fxSource.clip = current.winClip;
+        current.fxSource.Play();
+        current.playerSource.Stop();
+    }
+    public static void PlayDoorOpenAudio()
+    {
+        current.fxSource.clip = current.doorFXClip;
+        current.fxSource.PlayDelayed(1f);
     }
     public static void PlayFootstepAudio()
     {

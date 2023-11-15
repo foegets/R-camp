@@ -68,6 +68,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if(GameManager.GameOver())
+            return;
+        
         jumpPressed = Input.GetButton("Jump");               //ÌøÔ¾
         jumpHeld = Input.GetButton("Jump");
         crouchHeld = Input.GetButton("Crouch");
@@ -76,6 +79,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (GameManager.GameOver())
+            return;
         PhysicsCheck();
         GroundMovement();
         MidAirMovement();
