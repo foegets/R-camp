@@ -4604,7 +4604,7 @@ Tilemap:
       - {fileID: -1755315963, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
       - {fileID: -1370407909, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
       - {fileID: -1074515659, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
-      m_AnimationSpeed: 7.0000005
+      m_AnimationSpeed: 7
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 2, y: -5, z: 0}
@@ -4956,7 +4956,7 @@ Tilemap:
       - {fileID: 997208710, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
       - {fileID: -50812410, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
       - {fileID: 1165565432, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
-      m_AnimationSpeed: 7.0000005
+      m_AnimationSpeed: 7
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -2, y: 1, z: 0}
@@ -5055,7 +5055,7 @@ Tilemap:
       - {fileID: -1755315963, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
       - {fileID: -1370407909, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
       - {fileID: -1074515659, guid: a85e65f428cbc874f998a856e6b81092, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 1, y: 2, z: 0}
@@ -5376,6 +5376,11 @@ GameObject:
   - component: {fileID: 1029827779}
   - component: {fileID: 1029827780}
   - component: {fileID: 1029827782}
+  - component: {fileID: 1029827787}
+  - component: {fileID: 1029827786}
+  - component: {fileID: 1029827785}
+  - component: {fileID: 1029827784}
+  - component: {fileID: 1029827783}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -5665,6 +5670,125 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d246e87a8ba331744afabe7ab663a95e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1029827783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029827773}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3286969c5df8a1e4bb64bc92ea46495e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coll: {fileID: 0}
+  rb: {fileID: 0}
+  anim: {fileID: 0}
+  speed: 10
+  jumpForce: 50
+  slideSpeed: 5
+  wallJumpLerp: 10
+  dashSpeed: 20
+  canMove: 0
+  wallGrab: 0
+  wallJumped: 0
+  wallSlide: 0
+  isDashing: 0
+  groundTouch: 0
+  hasDashed: 0
+  side: 1
+  dashParticle: {fileID: 0}
+  jumpParticle: {fileID: 0}
+  wallJumpParticle: {fileID: 0}
+  slideParticle: {fileID: 0}
+--- !u!114 &1029827784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029827773}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7d9cab770188f349a604bdbf71587f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  move: {fileID: 0}
+  anim: {fileID: 0}
+  sr: {fileID: 0}
+  ghostsParent: {fileID: 0}
+  trailColor:
+    r: 0
+    g: 0
+    b: 0
+    a: 0
+  fadeColor:
+    r: 0
+    g: 0
+    b: 0
+    a: 0
+  ghostInterval: 0
+  fadeTime: 0
+--- !u!114 &1029827785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029827773}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 406198e895886ed45b8b2053e80bd604, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundLayer:
+    m_Bits: 0
+  onGround: 0
+  onWall: 0
+  onRightWall: 0
+  onLeftWall: 0
+  wallSide: 0
+  collisionRadius: 0.25
+  bottomOffset: {x: 0, y: 0}
+  rightOffset: {x: 0, y: 0}
+  leftOffset: {x: 0, y: 0}
+  debugCollisionColor:
+    r: 1
+    g: 0
+    b: 0
+    a: 1
+--- !u!114 &1029827786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029827773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d071a2142a4939342a4ee88613274c86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  fallMultiplier: 2.5
+  lowJumpMultiplier: 2
+--- !u!114 &1029827787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029827773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9c8c358d94b24a4fbd8ce20af91d7a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 0}
+  move: {fileID: 0}
+  coll: {fileID: 0}
+  sr: {fileID: 0}
 --- !u!1 &1031593263
 GameObject:
   m_ObjectHideFlags: 0
