@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class 方向指针 : MonoBehaviour
+public class Direction_Pointer : MonoBehaviour
 {
     public GameObject targetgo;
     public float Yoffset = 0.5f;

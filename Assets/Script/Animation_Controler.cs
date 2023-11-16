@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class Animation_Controler : MonoBehaviour
 {
+    //// 获取头部要看向的物体
+    //public GameObject target;
+
     bool isjumping = false;
     // Start is called before the first frame update
     void Start()
@@ -99,7 +103,10 @@ public class Animation_Controler : MonoBehaviour
             GetComponent<Animator>().SetBool("isfrontrunning", false);
             GetComponent<Animator>().SetBool("isleftrunning", false);
         }
-        
+        //if (target != null && Vector3.Distance(transform.position, target.transform.position) <= 4 && target.GetComponent<VideoPlayer>().isPlaying)
+        //{
+            
+        //}
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -109,4 +116,9 @@ public class Animation_Controler : MonoBehaviour
             isjumping = false;
         }
     }
+    //void OnAnimatorIK(int layerIndex)
+    //{
+    //    GetComponent<Animator>().SetLookAtWeight(0.5f);
+    //    GetComponent<Animator>().SetLookAtPosition(target.transform.position);
+    //}
 }

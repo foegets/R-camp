@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class 触发爆炸 : MonoBehaviour
+public class Trigger_Explosion : MonoBehaviour
 {
     public GameObject Prefab_bomb;
     // Start is called before the first frame update

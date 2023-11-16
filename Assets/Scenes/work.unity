@@ -767,7 +767,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2298940014905939107, guid: f15aa693a5ca0f749b8429b1406e2dc7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.6102653
+      value: 0.603
       objectReference: {fileID: 0}
     - target: {fileID: 2298940014905939107, guid: f15aa693a5ca0f749b8429b1406e2dc7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1903,6 +1903,7 @@ GameObject:
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
+  - component: {fileID: 963194231}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2022,6 +2023,19 @@ MonoBehaviour:
   y: 0
   damping: 5
   needDamping: 1
+--- !u!114 &963194231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d6d392362bd8c54fa0ed5e8f1ccafa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gobj: {fileID: 1695762044}
 --- !u!1 &971246990
 GameObject:
   m_ObjectHideFlags: 0
@@ -2726,6 +2740,19 @@ MonoBehaviour:
   Player_Engry: {fileID: 1842862522}
   videoplayer: {fileID: 2058257056}
   deadimage: {fileID: 1954992734}
+--- !u!114 &1206377747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1206377723}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cb661c1e63e09743a7d4802bc058f5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensitivity: 5
 --- !u!1001 &1308962774
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5467,6 +5494,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1231873419245186938, guid: fdf678a7193c58346a367114b3da57ac, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1206377746}
+    - targetCorrespondingSourceObject: {fileID: 1231873419245186938, guid: fdf678a7193c58346a367114b3da57ac, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1206377747}
   m_SourcePrefab: {fileID: 100100000, guid: fdf678a7193c58346a367114b3da57ac, type: 3}
 --- !u!1 &2013243022
 GameObject:
@@ -6347,6 +6377,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 206002981761499569, guid: d59056b2c70dd674b82ad064124b2c70, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885156446023587765, guid: d59056b2c70dd674b82ad064124b2c70, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885156446023587765, guid: d59056b2c70dd674b82ad064124b2c70, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885156446023587765, guid: d59056b2c70dd674b82ad064124b2c70, type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2618061328080600118, guid: d59056b2c70dd674b82ad064124b2c70, type: 3}

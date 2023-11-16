@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.Video;
 
-public class 触发器_触发视频播放 : MonoBehaviour
+public class Trigger_VideoPlayer : MonoBehaviour
 {
     // 要播放的哪里
     public GameObject target;

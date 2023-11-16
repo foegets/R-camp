@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class 非物理的跳跃 : MonoBehaviour
+public class Antiphysical_Jump : MonoBehaviour
 {
     public float jumpforce = 10.0f;
     bool ifjumping;

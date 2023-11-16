@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class 触发器 : MonoBehaviour
+public class Trigger_make_sth_enabled : MonoBehaviour
 {
     public GameObject goj;
     private bool ifActive;

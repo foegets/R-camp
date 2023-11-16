@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class 固定Y轴 : MonoBehaviour
+public class FixY : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

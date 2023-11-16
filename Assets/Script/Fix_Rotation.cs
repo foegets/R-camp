@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class 固定旋转角度 : MonoBehaviour
+public class Fix_Rotation : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

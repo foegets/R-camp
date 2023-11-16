@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class 摄像机跟随 : MonoBehaviour
+public class CameraFollow_First : MonoBehaviour
 {
     public Transform gobj;
     Camera camera;

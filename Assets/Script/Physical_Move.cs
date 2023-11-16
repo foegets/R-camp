@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class 物理移动 : MonoBehaviour
+public class Physical_Move : MonoBehaviour
 {
     // 移动速度
     public float movespeed = 3f;
