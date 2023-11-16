@@ -2,14 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using static InventoryData;
 
-public class InventoryUI : MonoBehaviour
+public class InventoryUI : MonoBehaviour, IPointerClickHandler
 {
     public static InventoryUI Instance;
     [SerializeField] GameObject prefab_Slot;
     [SerializeField] RectTransform slotContainer;
+    [SerializeField] GameObject droped_range;
+
 
     [SerializeField] Image currentShow;
     [SerializeField] Text currentCount;
@@ -143,5 +147,17 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (!current.isEmpty && eventData.pointerEnter == droped_range)
+        {
+            current.count--;
+            ItemManager.Instance.CreateDropItem(current).RandomMove().transform.position = inventoryData.transform.position + Vector3.up;
+            
+            if (current.count <= 0)
+            {
+                current = ItemStack.Empty;
+            }
+        }
+    }
 }

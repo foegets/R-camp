@@ -12,7 +12,6 @@ public class InventoryData : MonoBehaviour
     
     public ItemStack[] data { get; private set; } //记录物品栏数据
     public bool[] dirty { get; private set; }    //记录格子内容是否更新
-
    
     private void Awake()
     {

@@ -1,21 +1,22 @@
 using UnityEngine;
 
-public class ItemApple : ItemBase
+public class StaticItem : ItemBase
 {
-    // Start is called before the first frame update
-   
-
     void OnTriggerEnter2D(Collider2D collision)
     {
-        print("hit");
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player")) {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
             if (player)
             {
-                player.Inventory.PushItem(this);
+                OnHitPlayer(player);
                 Destroy(gameObject);
             }
         }
     }
 
+    protected virtual void OnHitPlayer(PlayerController player)
+    {
+        player.Inventory.PushItem(this);
+    }
 }
