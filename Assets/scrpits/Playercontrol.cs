@@ -52,7 +52,10 @@ public class Playercontrol : MonoBehaviour
         Move();
       
     }
-
+    private void OnTriggerStay2D(Collider2D other)
+    {
+       // Debug.Log(other.name);
+    }
     private void returnlocation()
     {
         if (rb.velocity.y <= -100)
@@ -81,18 +84,18 @@ public class Playercontrol : MonoBehaviour
             rb.AddForce(transform.up * JumpForce, ForceMode2D.Impulse);
             limit--;
         }
-        Debug.Log("jump");
+       
     }
     private void Spacial(InputAction.CallbackContext context)
     {
         if (Fast == 0)
         { Fast = 1;
-            Debug.Log("1");
+          
          }
         else
         {
             Fast = 0;
-            Debug.Log("0");
+           
         }
     }
 
