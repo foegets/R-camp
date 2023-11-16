@@ -8,12 +8,16 @@ public class Jump : MonoBehaviour
 {
     [SerializeField] float jumpHeight = 2.5f;
     [SerializeField] float gravityScale = 5;
-    [SerializeField] float fallGravityScale = 15;
+    [SerializeField] float fallGravityScale = 10;
     private int JumpLimit = 2;
     public Rigidbody2D rb;
+    public Rigidbody2D rb2;
     public LayerMask ground;
+    public LayerMask platform;
     public Transform feet;
     bool mIsOnGround = true;
+  
+    public float checkRadius;
   
     
     /*bool isGround()
@@ -22,20 +26,28 @@ public class Jump : MonoBehaviour
     }*/
     private void CheckIsOnGround()
     {
-        mIsOnGround = rb.IsTouchingLayers(LayerMask.GetMask("Ground"));
+        mIsOnGround = Physics2D.OverlapCircle(feet.position, checkRadius, ground);
+     
+    }
+    private void FixedUpdate()
+    {
+        CheckIsOnGround();
     }
     private void Update()
     {
-        CheckIsOnGround();
-        _Jump();
         
+        _Jump();
+      
+
+
     }
     void _Jump()
     {
         if (mIsOnGround)
         {
-            Debug.Log(1);
+            
             JumpLimit = 1;
+            
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -45,6 +57,7 @@ public class Jump : MonoBehaviour
                 float jumpForce = Mathf.Sqrt(jumpHeight * (Physics2D.gravity.y * rb.gravityScale) * -2) * rb.mass;
                 rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 JumpLimit--;
+                
             }
             if (rb.velocity.y > 0)
             {
@@ -56,6 +69,7 @@ public class Jump : MonoBehaviour
             }
         }
     }
-    //改后问题，落地后JumpLimit不会回复到2
+
+
 
 }

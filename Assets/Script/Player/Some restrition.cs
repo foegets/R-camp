@@ -4,17 +4,35 @@ using UnityEngine;
 
 public class Some : MonoBehaviour
 {
-    [SerializeField] float jumpForce = 1000000;
-    public Rigidbody2D body;
     
+    public Rigidbody2D body;
+
+
+
 
     // Update is called once per frame
+    private void Update()
+    {
+        NewGame();
+    }
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Trap")
         {
-            body.AddForce(Vector2.left * jumpForce);
-            Debug.Log(233);
+            gameObject.SetActive(false);
+            AudioManger.Instance.PlaySFX("Died");
         }//要做到碰到collision之后彻底改变运动性质
     }
+    private void NewGame()
+    {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            Vector3 pos = new Vector3(-16, 4, 0);
+            body.transform.position = pos;
+            gameObject.SetActive(true);
+            
+            Debug.Log("666");
+        }
+    }
+    
 }

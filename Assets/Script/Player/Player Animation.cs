@@ -13,6 +13,15 @@ public class PlayerAnimation : MonoBehaviour
     }
     public void SetAnimation()
     {
-        anim.SetFloat("velocityX",Mathf.Abs(rb.velocity.x));//取绝对值关键字Mathf.Abs
+        anim.SetFloat("velocityX",Mathf.Abs(rb.velocity.x));
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            anim.SetFloat("velocityY", Mathf.Abs(rb.velocity.y));
+        }
+        else
+        {
+            anim.SetFloat("velocityY", 0);
+        }
+        //取绝对值关键字Mathf.Abs
     }//啊米诺斯
 }
