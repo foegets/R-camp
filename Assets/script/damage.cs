@@ -18,7 +18,7 @@ public class damage : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("hit");
-            if (collision.tag=="Player")
-            FindObjectOfType<health>().dealdamage();
+        if (collision.tag == "Player")
+            GameObject.Find("player-idle-2").GetComponent<health>().dealdamage();
     }
 }

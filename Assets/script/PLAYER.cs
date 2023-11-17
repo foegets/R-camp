@@ -15,6 +15,7 @@ public class NewBehaviourScript : MonoBehaviour
     private Animator anim;
     private SpriteRenderer sr;
     public float knockback, knockbackforce;
+    private bool doublejump = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,10 +31,11 @@ public class NewBehaviourScript : MonoBehaviour
         rb.velocity = new Vector2(speed*Input.GetAxis("Horizontal"),rb.velocity.y);
         if (Input.GetButtonDown("Jump"))
         {
-            if (isground)
+            if(isground) doublejump = true;
+            if (isground||doublejump)
             {
                 rb.velocity = new Vector2(rb.velocity.x, jumpforce);
-
+                if(isground==false&&doublejump==true)doublejump = false;
             }
         }
         anim.SetFloat("speed", Mathf.   Abs(rb.velocity.x));
