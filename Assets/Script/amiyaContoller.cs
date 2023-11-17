@@ -6,6 +6,7 @@ public class amiyaContoller : MonoBehaviour
 {
     private Rigidbody2D rig;
     private BoxCollider2D box;
+    private Animator ani;
 
     [Header("ÒÆ¶¯²ÎÊý")]
     public float moveSpeed;
@@ -17,17 +18,17 @@ public class amiyaContoller : MonoBehaviour
     {
         rig = GetComponent<Rigidbody2D>();
         box = GetComponent<BoxCollider2D>();
+        ani = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        float speed = Input.GetAxis("Horizontal")*moveSpeed;
-        rig.velocity = new Vector2(speed, rig.velocity.y);
+        Run();
         IsOnground();
         Jump();
     }
-
+    
     void IsOnground()
     {
         isOnground = box.IsTouchingLayers(LayerMask.GetMask("platform"));
@@ -35,7 +36,8 @@ public class amiyaContoller : MonoBehaviour
     }
     void Run()
     {
-
+          float speed = Input.GetAxis("Horizontal")*moveSpeed;
+          rig.velocity = new Vector2(speed, rig.velocity.y);
     }
 
     void Jump()
