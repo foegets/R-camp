@@ -12,7 +12,7 @@ public class PlayerControl : MonoBehaviour
     //设置动画
     //记得设置！！！！！！！！！
     public SkeletonAnimation chooseAnimation;
-    public AnimationReferenceAsset idle, attack;
+    public AnimationReferenceAsset idle, attack, walk, start;
     private string currentState;
     bool attackFinish;
 
@@ -36,6 +36,7 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GetAnimation();
         OnGround();
         Move();
         Jump();
@@ -50,7 +51,7 @@ public class PlayerControl : MonoBehaviour
         Vector2 playerVel = new Vector2(moveDir * runSpeed, myRigidbody.velocity.y);
         //通过改变速度进行移动
         myRigidbody.velocity = playerVel;
-        if(moveDir != 0)
+        if (moveDir != 0)
         {
             SetCharacterState("Idle");
         }
@@ -67,12 +68,12 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetButtonDown("Attack"))
         {
             //判断是否正在进行攻击
-            if(chooseAnimation.AnimationName == "Attack_Loop")
+            if (currentState == "Attack_Loop")
             {
                 return;
             }
             SetCharacterState("Attack");
-        }       
+        }
     }
 
     void Flip()
@@ -116,31 +117,36 @@ public class PlayerControl : MonoBehaviour
         isOnGround = myFeet.IsTouchingLayers(LayerMask.GetMask("Ground"));
     }
 
-    void AnimationSet(AnimationReferenceAsset animation,bool loop,float timeScale)
+    void GetAnimation()
+    {
+        //获取正在播放的动画
+        currentState = chooseAnimation.AnimationName;
+    }
+    void AnimationSet(AnimationReferenceAsset animation, bool loop, float timeScale)
     {
         //判断动画状态并执行/切换正确动画
-        if (chooseAnimation.AnimationName == "Attack_Loop") 
+        if (currentState == "Attack_Loop")
         {
-            if(attackFinish == false)
+            if (attackFinish == false)
             {
                 //攻击结束切换为原动画
                 chooseAnimation.state.AddAnimation(0, animation, loop, 0).TimeScale = timeScale;
                 attackFinish = true;
-            }   
+            }
             return;
         }
         //避免每帧重复开始播放动画
-        else if(animation.name.Equals(chooseAnimation.AnimationName))
+        else if (animation.name.Equals(currentState))
         {
             return;
         }
-        chooseAnimation.state.SetAnimation(0,animation, loop).TimeScale = timeScale;
+        chooseAnimation.state.SetAnimation(0, animation, loop).TimeScale = timeScale;
         attackFinish = false;
     }
 
     void SetCharacterState(string state)
     {
-        if(state.Equals("Idle"))
+        if (state.Equals("Idle"))
         {
             AnimationSet(idle, true, 1f);
         }
