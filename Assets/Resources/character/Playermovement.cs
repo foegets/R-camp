@@ -8,6 +8,7 @@ public class Playermovement : MonoBehaviour
 {
     //ÐÐ×ß
     private Rigidbody2D rb;
+    private BoxCollider2D coll;
     public Animator An;
    
 
@@ -19,7 +20,10 @@ public class Playermovement : MonoBehaviour
     public float checkRadius;
     public LayerMask whatIsGround;
     public int n;
-    public float force = 15.0f;
+    Vector2 moveInput;
+    public float moveSpeed;
+
+    float force = 15.0f;
 
     void Start()
     {
@@ -78,7 +82,7 @@ public class Playermovement : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (collision.gameObject.tag=="coin")
+        if ("coin"==collision.gameObject.tag)
         {
             Coincounter.nowCoin += 1;
             Destroy(collision.gameObject);
