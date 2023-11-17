@@ -21,8 +21,10 @@ public class playAnimation : MonoBehaviour
     }
     public void SetAnimation() 
     {
-        anim.SetFloat("velocityX", Mathf.Abs(rb.velocity.x));
+        anim.SetFloat("horizontalSpeed", Mathf.Abs(rb.velocity.x));
         anim.SetFloat("velocityY",rb.velocity.y);
         anim.SetBool("isGround", physicsCheck.isGround);
+        anim.SetBool("isWalking", physicsCheck.isWalking);
+        anim.SetBool("isWallSliding", physicsCheck.isWallSliding);
     }
 }
