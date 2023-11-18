@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
 
     public void Move()
     {
-        rb.velocity = new Vector2(inputDirection.x * speed * Time.fixedDeltaTime, rb.velocity.y);
+        rb.velocity = new Vector2(inputDirection.x * speed , rb.velocity.y);
         float faceDir = transform.localScale.x;
         
         if(inputDirection.x > 0)
@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Jump(InputAction.CallbackContext context)
     {
-        if (physicsCheck.isGround)
+        if (physicsCheck.isGround && physicsCheck.isJumpable == true)
         {
             rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
             //Debug.Log("jump!");

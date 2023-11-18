@@ -3954,10 +3954,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8010e4ca5e97b6e42b53027d318fe8c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 200
+  speed: 4.5
   jumpForce: 16
   IsMoveable: 0
   isAttack: 0
+  combo: 0
 --- !u!114 &696610271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3975,6 +3976,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  isMovable: 0
+  isJumpable: 1
 --- !u!95 &696610272
 Animator:
   serializedVersion: 5

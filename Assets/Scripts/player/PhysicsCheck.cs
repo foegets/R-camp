@@ -14,9 +14,25 @@ public class PhysicsCheck : MonoBehaviour
     private void Update()
     {
         Check();
+        
     }
     public void Check()
     {
         isGround = Physics2D.OverlapCircle(transform.position, checkRaduis, groundLayer);
+    }
+
+    public void UnJumpable()
+    {
+        isJumpable = false;
+    }
+    
+    public void UnMovable()
+    {
+        isMovable = false;  
+    }
+
+    public void Jumpable()
+    {
+        isJumpable = true;
     }
 }
