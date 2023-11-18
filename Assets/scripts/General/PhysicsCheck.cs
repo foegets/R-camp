@@ -11,19 +11,43 @@ public class PhysicsCheck : MonoBehaviour
 
     public float checkRaduis;//检测范围大小
 
+    public float rushDuration;
+    private float rushTime;
+    public int rushNum;
+
     [Header("状态")]
     public bool isGround;//是否处于地面
 
+    public bool isrushReady=true;
+
     public LayerMask groundLayer;
+
+    private void Start()
+    {
+        rushTime = rushDuration;
+        rushNum = 1;
+    }
     private void Update()
     {
-        Check();
+        CheckIsground();
+        CheckIsRushReady();
     }
 
-    public void Check()//检测处于地面的状态
+    public void CheckIsground()//检测处于地面的状态
     {
         
          isGround=Physics2D.OverlapCircle((Vector2)transform.position+bottomOffset,checkRaduis,groundLayer);
+    }
+
+    private void CheckIsRushReady()
+    {
+        if (isGround == false && rushNum <= 0)
+            isrushReady = false;
+        if (isGround == true)
+        {
+            isrushReady = true;
+            rushNum = 1;
+        }
     }
 
     private void OnDrawGizmosSelected()//检测范围绘制
