@@ -7,9 +7,12 @@ public class amiyaContoller : MonoBehaviour
     private Rigidbody2D rig;
     private BoxCollider2D box;
     private Animator ani;
+    private CapsuleCollider2D capbox;
+    
 
     [Header("移动参数")]
     public float moveSpeed;
+    private bool isRun;
 
     [Header("跳跃参数")]
     public bool isOnground;
@@ -19,6 +22,7 @@ public class amiyaContoller : MonoBehaviour
         rig = GetComponent<Rigidbody2D>();
         box = GetComponent<BoxCollider2D>();
         ani = GetComponent<Animator>();
+        capbox = GetComponent<CapsuleCollider2D>();
     }
 
     // Update is called once per frame
@@ -27,17 +31,35 @@ public class amiyaContoller : MonoBehaviour
         Run();
         IsOnground();
         Jump();
+        Attack();
     }
     
+    void Filp()
+    {
+        if (isRun)
+        {
+            if(rig.velocity.x>0.1f)
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, 0);
+            }
+            else if(rig.velocity.x<-0.1f)
+            {
+                transform.localRotation = Quaternion.Euler(0, 180, 0);
+            }
+        }
+    }
     void IsOnground()
     {
-        isOnground = box.IsTouchingLayers(LayerMask.GetMask("platform"));
+        isOnground = capbox.IsTouchingLayers(LayerMask.GetMask("platform"));
         Debug.Log("isOnground");
     }
     void Run()
     {
-          float speed = Input.GetAxis("Horizontal")*moveSpeed;
-          rig.velocity = new Vector2(speed, rig.velocity.y);
+         float speed = Input.GetAxis("Horizontal")*moveSpeed;
+         rig.velocity = new Vector2(speed, rig.velocity.y);
+         isRun = Mathf.Abs(rig.velocity.x) > 0.1f; 
+         Filp();
+         ani.SetBool("isRun", isRun&&isOnground);
     }
 
     void Jump()
@@ -46,6 +68,14 @@ public class amiyaContoller : MonoBehaviour
         {
             Vector2 jumpVel = new(0.0f, jumpSpeed);
             rig.velocity = Vector2.up * jumpVel;
+        }
+    }
+
+    void Attack()
+    {
+        if(Input.GetButtonDown("Attack"))
+        {
+            ani.SetTrigger("isAttack");
         }
     }
 }
