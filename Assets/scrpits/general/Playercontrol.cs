@@ -19,6 +19,9 @@ public class Playercontrol : MonoBehaviour
     [Header("基本参数")]
     public float Speed,Fast=0;
     public float JumpForce;
+    public float hurtforce;
+    public bool isHurt;
+    public bool isdead;
 
 
     // Update is called once per frame
@@ -49,13 +52,11 @@ public class Playercontrol : MonoBehaviour
     private void FixedUpdate()
     {
         returnlocation();
+        if(!isHurt)
         Move();
       
     }
-    private void OnTriggerStay2D(Collider2D other)
-    {
-       // Debug.Log(other.name);
-    }
+  
     private void returnlocation()
     {
         if (rb.velocity.y <= -100)
@@ -98,6 +99,17 @@ public class Playercontrol : MonoBehaviour
            
         }
     }
+    public void GetHurt(Transform attacker)
+    {
+        isHurt= true;
+        rb.velocity = Vector2.zero;
+        Vector2 dir = new Vector2((transform.position.x - attacker.position.x), 0).normalized;
+        rb.AddForce(dir*hurtforce, ForceMode2D.Impulse);
+    }
+    public void PlayerDead()
+    {
+        isdead= true;
+        inputcontrol.GamePlay.Disable();
 
-    
+    }
 }
