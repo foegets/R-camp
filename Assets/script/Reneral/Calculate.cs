@@ -50,6 +50,7 @@ public class Calculate : MonoBehaviour
         {
             currentHealth -= attacker.damage;
             TriggerInvulnerable();
+            //启动Invoke事件OnTakeDamage调用其中的内容,注意前面建立事件时需要传入transform
             OnTakeDamage?.Invoke(attacker.transform);
         }
         else

@@ -19,6 +19,8 @@ public class PlayerAnimation : MonoBehaviour
     {
         SetAnimation();
     }
+
+    //该部分用来传PlayerController中的值给Animaition中的各种变量，实现箭头中动作的判断
     public void SetAnimation()
     {
         //传进速度后取绝对值避免向左走速度为负而无法转换动作的问题
@@ -26,11 +28,21 @@ public class PlayerAnimation : MonoBehaviour
         anim.SetFloat("velocityY", rb.velocity.y);
         anim.SetBool("isDead", playerController.isDead);
         anim.SetBool("isGround", physicsCheck.isGround);
+        anim.SetBool("isAttack", playerController.isAttack);
+
     }
 
-    //实现受伤后播放闪烁动画
+    //实现受伤后播放动画
     public void PlayHurt()
     {
-        anim.SetTrigger("hurt trigger");       
+        anim.SetTrigger("hurt trigger");   
     }
+
+    //实现按下按键后播放攻击动画
+    public void PlayerAttack()
+    {
+        anim.SetTrigger("attack trigger");
+    }
+
+
 }

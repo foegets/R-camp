@@ -2,29 +2,47 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.InputSystem;//调用大库中InputSystem在下面启用我们创建的GameInput脚本
 
 public class PlayerController : MonoBehaviour
 {
     public GameInput inputControl;
     public Vector2 inputDirection;
     public Rigidbody2D rb;
+    public PlayerAnimation playerAnimation;
+    public Collider2D coll;
     //创建变量并在Awake中通过GetComponent获得判断跳跃与地面碰撞的组件
     private PhysicsCheck physicsCheck;
     [Header("基参")]
     public float speed;
     public float jumpForce;
     public float hurtForce;//创建用来施加受伤后反弹的力
+    [Header("状态")]
     public bool isHurt;//判断受伤
     public bool isDead;//判断死亡
+    public bool isAttack;//判断攻击
+    [Header("材质")]
+    public PhysicsMaterial2D normal;//带摩擦的普通材质
+    public PhysicsMaterial2D wall;//光滑的用于墙体碰撞的材质
+    
+    
+    //每一个类要启用脚本变量都需要new一个
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         physicsCheck = GetComponent<PhysicsCheck>();
         inputControl = new GameInput();
-        //通过施加力来实现跳跃（注意started，performed，canceled区别）
+        playerAnimation = GetComponent<PlayerAnimation>();
+        coll = GetComponent<Collider2D>();
+        //读取键盘输入跳跃键来实现跳跃（注意started，performed，canceled区别）
         inputControl.Player.Jump.started += Jump;
+        //读取键盘输入攻击键
+        inputControl.Player.Attack.started += PlayerAttack;
+
     }
+
+
+    //启动PlayerController的时候也启用inputControl
     private void OnEnable()
     {
         inputControl.Enable();
@@ -35,12 +53,14 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
+        //时刻更新人物朝向
         inputDirection = inputControl.Player.Move.ReadValue<Vector2>();
+        CheckMaterial();
     }
     private void FixedUpdate()
     {
-        //判断是否受伤来执行move，由于如果isHurt为ture且不变，则受伤后会一直不动，因此在Animator中的blue hurt添加了一个代码，用来结束动作后将isHurt改为false
-        if(!isHurt)
+        //判断是否受伤和攻击来执行move，在Animator中的blue hurt添加了一个代码，用来结束动作后将isHurt改为false，isAttack改为false
+        if(!isHurt && !isAttack)
             Move();
     }
 
@@ -56,11 +76,22 @@ public class PlayerController : MonoBehaviour
             faceDir = -1;
         transform.localScale = new Vector3(faceDir, 1, 1);//通过判断实现翻转
     }
+
+    //实现跳跃
     private void Jump(InputAction.CallbackContext obj)
     {
         //引用跳跃判断组件限制跳跃
         if(physicsCheck.isGround)
             rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+    }
+
+    //实现攻击
+    private void PlayerAttack(InputAction.CallbackContext context)
+    {
+        //启动PlayerAnimation中的PlayerAttack函数
+        playerAnimation.PlayerAttack();
+        isAttack = true;
+
     }
 
     //实现受伤反弹，传入攻击者的参数
@@ -72,13 +103,19 @@ public class PlayerController : MonoBehaviour
         Vector2 dir = new Vector2((transform.position.x - attacker.position.x), 0).normalized;
         //添加力，方向乘以力，力的类型即为2D且瞬时
         rb.AddForce(dir * hurtForce, ForceMode2D.Impulse);
+    }
 
+    
+    public void CheckMaterial()
+    {
+        //通过人物是否战立更换材质实现在地面有摩擦（使人物攻击时不会滑动），贴墙时无摩擦，三元运算符？：，记得把函数放进update
+        coll.sharedMaterial = physicsCheck.isGround ? normal : wall;
     }
 
     public void PlayerDead()
     {
         isDead = true;
-        //死了直接锁键盘实现无法进行移动,我真是天才
+        //死了直接锁键盘实现无法进行移动
         inputControl.Player.Disable();
     }
 
