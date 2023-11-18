@@ -4,19 +4,30 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public int PlayerCoins { get; private set; } = 0;
     public PlayerInputControl inputControl;
     private Rigidbody2D rb;
     private PhysicsCheck physicsCheck;
     public Vector2 inputDirection;
+    private PlayerAnimation playerAnimation;
+    public GameObject myBag;
+    bool isOpen;
     [Header("基本参数")]
     public float speed=310f;
     public float jumpForce=16.5f;
+    [Header("状态")]
+    public bool isAttack;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         physicsCheck = GetComponent<PhysicsCheck>();
         inputControl = new PlayerInputControl();
+        playerAnimation = GetComponent<PlayerAnimation>();
+        //跳跃
         inputControl.Gameplay.Jump.started += Jump;
+        //攻击
+        inputControl.Gameplay.Attack.started += PlayerAttack;
+
     }
     private void OnEnable()
     {
@@ -29,6 +40,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         inputDirection = inputControl.Gameplay.Move.ReadValue<Vector2>();
+        OpenMyBag();
     }
     private void FixedUpdate()
     {
@@ -49,4 +61,28 @@ public class PlayerController : MonoBehaviour
         if(physicsCheck.isGround)
             rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
     }
+    private void PlayerAttack(InputAction.CallbackContext obj)
+    {
+        playerAnimation.PlayAttack();
+        isAttack = true;
+        
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+       if (collision.gameObject.CompareTag("Coins")) // 如果碰撞的游戏对象tag为"Coins"
+        {
+            PlayerCoins += 100; // 玩家金币数加100
+            Debug.Log("Player coins: " + PlayerCoins); // 打印或显示玩家的金币数
+        }
+    }
+    void OpenMyBag()
+    {
+        isOpen = myBag.activeSelf;
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            isOpen = !isOpen;
+            myBag.SetActive(isOpen);
+        }
+    }
+
 }

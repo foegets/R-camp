@@ -3,15 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Coins
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
-  - Ground
+  - Player
   - 
   - 
   - 
@@ -42,11 +43,11 @@ TagManager:
     uniqueID: 0
     locked: 0
   - name: Back
-    uniqueID: 4145894999
+    uniqueID: 4277864863
     locked: 0
   - name: Middle
-    uniqueID: 524967769
+    uniqueID: 413904073
     locked: 0
   - name: Front
-    uniqueID: 2447946133
+    uniqueID: 4155613835
     locked: 0
