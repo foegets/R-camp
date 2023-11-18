@@ -14,7 +14,8 @@ public class Calculate : MonoBehaviour
     //创建一个计时器用来计时受伤后短暂的无敌时间,用private可以使其不会出现在inspect中
     private float invulnerableCounter;
     public bool invulnerable;
-    
+
+    public UnityEvent<Calculate> OnHealthChange;
     //建立OnTakeDamage事件并传入Tansform组件来实现受伤击退，注意开头using
     public UnityEvent<Transform> OnTakeDamage;
     //建立OnDie事件在血量见底时执行死亡
@@ -23,6 +24,8 @@ public class Calculate : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
+        //调整UI使血量框恢复为满血
+        OnHealthChange?.Invoke(this);
     }
 
     //计时器获值并开始计时，（Time.deltaTime即完成上一帧所用的时间，update以帧的方式实现更新？）
@@ -59,7 +62,8 @@ public class Calculate : MonoBehaviour
             //判断并触发死亡
             OnDie?.Invoke();
         }
-
+        //将受伤数据广播出去
+        OnHealthChange?.Invoke(this);
     }
     
     //开启无敌并给计时器赋值
