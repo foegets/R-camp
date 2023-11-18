@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     [Header("基本参数")]
     public float speed;
     public float jumpForce;
+    public bool isHurt;
+    public float hurtForce;
     private void Awake()
     {
         inputControll = new PlayerInputControll();
@@ -46,7 +48,13 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if (!isHurt)
         Move();
+    }
+    //miao
+    private void OnTriggerStay2D(Collider2D other)     
+    {
+       // Debug.Log(other.name);
     }
     public void Move()
     {
@@ -62,5 +70,12 @@ public class PlayerController : MonoBehaviour
 
        
 
+    }
+    public void GetHurt(Transform attacker)
+    {
+        isHurt = true;
+        rb.velocity = Vector2.zero;
+        Vector2 dir = new Vector2((transform.position.x - attacker.position.x), 0).normalized;
+        rb.AddForce(dir * hurtForce, ForceMode2D.Impulse);
     }
 }
