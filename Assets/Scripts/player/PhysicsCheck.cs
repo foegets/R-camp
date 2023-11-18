@@ -1,17 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PhysicsCheck : MonoBehaviour
 {
     public bool isGround;
     public float checkRaduis;
     public LayerMask groundLayer;
+    public bool isMovable;
+    public bool isJumpable;
+
     private void Update()
     {
-        check();
+        Check();
     }
-    public void check()
+    public void Check()
     {
         isGround = Physics2D.OverlapCircle(transform.position, checkRaduis, groundLayer);
     }

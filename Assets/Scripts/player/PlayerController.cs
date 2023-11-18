@@ -6,22 +6,29 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public PlayerInputControl inputControl;
-    public Rigidbody2D rb;
-    public Vector2 inputDirection;
-    public PhysicsCheck physicsCheck;
-   
+    private PlayerInputControl inputControl;
+    private Rigidbody2D rb;
+    private Vector2 inputDirection;
+    private PhysicsCheck physicsCheck;
+    private PlayerAnimation playeranim;
+  
     public float speed;
     public float jumpForce=16;
+    public bool IsMoveable;
+    public bool isAttack = true;
+    public int combo;
     private void Awake()
     {
         rb= GetComponent<Rigidbody2D>();      
         inputControl = new PlayerInputControl();
         inputControl.Gameplay.Jump.started += Jump;
-        physicsCheck = GetComponent<PhysicsCheck>();    
+        physicsCheck = GetComponent<PhysicsCheck>();
+        inputControl.Gameplay.Attack.started += Attack;
+        playeranim = GetComponent<PlayerAnimation>();
+        combo = 0;
     }
 
-    
+   
 
     private void OnEnable()
     {
@@ -36,10 +43,12 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         inputDirection = inputControl.Gameplay.Move.ReadValue<Vector2>();
+       
     }
   private void FixedUpdate()
     {
         Move();
+ 
     } 
 
     public void Move()
@@ -58,8 +67,21 @@ public class PlayerController : MonoBehaviour
         if (physicsCheck.isGround)
         {
             rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+            //Debug.Log("jump!");
         }
     }
+
+    public void Attack(InputAction.CallbackContext context)
+    {
+        playeranim.PlayAttack();
+        isAttack = true;
+        combo++;
+        if (combo >= 2)
+        {
+            combo = 0;
+        }
+    }
+
 
 }    
 
