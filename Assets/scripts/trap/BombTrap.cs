@@ -4,24 +4,14 @@ using UnityEngine;
 
 public class BombTrap : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    //弹射陷阱
+    private Collider2D cd;
+    public bool shootOffTrigger;
+    private void Start(){
+        cd = GetComponent<Collider2D>();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        Check();
-    }
-    public bool isTouch;
-    public float checkRadius;
-    public LayerMask groundLayer;
-    public Vector3 bottomOffset;
-    public void Check(){
-        //检测地面
-
-        isTouch = Physics2D.OverlapCircle(transform.position + bottomOffset,checkRadius,groundLayer);
+    public void OnTriggerEnter2D(Collider2D Player){
+        shootOffTrigger = true;
+        Destroy(gameObject,0.01f);
     }
 }
