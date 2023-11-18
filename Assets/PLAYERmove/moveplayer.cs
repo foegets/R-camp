@@ -74,7 +74,7 @@ public class heroMOVE : MonoBehaviour
 
     private bool ongroud()  //ºÏ≤‚‘⁄µÿ…œ
     {
-        return Physics2D.OverlapCapsule(groudcheck.position, new Vector2(0.9f, 0.17f), CapsuleDirection2D.Horizontal, 0, groudlayer);
+        return Physics2D.OverlapCapsule(groudcheck.position, new Vector2(0.8f, 0.25f), CapsuleDirection2D.Horizontal, 0, groudlayer);
     }
 
 }
