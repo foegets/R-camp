@@ -6,16 +6,18 @@ TagManager:
   tags:
   - Water
   - Spike
+  - Platform
+  - Collection
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Ground
+  - Collection
+  - Spike
   - 
   - 
   - 
@@ -43,9 +45,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: tree
+  - name: Tree
     uniqueID: 3660349761
     locked: 0
-  - name: water
+  - name: Water
     uniqueID: 3532641363
+    locked: 0
+  - name: Grass
+    uniqueID: 310684791
+    locked: 0
+  - name: Road
+    uniqueID: 2202963441
+    locked: 0
+  - name: Item
+    uniqueID: 1161582023
     locked: 0
