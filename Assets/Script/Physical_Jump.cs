@@ -8,7 +8,7 @@ public class Physical_Jump : MonoBehaviour
     // 跳跃施加的瞬时力度
     public float jumpforce = 5f;
     // 判断是否处于跳跃状态
-    bool if_jumping = false;
+    public bool if_jumping = false;
     // Start is called before the first frame update
     void Start()
     {
