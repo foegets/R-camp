@@ -10,6 +10,7 @@ using static UnityEditor.Timeline.TimelinePlaybackControls;
 public class Playercontrol : MonoBehaviour
 {
     // Start is called before the first frame update
+    private playanimition playanimition;
     int limit;
     public PlayerInputControl inputcontrol;
     private Rigidbody2D rb;
@@ -22,6 +23,7 @@ public class Playercontrol : MonoBehaviour
     public float hurtforce;
     public bool isHurt;
     public bool isdead;
+    public bool isattack;
 
 
     // Update is called once per frame
@@ -32,7 +34,8 @@ public class Playercontrol : MonoBehaviour
         inputcontrol=new PlayerInputControl();
         inputcontrol.GamePlay.Jump.performed += Jump;
         inputcontrol.GamePlay.spacial.performed += Spacial;
-        
+        inputcontrol.GamePlay.attack.started += Playerattack;
+        playanimition = GetComponent<playanimition>();
     }
 
 
@@ -87,12 +90,18 @@ public class Playercontrol : MonoBehaviour
         }
        
     }
+    private void Playerattack(InputAction.CallbackContext context)
+    {
+        playanimition.PlayAttack();
+        isattack = true;
+
+    }
     private void Spacial(InputAction.CallbackContext context)
     {
         if (Fast == 0)
         { Fast = 1;
           
-         }
+        }
         else
         {
             Fast = 0;

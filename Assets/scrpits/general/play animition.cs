@@ -24,10 +24,15 @@ public class playanimition : MonoBehaviour
         anim.SetFloat("velocity.y",rb.velocity.y);
         anim.SetBool("isground", physicalcheck.isGround);
         anim.SetBool("isdead", playercontrol.isdead);
+        anim.SetBool("isattack", playercontrol.isattack);
     }
     public void PlayHurt()
     {
         anim.SetTrigger("Hurt");
 
+    }
+    public void PlayAttack()
+    {
+        anim.SetTrigger("attack");
     }
 }
