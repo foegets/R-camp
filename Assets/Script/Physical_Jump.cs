@@ -37,11 +37,12 @@ public class Physical_Jump : MonoBehaviour
         }
         
     }
-    private void OnCollisionStay(Collision collision)
-    {
-        if (collision.gameObject.tag == "Ground")
-        {
-            if_jumping = false;
-        }
-    }
+    //private void OnCollisionStay(Collision collision)
+    //{
+    //    if (collision.gameObject.tag == "Ground")
+    //    {
+    //        if_jumping = false;
+    //    }
+        
+    //}
 }

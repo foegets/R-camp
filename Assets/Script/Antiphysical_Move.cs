@@ -14,22 +14,11 @@ public class Antiphysical_Move : MonoBehaviour
     void Start()
     {
         originalspeed = movespeed;
+
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            movespeed = 2 * originalspeed; 
-        }
-        else
-        {
-            movespeed = originalspeed;
-        }
-        // 获取按键输入并进行记录  
-        movedirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-
         // 通过按键控制角色的移动和转向  
         if (movedirection.magnitude > moveThreshold) // 当玩家有移动输入时  
         {
@@ -49,5 +38,21 @@ public class Antiphysical_Move : MonoBehaviour
         {
             // 不进行任何操作，保持当前状态  
         }
+    }
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            movespeed = 2 * originalspeed; 
+        }
+        else
+        {
+            movespeed = originalspeed;
+        }
+        // 获取按键输入并进行记录  
+        movedirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+
+        
     }
 }
