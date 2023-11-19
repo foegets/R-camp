@@ -15,10 +15,19 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public int index;
     public InventoryData.ItemStack itemStack {        //×Ö¶ÎÓ³Éä
-        get { return InventoryUI.Instance.inventoryData.data[index]; }
-        set { InventoryUI.Instance.inventoryData.data[index] = value; }
+        get { return GetItemStack(); }
+        set { SetItemStack(value); }
     }
 
+    protected virtual InventoryData.ItemStack GetItemStack()
+    {
+        return InventoryUI.Instance.inventoryData.data[index];
+    }
+
+    protected virtual void SetItemStack(InventoryData.ItemStack itemStack)
+    {
+        InventoryUI.Instance.inventoryData.data[index] = itemStack;
+    }
 
     public void Init(int idx)
     {

@@ -96,12 +96,12 @@ public class ItemManager : MonoBehaviour
 
     void RegisterAllItem()
     {
-        Register("apple", "苹果", "好吃的", 8, 
+        Register("apple", "苹果", "好吃的", 4, 
             () => DroppedItem.Create("Items/Apple/Apple"),
             Resources.Load<Sprite>("Items/Apple/gui")
             );
 
-        Register("banana", "香蕉", "好吃的", 16, 
+        Register("banana", "香蕉", "好吃的", 8, 
             () => DroppedItem.Create("Items/Banana/Banana"),
             Resources.Load<Sprite>("Items/Banana/gui")
             );

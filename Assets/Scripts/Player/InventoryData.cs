@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 using static UnityEditor.Progress;
+using Newtonsoft.Json.Linq;
 
 public class InventoryData : MonoBehaviour
 {
@@ -54,7 +56,12 @@ public class InventoryData : MonoBehaviour
 
         public ItemStack() { }
 
-
+        public ItemStack(JObject json)
+        {
+            id = (string)json.GetValue("id");
+            count = (int)json.GetValue("count");
+            maxSize = (int)json.GetValue("size");
+        }
         public ItemStack Clone()
         {
             ItemStack i = new ItemStack();
@@ -115,6 +122,22 @@ public class InventoryData : MonoBehaviour
 
             return Empty;
         }
+
+        public JObject Serialize()
+        {
+            JObject jo = new JObject
+            {
+                { "id", id },
+                { "count", count },
+                { "size", maxSize }
+            };
+
+            return jo;
+        }
+
+
+
+
     }
     
     //往玩家背包里面塞东西
@@ -229,8 +252,55 @@ public class InventoryData : MonoBehaviour
         dirty[slot] = false;
     }
 
+    public void UnserializeFromJson(string jstring)
+    {
+
+        JArray ja = (JArray)JsonConvert.DeserializeObject(jstring);
+
+        for (int i = 0; i < data.Length; i++)
+        {
+            data[i].Clear();
+            dirty[i] = true;
+        }
+
+
+        for (int i = 0; i < ja.Count; i++)
+        {
+            JObject slot = (JObject)ja[i];
+            data[(int)slot.GetValue("index")] = new ItemStack((JObject)slot.GetValue("stack"));
+        }
+
+    }
+
+    public string SerializeToJson()
+    {
+        JArray ja = new JArray();
+        for (int i = 0; i < data.Length; i++)
+        {
+            if (!data[i].isEmpty) {
+                JObject jo = new JObject
+                {
+                    { "index", i},
+                    { "stack",  data[i].Serialize() }
+                };
+                ja.Add(jo);
+            }
+        }
+        return ja.ToString();
+    }
+
+
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            FileUtils.WriteString(Application.dataPath + "\\inventory.json", SerializeToJson());
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            UnserializeFromJson(FileUtils.ReadString(Application.dataPath + "\\inventory.json"));
+            
+        }
     }
 }

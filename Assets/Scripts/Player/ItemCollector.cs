@@ -22,6 +22,37 @@ public class ItemCollector : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        SwitchAndCollector();
+    }
+
+    public int selected = 1;
+    void SwitchAndCollector()
+    {
+        selected += Input.GetKeyDown(KeyCode.Tab) ? 1 : 0;
+        if (selected > itemInRange.Count) selected = 1;
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            int idx = 0;
+
+            itemInRange.RemoveWhere((i) =>
+            {
+                idx++;
+                if (idx == selected)
+                {
+                    bool sucess = owner.Inventory.PushItem(i);
+                    if (sucess) itemInRange.Remove(i);
+                    i.OnCollect(owner, sucess);
+                    return sucess;
+                }
+                return false;
+            });
+        }
+
+    }
+
     private void OnTriggerExit2D(Collider2D collider)
     {
         if (collider.gameObject.layer == LayerMask.NameToLayer("Items"))
@@ -48,10 +79,12 @@ public class ItemCollector : MonoBehaviour
         GUILayout.BeginVertical();
         scroll = GUILayout.BeginScrollView(scroll);
 
+        int idx = 0;
 
         itemInRange.RemoveWhere((i) =>
         {
-            if (GUILayout.Button(i.Name))
+            idx++;
+            if (GUILayout.Button( string.Format(idx == selected ? "> {0} <" : "{0}", i.Name) ) )
             {
                 bool sucess = owner.Inventory.PushItem(i);
                 if (sucess) itemInRange.Remove(i);
