@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Net;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Jump : MonoBehaviour
@@ -12,29 +10,33 @@ public class Jump : MonoBehaviour
     private int JumpLimit = 2;
     public Rigidbody2D rb;
     public LayerMask ground;
-    public Transform feet;
+    public Rigidbody2D feet;
     bool mIsOnGround = true;
-  
-    
+
+
     /*bool isGround()
     {
         return Physics.Raycast(rb.position, Vector2.up, 1.5f, ground);
     }*/
     private void CheckIsOnGround()
     {
-        mIsOnGround = rb.IsTouchingLayers(LayerMask.GetMask("Ground"));
+        mIsOnGround = feet.IsTouchingLayers(LayerMask.GetMask("Ground"));
+    }
+    private void FixedUpdate()
+    {
+        CheckIsOnGround();
     }
     private void Update()
     {
-        CheckIsOnGround();
+       
         _Jump();
-        
+
     }
     void _Jump()
     {
         if (mIsOnGround)
         {
-            Debug.Log(1);
+            
             JumpLimit = 1;
         }
         if (Input.GetKeyDown(KeyCode.Space))
@@ -56,6 +58,4 @@ public class Jump : MonoBehaviour
             }
         }
     }
-    //改后问题，落地后JumpLimit不会回复到2
-
 }
