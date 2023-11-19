@@ -5,16 +5,17 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public float Score = 0;
     public GameObject _player;
     float facing=1;
-    Rigidbody Rb;
-    private const int MoveSpeed=10;
+    Rigidbody2D Rb;
+    private const int MoveSpeed=3;
 
-    bool isOnGround = false;
+    public bool isOnGround = false;
     
     void Start()
     {
-        Rb = GetComponent<Rigidbody>();
+        Rb = GetComponent<Rigidbody2D>();
 
     }
 
@@ -41,7 +42,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W)&&isOnGround==true)
         {
             //Debug.Log(isOnGround);
-            Rb.AddForce(new Vector3(0, 1, 0) * 300);
+            Rb.AddForce(new Vector3(0, 1, 0) * 200);
         }
 
 
@@ -59,7 +60,7 @@ public class Player : MonoBehaviour
             facing = -1;
         }
     }
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerStay2D(Collider2D other)
     {;
         if(other.CompareTag("Ground"))
         {
@@ -72,7 +73,7 @@ public class Player : MonoBehaviour
             Rb.AddForce(new Vector3(0, 10, 0) * 40);
         }
     }
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         isOnGround=false;
     }
