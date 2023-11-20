@@ -2,32 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class Animation_Controler : MonoBehaviour
 {
     //// 获取头部要看向的物体
     //public GameObject target;
+    // 获得CharacterController
+    CharacterController playercontroller;
     // 获取动画机组件
     Animator playeranimator;
     bool isjumping = false;
     // Start is called before the first frame update
     void Start()
     {
+        playercontroller = GetComponent<CharacterController>();
         playeranimator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (playercontroller.collisionFlags == CollisionFlags.Below && isjumping)
+        {
+            playeranimator.SetBool("isjumpdown", true);
+            isjumping = false;
+        }
+
         if (isjumping == false && Input.GetKeyDown(KeyCode.Space))
         {
-            GetComponent<Animator>().SetTrigger("jump-up");
-            GetComponent<Animator>().SetBool("isjumpdown", false);
+            playeranimator.SetTrigger("jump-up");
+            playeranimator.SetBool("isjumpdown", false);
             isjumping = true;
         }
         if (Input.GetKeyDown(KeyCode.B))
         {
-            GetComponent<Animator>().SetTrigger("search");
+            playeranimator.SetTrigger("search");
         }
         
         if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
@@ -84,17 +94,10 @@ public class Animation_Controler : MonoBehaviour
         }
         //if (target != null && Vector3.Distance(transform.position, target.transform.position) <= 4 && target.GetComponent<VideoPlayer>().isPlaying)
         //{
-            
+
         //}
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Ground")
-        {
-            GetComponent<Animator>().SetBool("isjumpdown", true);
-            isjumping = false;
-        }
-    }
+    
     //void OnAnimatorIK(int layerIndex)
     //{
     //    GetComponent<Animator>().SetLookAtWeight(0.5f);
