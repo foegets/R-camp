@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class amiyaContoller : MonoBehaviour
 {
+    //unity组件
     private Rigidbody2D rig;
     private BoxCollider2D box;
     private Animator ani;
@@ -17,6 +18,8 @@ public class amiyaContoller : MonoBehaviour
     [Header("跳跃参数")]
     public bool isOnground;
     public float jumpSpeed;
+
+    private int recordCount = 0;
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
@@ -51,7 +54,6 @@ public class amiyaContoller : MonoBehaviour
     void IsOnground()
     {
         isOnground = capbox.IsTouchingLayers(LayerMask.GetMask("platform"));
-        Debug.Log("isOnground");
     }
     void Run()
     {
@@ -76,6 +78,16 @@ public class amiyaContoller : MonoBehaviour
         if(Input.GetButtonDown("Attack"))
         {
             ani.SetTrigger("isAttack");
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("record") && other.GetType().ToString() == "UnityEngine.CapsuleCollider2D") ;
+        {
+            Debug.Log(other.GetType().ToString());
+            recordCount++;
+            Destroy(other.gameObject); 
         }
     }
 }
