@@ -10,13 +10,13 @@ using static UnityEditor.Timeline.TimelinePlaybackControls;
 public class Playercontrol : MonoBehaviour
 {
     // Start is called before the first frame update
+    private Collider2D coll;
     private playanimition playanimition;
     int limit;
     public PlayerInputControl inputcontrol;
     private Rigidbody2D rb;
     public Vector2 inputdirection;
     private physicalcheck physicalcheck1;
-    private physicalcheck rebirth1;
     [Header("基本参数")]
     public float Speed,Fast=0;
     public float JumpForce;
@@ -24,6 +24,10 @@ public class Playercontrol : MonoBehaviour
     public bool isHurt;
     public bool isdead;
     public bool isattack;
+    [Header("物理材质")]
+    public PhysicsMaterial2D wall;
+    public PhysicsMaterial2D normal;
+    public PhysicsMaterial2D isattack1;
 
 
     // Update is called once per frame
@@ -36,6 +40,7 @@ public class Playercontrol : MonoBehaviour
         inputcontrol.GamePlay.spacial.performed += Spacial;
         inputcontrol.GamePlay.attack.started += Playerattack;
         playanimition = GetComponent<playanimition>();
+        coll= GetComponent<Collider2D>();
     }
 
 
@@ -51,13 +56,15 @@ public class Playercontrol : MonoBehaviour
     {
         inputdirection = inputcontrol.GamePlay.Move.ReadValue<Vector2>();
         returnlocation();
+      
+
     }
     private void FixedUpdate()
     {
         returnlocation();
-        if(!isHurt)
+        if(!isHurt&&!isattack)
         Move();
-      
+        CheckState();
     }
   
     private void returnlocation()
@@ -92,8 +99,13 @@ public class Playercontrol : MonoBehaviour
     }
     private void Playerattack(InputAction.CallbackContext context)
     {
+        if (isHurt)
+            return;
+  
         playanimition.PlayAttack();
         isattack = true;
+       
+
 
     }
     private void Spacial(InputAction.CallbackContext context)
@@ -114,6 +126,7 @@ public class Playercontrol : MonoBehaviour
         rb.velocity = Vector2.zero;
         Vector2 dir = new Vector2((transform.position.x - attacker.position.x), 0).normalized;
         rb.AddForce(dir*hurtforce, ForceMode2D.Impulse);
+      
     }
     public void PlayerDead()
     {
@@ -121,4 +134,12 @@ public class Playercontrol : MonoBehaviour
         inputcontrol.GamePlay.Disable();
 
     }
+    private void CheckState()
+    {
+        if (!isattack)
+            coll.sharedMaterial = physicalcheck1.isGround ? normal : wall;
+        else
+            coll.sharedMaterial = isattack1;
+    }
 }
+
