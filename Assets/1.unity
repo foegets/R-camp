@@ -13951,6 +13951,7 @@ GameObject:
   - component: {fileID: 1029827779}
   - component: {fileID: 1029827780}
   - component: {fileID: 1029827782}
+  - component: {fileID: 1029827783}
   m_Layer: 7
   m_Name: ///Player
   m_TagString: Untagged
@@ -14022,8 +14023,7 @@ Transform:
   m_LocalPosition: {x: -12.45, y: -3.91, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1523419309}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!70 &1029827776
@@ -14076,7 +14076,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 4
+  m_GravityScale: 5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -14188,10 +14188,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputDirection: {x: 0, y: 0}
   rb: {fileID: 1029827777}
+  isHurt: 0
+  isDead: 0
   movementSpeed: 270
-  jumpForce: 16
+  jumpForce: 16.5
+  HurtForce: 8
   wallCheckDistance: 0.4
   wallSlideSpeed: 2
+  jumpSpeed: 5
   movementForceInAir: 10
 --- !u!114 &1029827780
 MonoBehaviour:
@@ -14207,15 +14211,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bottomOffset: {x: -0.05, y: 0}
   checkRaduis: 0.08
-  wallCheckDistance: 0.556
-  wallCheck: {fileID: 1523419309}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   isGround: 0
-  isWalking: 0
-  isTouchingWall: 0
-  isWallSliding: 0
+  canJumpCount: 2
+  isDoubleJump: 1
+  isJump: 1
+  jumpCount: 0
 --- !u!95 &1029827781
 Animator:
   serializedVersion: 5
@@ -14249,6 +14252,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d246e87a8ba331744afabe7ab663a95e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1029827783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029827773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f4774cecdb76114d8d45b5a058b6937, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
+  currentHealth: 100
+  invulnerableDuration: 2
+  invulnerable: 0
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1029827782}
+        m_TargetAssemblyTypeName: playAnimation, Assembly-CSharp
+        m_MethodName: PlayHurt
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1029827779}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: GetHurt
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnDie:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1029827779}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: PlayerDaead
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1031593263
 GameObject:
   m_ObjectHideFlags: 0
@@ -14382,6 +14443,8 @@ GameObject:
   - component: {fileID: 1115693132}
   - component: {fileID: 1115693131}
   - component: {fileID: 1115693133}
+  - component: {fileID: 1115693134}
+  - component: {fileID: 1115693135}
   m_Layer: 8
   m_Name: Boar
   m_TagString: Untagged
@@ -14563,6 +14626,43 @@ CapsuleCollider2D:
   m_Offset: {x: -0.2518363, y: 0.6703279}
   m_Size: {x: 1.9518954, y: 1.3406233}
   m_Direction: 1
+--- !u!114 &1115693134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1115693128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f4774cecdb76114d8d45b5a058b6937, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 50
+  currentHealth: 50
+  invulnerableDuration: 0
+  invulnerable: 0
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDie:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1115693135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1115693128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8558f6d038528d74487f49bee10c4607, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 5
+  attackRange: 0
+  attackRate: 0
 --- !u!1 &1496097038
 GameObject:
   m_ObjectHideFlags: 0
@@ -14683,37 +14783,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &1523419308
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1523419309}
-  m_Layer: 7
-  m_Name: WallCheck
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1523419309
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1523419308}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1029827775}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1601613501
 GameObject:
   m_ObjectHideFlags: 3

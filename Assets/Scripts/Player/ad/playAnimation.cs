@@ -6,7 +6,8 @@ public class playAnimation : MonoBehaviour
 {
     private Animator anim;
     private Rigidbody2D rb;
-    private physicsCheck physicsCheck; 
+    private physicsCheck physicsCheck;
+    private PlayerController playerController;
 
 
     private void Awake()
@@ -14,6 +15,7 @@ public class playAnimation : MonoBehaviour
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         physicsCheck = GetComponent<physicsCheck>();
+        playerController = GetComponent<PlayerController>();
     }
     private void Update()
     {
@@ -24,7 +26,11 @@ public class playAnimation : MonoBehaviour
         anim.SetFloat("horizontalSpeed", Mathf.Abs(rb.velocity.x));
         anim.SetFloat("velocityY",rb.velocity.y);
         anim.SetBool("isGround", physicsCheck.isGround);
-        anim.SetBool("isWalking", physicsCheck.isWalking);
-        anim.SetBool("isWallSliding", physicsCheck.isWallSliding);
+        anim.SetBool("isDead", playerController.isDead);
+    }
+
+    public void PlayHurt()
+    {
+        anim.SetTrigger("hurt");
     }
 }
