@@ -13,7 +13,7 @@ public class OTTO : enemy
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        if (currentspeed <= 950)
+        if (currentspeed <= 1500)
             currentspeed += 5*Time.deltaTime;
     }
     public override void Move()
@@ -24,7 +24,6 @@ public class OTTO : enemy
         {
             rb.AddForce(transform.up * JumpForceenemy, ForceMode2D.Impulse);
             jumpcounter = 5f;
-
         }
     }
 }

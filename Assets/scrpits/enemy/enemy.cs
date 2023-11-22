@@ -7,6 +7,7 @@ public class enemy : MonoBehaviour
 
  protected Rigidbody2D rb;
     physicalcheck physicalcheck;
+    character character;
     float backcounter;
   protected Animator anim;//只有子类可以访问
     // Start is called before the first frame update
@@ -18,7 +19,7 @@ public class enemy : MonoBehaviour
     public Vector3 facedir;
     private void Awake()
     {
-       
+       character = GetComponent<character>();
         rb= GetComponent<Rigidbody2D>();
         anim= GetComponent<Animator>();
         physicalcheck=GetComponent<physicalcheck>();
@@ -37,11 +38,12 @@ public class enemy : MonoBehaviour
             backcounter = 0.5f;
         }
         backcounter -= Time.deltaTime;
-     
-        Move();
+        if (character.currenthealth >= 0)
+         Move(); 
     }
     public virtual void Move()
     {
+
         rb.velocity = new Vector2(currentspeed * facedir.x * Time.deltaTime, rb.velocity.y);
 
     }

@@ -10,8 +10,10 @@ using static UnityEditor.Timeline.TimelinePlaybackControls;
 public class Playercontrol : MonoBehaviour
 {
     // Start is called before the first frame update
+    private coinUI coinUI;
     private Collider2D coll;
     private playanimition playanimition;
+    public GameObject dropcoin;
     int limit;
     public PlayerInputControl inputcontrol;
     private Rigidbody2D rb;
@@ -126,7 +128,16 @@ public class Playercontrol : MonoBehaviour
         rb.velocity = Vector2.zero;
         Vector2 dir = new Vector2((transform.position.x - attacker.position.x), 0).normalized;
         rb.AddForce(dir*hurtforce, ForceMode2D.Impulse);
-      
+        rb.AddForce(transform.up *(hurtforce/5), ForceMode2D.Impulse);
+        if (coinUI.CurrentCoinQuantity>=3)
+        {
+            coinUI.CurrentCoinQuantity -= 3;
+            for(int i=0;i<3;i++)
+            {
+
+                Instantiate(dropcoin,transform.position,Quaternion.identity);
+            }
+        }
     }
     public void PlayerDead()
     {
