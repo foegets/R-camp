@@ -31,6 +31,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Pick",
+                    "type": "Button",
+                    "id": "626ba2af-3a1a-40bc-8270-1e8ec2ce299b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -169,7 +178,7 @@
                 {
                     "name": "",
                     "id": "3b5e958c-94fc-4550-b208-6a2e09097145",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/c",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -180,11 +189,22 @@
                 {
                     "name": "",
                     "id": "1ad5b2a1-9f4c-4369-b0f5-609907bf939a",
-                    "path": "<Keyboard>/j",
+                    "path": "<Keyboard>/z",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b71f0b7d-ec2e-4b55-a7d1-06a52e1479d1",
+                    "path": "<Keyboard>/v",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Pick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

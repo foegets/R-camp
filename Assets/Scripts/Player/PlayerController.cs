@@ -7,18 +7,24 @@ using UnityEngine.InputSystem;
 //新建子类【玩家操控器】
 public class PlayerController : MonoBehaviour
 {
-    //创建使用输入控制类型的变量
+    //创建使用输入控制类型的变量（未有需要实例化）
     public PlayerInputControl inputControl;
+
+    /*获取组件（已有组件需要获取）*/
+    
     //创建刚体rb
     private Rigidbody2D rb;
-    //创建物理检测类新变量：physicscheck
+    //创建物理检测类新变量
     private PhysicsCheck physicscheck;
-    //创建二维向量表输入方向
-    public Vector2 inputDirection;
     //获得一下玩家动画的组件
     private PlayerAnimation playeranimation;
     //获得一下玩家胶囊碰撞体的组件
     private CapsuleCollider2D coll;
+
+    //创建二维向量表输入方向
+    public Vector2 inputDirection;
+    //创建gameobject来指拾取物体
+    public Collider2D collection;
 
     [Header("基本参数")]
 
@@ -44,9 +50,14 @@ public class PlayerController : MonoBehaviour
     public bool isDead;
     //创建bool判断玩家是否攻击
     public bool isAttack;
+    //创建bool判断玩家是否可以拾取物品
+    public bool isPick;
 
     //awake是在一开始要做的部分
     private void Awake(){
+
+        /*获取组件*/
+        
         //将玩家的刚体组件赋给rb
         rb = GetComponent<Rigidbody2D>();
         //将玩家的物理检测组件赋给physicscheck
@@ -58,10 +69,13 @@ public class PlayerController : MonoBehaviour
 
         //实例化一个inputcontrol
         inputControl = new PlayerInputControl();
-        //注册一个函数叫jump
+
+        //注册一个函数叫jump(start表示按键按下的那一刻执行该函数，cancel表示按键松开的一刻，perform表示按键持续按住的时候)
         inputControl.Gameplay.Jump.started += Jump;
         //注册一个函数叫attack
         inputControl.Gameplay.Attack.started += PlayerAttack;
+        //注册一个函数叫pick
+        /*inputControl.Gameplay.Pick.started += Pick;*/
     }
 
 
@@ -110,7 +124,7 @@ public class PlayerController : MonoBehaviour
         transform.localScale = new Vector3(faceDir,1,1);
     }
 
-    //创建jump函数方法
+    //创建jump函数方法（括号里是固定格式）
     private void Jump(InputAction.CallbackContext obj){
         //Debug.Log("JUMP");
         //给刚体rb施加一个（瞬时的）力，方向向上
@@ -125,6 +139,25 @@ public class PlayerController : MonoBehaviour
         //更改为攻击状态
         isAttack = true;
     }
+
+    /*
+    //创建玩家pick的函数方法(按键拾取)
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.CompareTag("goldCoins"))
+        {
+            isPick = true;
+            collection = other;
+        }
+    }
+
+    private void Pick(InputAction.CallbackContext obj)
+    {
+        if(isPick){
+            Destroy(collection.gameObject);
+        }
+    }
+    */
 
     #region UnityEvent
 

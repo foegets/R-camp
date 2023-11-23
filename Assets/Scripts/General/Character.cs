@@ -19,6 +19,9 @@ public class Character : MonoBehaviour
     //状态
     public bool invulnerable;
 
+    //创建一个事件控制血量变化，并传入到UI里
+    public UnityEvent<Character> OnHealthChange;
+
     //创建一个受伤事件(中括号里面表示传入的transform这一组件)
     public UnityEvent<Transform> OnTakeDamage;
     //创建一个死亡事件
@@ -28,6 +31,7 @@ public class Character : MonoBehaviour
     {
         //使得每次游戏开始时都有：满血状态
         currentHealth = maxHealth;
+        OnHealthChange?.Invoke(this);
     }
 
     private void Update()
@@ -61,6 +65,8 @@ public class Character : MonoBehaviour
             //确认有注册的方式
             OnDie?.Invoke();
         }
+        //血量减少的时候执行这个事件（括号里是传入一个character的值）
+        OnHealthChange?.Invoke(this);
     }
 
         

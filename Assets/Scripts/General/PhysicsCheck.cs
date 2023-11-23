@@ -54,6 +54,7 @@ public class PhysicsCheck : MonoBehaviour
         //检测墙体
         touchLeftWall = Physics2D.OverlapCircle((Vector2)transform.position + leftOffset,checkRaduis,groundLayer);
         touchRightWall = Physics2D.OverlapCircle((Vector2)transform.position + rightOffset,checkRaduis,groundLayer);
+
     }
 
     //选中物体时才会划线的函数方法
@@ -65,4 +66,5 @@ public class PhysicsCheck : MonoBehaviour
         Gizmos.DrawWireSphere((Vector2)transform.position + rightOffset,checkRaduis);
         
     }
+
 }
