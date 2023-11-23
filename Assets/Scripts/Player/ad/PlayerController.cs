@@ -11,9 +11,12 @@ public class PlayerController : MonoBehaviour
     public Vector2 inputDirection;
     public PlayerinputControl inputControl;
     public Rigidbody2D rb;
+    public playAnimation playAnimation;
 
+    [Header("状态")]
     public bool isHurt;
     public bool isDead;
+    public bool isAttack;
 
     [Header("基本参数")]
     public float movementSpeed;
@@ -23,13 +26,19 @@ public class PlayerController : MonoBehaviour
     public float wallSlideSpeed;
     public float jumpSpeed = 5f;
     public float movementForceInAir;
+    public float dashDistance = 2.0f;
+    public float dashDuration = 0.5f;
 
     private void Awake()
     {
         inputControl = new PlayerinputControl();
         physicsCheck = GetComponent<physicsCheck>();
+        playAnimation = GetComponent<playAnimation>();
 
+        //跳跃
         inputControl.Gameplay.Jump.started += Jump;
+        //攻击
+        inputControl.Gameplay.Attack.started += PlayerAttack;
     }
 
 
@@ -93,6 +102,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void PlayerAttack(InputAction.CallbackContext context)
+    {
+        playAnimation.PlayAttack();
+        isAttack = true;
+    }
+
     public void GetHurt(Transform attacker)
     {
         isHurt = true;
@@ -107,4 +122,5 @@ public class PlayerController : MonoBehaviour
         isDead = true;
         inputControl.Gameplay.Disable();
     }
+
 }
