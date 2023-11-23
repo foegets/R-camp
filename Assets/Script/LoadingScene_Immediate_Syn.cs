@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class LoadingScene_Immediate_Syn : MonoBehaviour
 {
+    public Camera cam;
     // 获取要加载的场景的下标
     public int SceneIndex;
     // 获取异步加载的场景对象
@@ -21,6 +22,8 @@ public class LoadingScene_Immediate_Syn : MonoBehaviour
         loadingprogress = 0f;
         loadprogrssbar = GetComponent<Slider>();
         StartCoroutine(LoadScene());
+
+
     }
 
     // Update is called once per frame
@@ -41,10 +44,11 @@ public class LoadingScene_Immediate_Syn : MonoBehaviour
                 loadprogrssbar.value = 1f;
                 yield return new WaitForSeconds(1.5f);
                 asyncLoad.allowSceneActivation = true;
+                cam.gameObject.tag = "Untagged";
                 // 销毁原场景
                 SceneManager.UnloadSceneAsync(1);
             }
-            
+
         }
     }
 }
