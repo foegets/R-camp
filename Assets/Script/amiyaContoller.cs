@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class amiyaContoller : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class amiyaContoller : MonoBehaviour
     private BoxCollider2D box;
     private Animator ani;
     private CapsuleCollider2D capbox;
+    public Text recordText;
     
 
     [Header("移动参数")]
@@ -19,6 +21,9 @@ public class amiyaContoller : MonoBehaviour
     public bool isOnground;
     public float jumpSpeed;
 
+    [Header("数值参数")]
+    public bool isDead;
+    public int blood;
     private int recordCount = 0;
     void Start()
     {
@@ -81,12 +86,25 @@ public class amiyaContoller : MonoBehaviour
         }
     }
 
+    void Hurt()
+    {
+        
+    }
+
+    void Dead()
+    {
+        //gameManager.GameOver(true);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("record") && other.GetType().ToString() == "UnityEngine.CapsuleCollider2D") ;
+        Debug.Log(other.tag.ToString()+" "+ other.GetType().ToString());
+
+        if (other.CompareTag("record"))
         {
             Debug.Log(other.GetType().ToString());
             recordCount++;
+            recordText.text = recordCount.ToString();
             Destroy(other.gameObject); 
         }
     }
