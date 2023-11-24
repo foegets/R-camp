@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class Boar : Enemy
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Move()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        base.Move();
+        anim.SetBool("Walk", true);
     }
 }

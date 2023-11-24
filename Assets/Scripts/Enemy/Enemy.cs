@@ -1,52 +1,68 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 
 public class Enemy : MonoBehaviour
 {
-    public Transform target;
-    public float speed = 10f;
-    public float attackRange = 2.5f;
-    public float detectionRange = 10f;
+    Rigidbody2D rb;
+    protected Animator anim;
+    physicsCheck physicsCheck;
 
-    public Rigidbody2D rb;
+    [Header("基本参数")]
+    public float normalSpeed;
+    public float chaseSpeed;
+    public float currentSpeed;
+    public Vector3 faceDir;
 
-    void Start()
+    [Header("计算器")]
+    public float waitTime;
+    public float waitTimeCounter;
+    public bool wait;
+
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        physicsCheck = GetComponent<physicsCheck>();
+        currentSpeed = normalSpeed;
+        waitTimeCounter = waitTime;
+    }
+    private void Update()
+    {
+        faceDir = new Vector3(-transform.localScale.x, 0, 0);
+
+        if ((physicsCheck.touchLeftWall && faceDir.x < 0) || (physicsCheck.touchRightWall && faceDir.x > 0))
+        {
+            wait = true;
+            anim.SetBool("Walk", false);
+        }
+
+        TimeCounter();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        float distance = Vector3.Distance(transform.position, target.position);
+        Move();
+    }
 
-        int faceDir = (int)transform.localScale.x;
+    public virtual void Move()
+    {
+        rb.velocity = new Vector2(currentSpeed * faceDir.x * Time.deltaTime, rb.velocity.y);
+    }
 
-        //人物翻转
-        transform.localScale = new Vector3(faceDir, 1, 1);
-
-        if (distance <= detectionRange)
+    public void TimeCounter()
+    {
+        if (wait)
         {
-            // 当目标在检测范围内时，追踪玩家
-            Vector3 direction = (target.position - transform.position).normalized;
-            rb.AddForce(direction * speed * Time.fixedDeltaTime, ForceMode2D.Impulse);
-
-            if (distance <= attackRange)
+            waitTimeCounter -= Time.deltaTime;
+            if (waitTimeCounter <= 0)
             {
-                // 当敌人与玩家距离小于攻击距离时，停下并执行攻击动画
-                rb.velocity = Vector3.zero;
-                GetComponent<Animator>().SetTrigger("boarAttack");
+                wait = false;
+                waitTimeCounter = waitTime;
+                transform.localScale = new Vector3(faceDir.x, 1, 1);
             }
-            else
-            {
-                // 否则，执行跑动动画
-                GetComponent<Animator>().SetTrigger("boarRun");
-            }
-        }
-        else
-        {
-            // 当目标不在检测范围内时，执行待机动画
-            GetComponent<Animator>().SetTrigger("boaridle");
         }
     }
 }
