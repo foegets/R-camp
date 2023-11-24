@@ -39,7 +39,6 @@ public class amiyaContoller : MonoBehaviour
         Run();
         IsOnground();
         Jump();
-        Attack();
     }
     
     void Filp()
@@ -78,13 +77,13 @@ public class amiyaContoller : MonoBehaviour
         }
     }
 
-    void Attack()
-    {
-        if(Input.GetButtonDown("Attack"))
-        {
-            ani.SetTrigger("isAttack");
-        }
-    }
+    //void Attack()
+    //{
+    //    if(Input.GetButtonDown("Attack"))
+    //    {
+    //        ani.SetTrigger("isAttack");
+    //    }
+    //}
 
     void Hurt()
     {
