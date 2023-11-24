@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     public float speed;
     public float jumpForce;
     public float hurtForce;//创建用来施加受伤后反弹的力
+    public int numberOfJump;//设置连续跳跃次数
+    private int currentJumpNumber;
     [Header("状态")]
     public bool isHurt;//判断受伤
     public bool isDead;//判断死亡
@@ -56,12 +58,19 @@ public class PlayerController : MonoBehaviour
         //时刻更新人物朝向
         inputDirection = inputControl.Player.Move.ReadValue<Vector2>();
         CheckMaterial();
+        ResetNumberOfJump();//重置跳跃段数
     }
     private void FixedUpdate()
     {
         //判断是否受伤和攻击来执行move，在Animator中的blue hurt添加了一个代码，用来结束动作后将isHurt改为false，isAttack改为false
         if(!isHurt && !isAttack)
-            Move();
+            Move();       
+    }
+
+    private void ResetNumberOfJump()
+    {
+        if (physicsCheck.isGround)
+            currentJumpNumber = numberOfJump;
     }
 
     public void Move()
@@ -81,8 +90,13 @@ public class PlayerController : MonoBehaviour
     private void Jump(InputAction.CallbackContext obj)
     {
         //引用跳跃判断组件限制跳跃
-        if(physicsCheck.isGround)
+        if (currentJumpNumber > 1)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, 0f);//重置y轴速度避免跳跃力叠加
             rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+            currentJumpNumber--;
+        }
+
     }
 
     //实现攻击
