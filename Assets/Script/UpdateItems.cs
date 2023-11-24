@@ -22,7 +22,7 @@ public class UpdateItems : MonoBehaviour
         //检测拾取
         if (other.gameObject.CompareTag("Player"))
         {
-            NewPlayerControl.playerState = NewPlayerControl.State.stateUpdate;
+            PlayerControl.playerState = PlayerControl.State.stateUpdate;
             //当接触到Player时物品消失
             Destroy(gameObject);
         }

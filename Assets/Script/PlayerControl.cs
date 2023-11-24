@@ -5,16 +5,35 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
+    public enum State
+    {
+        stateStand,
+        stateMove,
+        stateJump,
+        stateAttack,
+        stateUpdate,
+        stateUpdateStand,
+        stateUpdateMove,
+        stateUpdateJump,
+        stateUpdateAttack
+    }
+    
+    public static State playerState;
+
+
+    public GameObject battlePlayer;
+    public GameObject buildingPlayer;
+    public GameObject updateBattlePlayer;
+    public GameObject updateBuildingPlayer;
+
     //设置速度变量
     public float runSpeed;
     public float jumpSpeed;
 
     //设置动画
-    //记得设置！！！！！！！！！
-    public SkeletonAnimation chooseAnimation;
-    public AnimationReferenceAsset idle, attack, walk, start;
+    public SkeletonAnimation battleAnimation, buildingAnimation, updateBattleAnimation, updateBuildingAnimation;
+    public AnimationReferenceAsset idle, attack, move, update, updateIdle, updateAttack, updateMove;
     private string currentState;
-    bool attackFinish;
 
     private Rigidbody2D myRigidbody;
     private BoxCollider2D myFeet;
@@ -23,25 +42,193 @@ public class PlayerControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        buildingPlayer.SetActive(false);
+        updateBattlePlayer.SetActive(false);
+        updateBuildingPlayer.SetActive(false);
         //获取Player物理模型
         myRigidbody = GetComponent<Rigidbody2D>();
         myFeet = GetComponent<BoxCollider2D>();
 
-        //初始化动画
-        currentState = "Idle";
-        SetCharacterState(currentState);
-        attackFinish = false;
+        playerState = State.stateStand;
+
     }
+
 
     // Update is called once per frame
     void Update()
     {
-        GetAnimation();
+        Control();
         OnGround();
-        Move();
-        Jump();
-        Flip();
-        Attack();
+    }
+
+    void Control()
+    {
+        switch (playerState) 
+        {
+            case State.stateStand:
+                buildingPlayer.SetActive(true);
+                battlePlayer.SetActive(false);
+                updateBattlePlayer.SetActive(false);
+                updateBuildingPlayer.SetActive(false);
+                AnimationSet(buildingAnimation,idle, true, 1f);
+                GetAnimation(buildingAnimation);
+                Move();
+                Jump();
+                Attack();
+                Flip();
+                if (!isOnGround)
+                {
+                    playerState = State.stateJump;
+                }
+                else if(myRigidbody.velocity.x != 0)
+                {
+                    playerState= State.stateMove;
+                }
+                break; 
+            case State.stateMove:
+                buildingPlayer.SetActive(true);
+                battlePlayer.SetActive(false);
+                updateBattlePlayer.SetActive(false);
+                updateBuildingPlayer.SetActive(false);
+                AnimationSet(buildingAnimation, move, true, 1f);
+                GetAnimation(buildingAnimation);
+                Move();
+                Jump();
+                Attack();
+                Flip();
+                if (!isOnGround)
+                {
+                    playerState = State.stateJump;
+                }
+                else if (myRigidbody.velocity.x == 0)
+                {
+                    playerState = State.stateStand;
+                }
+                break;
+            case State.stateJump:
+                buildingPlayer.SetActive(true);
+                battlePlayer.SetActive(false);
+                updateBattlePlayer.SetActive(false);
+                updateBuildingPlayer.SetActive(false);
+                AnimationSet(buildingAnimation, idle, true, 1f);
+                GetAnimation(buildingAnimation);
+                Move();
+                Attack();
+                Flip();
+                if (isOnGround)
+                {
+                    playerState = State.stateStand;
+                }
+                break;
+            case State.stateAttack:
+                battlePlayer.SetActive(true);
+                buildingPlayer.SetActive(false);
+                updateBattlePlayer.SetActive(false);
+                updateBuildingPlayer.SetActive(false);
+                AnimationSet(battleAnimation, attack, false, 1f);
+                GetAnimation(battleAnimation);
+                if (isOnGround)
+                {
+                    Vector2 playerAttackVel = new Vector2(0, myRigidbody.velocity.y);
+                    myRigidbody.velocity = playerAttackVel;
+                }
+                if(battleAnimation.AnimationState.GetCurrent(0).IsComplete)
+                {
+                    playerState = State.stateStand;
+                }
+                break;
+            case State.stateUpdate:
+                updateBattlePlayer.SetActive(true);
+                battlePlayer.SetActive(false);
+                buildingPlayer.SetActive(false);
+                updateBuildingPlayer.SetActive(false);
+                AnimationSet(updateBattleAnimation, update, false, 1f);
+                GetAnimation(updateBattleAnimation);
+                GetComponent<AudioSource>().Play();
+                if (isOnGround)
+                {
+                    Vector2 playerAttackVel = new Vector2(0, myRigidbody.velocity.y);
+                    myRigidbody.velocity = playerAttackVel;
+                }
+                if (updateBattleAnimation.AnimationState.GetCurrent(0).IsComplete)
+                {
+                    playerState = State.stateUpdateStand;
+                }
+                break;
+            case State.stateUpdateStand:
+                updateBuildingPlayer.SetActive(true);
+                buildingPlayer.SetActive(false);
+                battlePlayer.SetActive(false);
+                updateBattlePlayer.SetActive(false);
+                AnimationSet(updateBuildingAnimation, updateIdle, true, 1f);
+                GetAnimation(updateBuildingAnimation);
+                Move();
+                Jump();
+                UpdateAttack();
+                Flip();
+                if (!isOnGround)
+                {
+                    playerState = State.stateUpdateJump;
+                }
+                else if (myRigidbody.velocity.x != 0)
+                {
+                    playerState = State.stateUpdateMove;
+                }
+                break;
+            case State.stateUpdateMove:
+                updateBuildingPlayer.SetActive(true);
+                buildingPlayer.SetActive(false);
+                battlePlayer.SetActive(false);
+                updateBattlePlayer.SetActive(false);
+                AnimationSet(updateBuildingAnimation, updateMove, true, 1f);
+                GetAnimation(updateBuildingAnimation);
+                Move();
+                Jump();
+                UpdateAttack();
+                Flip();
+                if (!isOnGround)
+                {
+                    playerState = State.stateUpdateJump;
+                }
+                else if (myRigidbody.velocity.x == 0)
+                {
+                    playerState = State.stateUpdateStand;
+                }
+                break;
+            case State.stateUpdateJump:
+                updateBuildingPlayer.SetActive(true);
+                buildingPlayer.SetActive(false);
+                battlePlayer.SetActive(false);
+                updateBattlePlayer.SetActive(false);
+                AnimationSet(updateBuildingAnimation, updateIdle, true, 1f);
+                GetAnimation(updateBuildingAnimation);
+                Move();
+                UpdateAttack();
+                Flip();
+                if (isOnGround)
+                {
+                    playerState = State.stateUpdateStand;
+                }
+                break;
+            case State.stateUpdateAttack:
+                updateBattlePlayer.SetActive(true);
+                battlePlayer.SetActive(false);
+                buildingPlayer.SetActive(false);
+                updateBuildingPlayer.SetActive(false);
+                AnimationSet(updateBattleAnimation, updateAttack, false, 1f);
+                GetAnimation(updateBattleAnimation);
+                if (isOnGround)
+                {
+                    Vector2 playerAttackVel = new Vector2(0, myRigidbody.velocity.y);
+                    myRigidbody.velocity = playerAttackVel;
+                }
+                if (updateBattleAnimation.AnimationState.GetCurrent(0).IsComplete)
+                {
+                    playerState = State.stateUpdateStand;
+                }
+                break;
+
+        }
     }
 
     void Move()
@@ -51,15 +238,6 @@ public class PlayerControl : MonoBehaviour
         Vector2 playerVel = new Vector2(moveDir * runSpeed, myRigidbody.velocity.y);
         //通过改变速度进行移动
         myRigidbody.velocity = playerVel;
-        if (moveDir != 0)
-        {
-            SetCharacterState("Idle");
-        }
-        else
-        {
-            SetCharacterState("Idle");
-        }
-
     }
 
     void Attack()
@@ -67,12 +245,16 @@ public class PlayerControl : MonoBehaviour
         //执行攻击("J"键)
         if (Input.GetButtonDown("Attack"))
         {
-            //判断是否正在进行攻击
-            if (currentState == "Attack_Loop")
-            {
-                return;
-            }
-            SetCharacterState("Attack");
+            playerState = State.stateAttack;
+        }
+    }
+
+    void UpdateAttack()
+    {
+        //执行攻击("J"键)
+        if (Input.GetButtonDown("Attack"))
+        {
+            playerState = State.stateUpdateAttack;
         }
     }
 
@@ -117,42 +299,18 @@ public class PlayerControl : MonoBehaviour
         isOnGround = myFeet.IsTouchingLayers(LayerMask.GetMask("Ground"));
     }
 
-    void GetAnimation()
+    void GetAnimation(SkeletonAnimation skeletonAnimation)
     {
         //获取正在播放的动画
-        currentState = chooseAnimation.AnimationName;
+        currentState = skeletonAnimation.AnimationName;
     }
-    void AnimationSet(AnimationReferenceAsset animation, bool loop, float timeScale)
+    void AnimationSet(SkeletonAnimation skeletonAnimation,AnimationReferenceAsset animation, bool loop, float timeScale)
     {
-        //判断动画状态并执行/切换正确动画
-        if (currentState == "Attack_Loop")
-        {
-            if (attackFinish == false)
-            {
-                //攻击结束切换为原动画
-                chooseAnimation.state.AddAnimation(0, animation, loop, 0).TimeScale = timeScale;
-                attackFinish = true;
-            }
-            return;
-        }
-        //避免每帧重复开始播放动画
-        else if (animation.name.Equals(currentState))
+        if (animation.name.Equals(currentState))
         {
             return;
         }
-        chooseAnimation.state.SetAnimation(0, animation, loop).TimeScale = timeScale;
-        attackFinish = false;
+        skeletonAnimation.state.SetAnimation(0, animation, loop).TimeScale = timeScale;
     }
 
-    void SetCharacterState(string state)
-    {
-        if (state.Equals("Idle"))
-        {
-            AnimationSet(idle, true, 1f);
-        }
-        else if (state.Equals("Attack"))
-        {
-            AnimationSet(attack, false, 1f);
-        }
-    }
 }
