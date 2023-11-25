@@ -1,56 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class playerattack1 : MonoBehaviour
 {
     private PolygonCollider2D polygon1;
     public SpriteRenderer spriteRenderer;
-    //public PolygonCollider2D polygon2;
     public float time;
     private Animator animator;
+    public GameObject Player;
     // Start is called before the first frame update
     void Start()
     {
-        polygon1 = GetComponent<PolygonCollider2D>();
+        
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !spriteRenderer.flipX)//右方向攻击碰撞体激活
-        {
-            polygon1.enabled = true;
-            //print(polygon1.enabled);
-            StartCoroutine(disableAttack1());
-        }
-
      
     }
-    IEnumerator disableAttack1()//右方向攻击碰撞体失活
-    {
-        yield return new WaitForSeconds(time);
-        polygon1.enabled = false;
-        //print(polygon1.enabled);
-    }
- 
     //碰撞检测
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         //碰撞检测
-        if (collision.gameObject.CompareTag("Turtle"))
+        if (collision.gameObject.CompareTag("Turtle") && collision.gameObject.GetComponent<Turtle>().damageTime <= 0)
         {
             collision.gameObject.GetComponent<Turtle>().health -= player.playerDamage;
             animator = collision.gameObject.GetComponent<Animator>();
-            animator.SetTrigger("isInjury");
-            print("124");
+            if (!collision.gameObject.CompareTag("Player"))
+            {
+                animator.SetTrigger("isInjury");
+            }
+            collision.gameObject.GetComponent<Turtle>().bloodEffect();//流血
+            collision.gameObject.GetComponent<Turtle>().disReDamage();//重置小怪的受伤cd
+            gameManager.cameraShake.Shake(); //屏幕震动
         }
-        if (collision.gameObject.CompareTag("Trunk"))
+        if (collision.gameObject.CompareTag("Trunk") && collision.gameObject.GetComponent<Trunk>().damageTime <= 0)
         {
             collision.gameObject.GetComponent<Trunk>().health -= player.playerDamage;
             animator = collision.gameObject.GetComponent<Animator>();
-            animator.SetTrigger("isInjury");
-            print("124ddfas");
+            if (!collision.gameObject.CompareTag("Player"))
+            {
+                animator.SetTrigger("isInjury");
+            }
+            collision.gameObject.GetComponent<Trunk>().bloodEffect();//流血
+            collision.gameObject.GetComponent<Trunk>().disReDamage();//重置小怪的受伤cd
+            gameManager.cameraShake.Shake(); //屏幕震动
         }
     }
 }

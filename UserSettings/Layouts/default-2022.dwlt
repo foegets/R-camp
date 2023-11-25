@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1692
     height: 854.6667
   m_ShowMode: 4
-  m_Title: Inspector
+  m_Title: Game
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 492}
   m_MaxSize: {x: 10000, y: 10000}
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 100}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 80
+  controlID: 56
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 33
+  controlID: 23
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -166,8 +166,8 @@ MonoBehaviour:
     y: 0
     width: 812.6667
     height: 273.33334
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
@@ -221,8 +221,8 @@ MonoBehaviour:
     y: 0
     width: 342.6667
     height: 804.6667
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 17}
@@ -770,12 +770,12 @@ MonoBehaviour:
   m_SceneLighting: 1
   m_2DMode: 1
   m_isRotationLocked: 0
-  m_PlayAudio: 1
+  m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 8.103045, y: 27.168322, z: 0.19347909}
+    m_Target: {x: -6.882081, y: 0.71249676, z: -0.025062617}
     speed: 2
-    m_Value: {x: 8.103045, y: 27.168322, z: 0.19347909}
+    m_Value: {x: -6.882081, y: 0.71249676, z: -0.025062617}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -825,9 +825,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 15.579213
+    m_Target: 4.2872486
     speed: 2
-    m_Value: 15.579213
+    m_Value: 4.2872486
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -976,10 +976,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 350.6667
-    width: 819
-    height: 520.3334
+    x: 7.3333335
+    y: 353.33334
+    width: 811.6667
+    height: 510.33337
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1011,9 +1011,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 7.3333335
-    y: 424
-    width: 812.3333
-    height: 439.6667
+    y: 353.33334
+    width: 811.6667
+    height: 510.33337
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1062,9 +1062,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: be690000
-      m_LastClickedID: 27070
-      m_ExpandedIDs: 94edfffff6faffffd46800009a690000
+      m_SelectedIDs: c8c10000
+      m_LastClickedID: 0
+      m_ExpandedIDs: 187dfeff9c7efeff3681feff9882feffda84feff8485feffce85feff2286feffe895feff66c00000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1133,7 +1133,7 @@ MonoBehaviour:
     m_SkipHidden: 1
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources
+    - Assets/script
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -1142,14 +1142,14 @@ MonoBehaviour:
   m_StartGridSize: 64
   m_LastFolders: []
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: "E:\\unity\\unity \u65B0\u9879\u76EE\\My_game1"
+  m_LastProjectPath: "E:\\unity\\unity \u5F00\u6E90  demo\\2023RealityGameCamp_Programming\\2023RealityGameCamp_Programming"
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 44590000
     m_LastClickedID: 22852
-    m_ExpandedIDs: 00000000ce6a0000d06a0000226c0000246c0000266c0000286c00002a6c00002c6c00002e6c0000306c0000326c0000346c0000366c0000386c0000
+    m_ExpandedIDs: 
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1177,18 +1177,18 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff00000000ce6a0000d06a0000226c0000286c00002a6c00002c6c0000306c0000326c0000346c0000226d0000266d0000d8750000da750000dc750000e0750000
+    m_ExpandedIDs: ffffffffbe4000007a410000ca410000ffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: EnvironmentTiles_3
-      m_OriginalName: EnvironmentTiles_3
+      m_Name: doorTONextScenes
+      m_OriginalName: doorTONextScenes
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 26556
+      m_UserData: 49608
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
       m_OriginalEventType: 0

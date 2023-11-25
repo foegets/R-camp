@@ -23,20 +23,20 @@ public class Turtle : Enemy
         animator = GetComponent<Animator>();
         health = 30;//更新小怪数值
         damage = 5;
+        base.Start();
     }
-
     // Update is called once per frame
     void Update()
     {
         traverse();//小怪来回移动
         print("小怪生命" + health);
         TurtleDie();//小怪死亡后爆金币
+        damageTime -= Time.deltaTime;
     }
     private void TurtleDie()//小怪死亡
     {
         if(health<=0)
         {
-             
             coinInTurtle1.gameObject.SetActive(true);//激活金币对象
             coinInTurtle2.gameObject.SetActive(true);
             coinInTurtle1.gameObject.transform.position = this.transform.position;//重置位置
@@ -90,33 +90,37 @@ public class Turtle : Enemy
     }
     private void OnCollisionEnter2D(Collision2D collision)//碰撞检测
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))//小怪普攻触发
         {
             player.isContactEnemy = true;
-           StartCoroutine(CheckHitAnimation());//小怪普攻触发
+           StartCoroutine(CheckHitAnimation());
         }
-        //if(collision.gameObject.CompareTag("playerattack"))
-        //{
-        //    animator.SetTrigger("isInjury");
-        //    print("dfaff");
-        //}
+        if(collision.gameObject.CompareTag ("playerattack"))
+        {
+            print("成功");
+            bloodEffect();
+            Invoke("takeDamage", 0.16f);//使玩家动画完再改变bool值
+        }
     }
+
     private void OnCollisionStay2D(Collision2D collision)//碰撞检测
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))//(攻击玩家）
         {
-            player.isContactEnemy = true;
             StartCoroutine(CheckHitAnimation());//小怪普攻触发
         }
-        //if(collision.gameObject.CompareTag("playerattack"))
-        //{
-        //    animator.SetTrigger("isInjury");
-        //    print("dfaff");
-        //}
+
+    }
+    public override void disReDamage()
+    {
+        base.disReDamage();
     }
     IEnumerator CheckHitAnimation()//小怪普通攻击协程
-    {       
+        {
             animator.Play("Turtle Hit");//播放攻击动画
-            yield return new WaitForSeconds(attackTime);       
-    }
+            yield return new WaitForSeconds(attackTime);
+        }
 }
+    
+    
+

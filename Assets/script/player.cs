@@ -20,15 +20,23 @@ public class player : MonoBehaviour
     public static bool isContactEnemy;//是否接触怪物
     public static float playerDamage;//玩家伤害
     public  static float playerHealth;//玩家生命
+    public static float maxPlayerHp;
     public GameObject obj1;//在外部拖入Turtle
-    // Start is called before the first frame update
+    private float canInjuryTime;//受伤无敌的冷却时间
+    private AudioSource attackSound;
+    public bool canAttack;//是否可以攻击（防止受伤时可以攻击）
+    private Vector3 playerScale;
     void Start()
     {
         this.rb = GetComponent<Rigidbody2D>();
         this.animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        playerHealth = 60;//初始化生命值
+        attackSound = GetComponent<AudioSource>();
+        maxPlayerHp = 60;//初始化生命值
+         playerHealth=maxPlayerHp ;
         playerDamage = 6;
+        canInjuryTime = 1;
+        playerScale = transform.localScale;
     }
 
     // Update is called once per frame
@@ -42,6 +50,7 @@ public class player : MonoBehaviour
         /* isIdle(direction);*///判断是否为Idle
         checkerAttack = StartCoroutine(CheckAttackAnimation());//普通攻击协程
         playdeath();
+        resetInjuryTime();//刷新受伤后无敌的时间
     }  
     IEnumerator CheckAttackAnimation()//普通攻击协程
     {
@@ -56,16 +65,9 @@ public class player : MonoBehaviour
         if(Input.GetMouseButtonDown(0))
         {
             animator.SetTrigger("isattack");
-            soundManager.playerattack();//播放音乐
+            attackSound.Play();
         }
     }
-    //private void isIdle(float direction)//判断是否Idle
-    //{
-    //    if(onground==true && direction==0)
-    //    {
-    //        animator.SetBool("isIdle",true);
-    //    }
-    //}
   private void playerjumping()//角色跳跃
     {
  if ( Input.GetKeyDown(KeyCode.Space)&&jumpingNum>0) //跳跃实现
@@ -102,11 +104,13 @@ public class player : MonoBehaviour
         //移动左右方向转换
         if (direction > 0)
         {
-            spriteRenderer.flipX = false;
+            //spriteRenderer.flipX = false;
+            transform.localScale = playerScale;
         }
         else if (direction < 0)
         {
-            spriteRenderer.flipX = true;
+            Vector3 playerScale1 = new Vector3(-playerScale.x, playerScale.y, playerScale.z);
+            transform.localScale = playerScale1;
         }
     }
  private void dash(float direction)//冲刺实现
@@ -143,58 +147,58 @@ public class player : MonoBehaviour
 }
     private void OnTriggerEnter2D(Collider2D other)  //碰撞检测
     {
-        if (other.gameObject.CompareTag("platform"))
+        if(canInjuryTime<=0)
         {
-            onground = true; 
-            jumpingNum =2 ;
-            //airDash = 1;
-        }
-        if(other.gameObject.CompareTag("Turtle"))
-        {
-            obj1 = other.gameObject;
-            playerHealth -=  obj1.GetComponent<Turtle>().damage;//减少生命
-            animator.SetTrigger("isInjury");//受伤动画
-        }
-        if (other.gameObject.CompareTag("Trunk"))//树怪
-        {
-            obj1 = other.gameObject;
-            playerHealth -= obj1.GetComponent<Trunk>().damage;//减少生命
-            animator.SetTrigger("isInjury");//受伤动画
-        }
-        if (other.gameObject.CompareTag("Trunk Bullet"))//树怪子弹
-        {
+          if (other.gameObject.CompareTag("Trunk Bullet"))//树怪子弹
+           {
             obj1 = other.gameObject;
             playerHealth -= 4; /*(obj1.GetComponent<Trunk>().damage)*2;*/
             animator.SetTrigger("isInjury");//受伤动画
+                canInjuryTime = 1;
+                canAttack = true;
+                Invoke("setcanAttack", 0.5f);
+            }
+        }
+     
+    } 
+    void setcanAttack()
+        {
+            canAttack = false;
+        }
+    private void OnCollisionStay2D(Collision2D collision)  //持续碰撞检测
+    {
+        if (collision.gameObject.CompareTag("platform"))
+        {
+            onground = true;
+            jumpingNum = 2;
+            //airDash = 1;
+        }
+        if (canInjuryTime <= 0)
+        {
+            if (collision.gameObject.CompareTag("Turtle"))
+           {
+            obj1 = collision.gameObject;
+            playerHealth -= obj1.GetComponent<Turtle>().damage;//减少生命
+            animator.SetTrigger("isPlayerInjury");//受伤动画
+            canInjuryTime = 1;
+                canAttack = true;
+                Invoke("setcanAttack", 0.26f);
+            }
+           if (collision.gameObject.CompareTag("Trunk"))//树怪
+           {
+            obj1 = collision.gameObject;
+            playerHealth -= obj1.GetComponent<Trunk>().damage;//减少生命
+            animator.SetTrigger("isPlayerInjury");//受伤动画
+            canInjuryTime = 1;
+                canAttack = true;
+                Invoke("setcanAttack", 0.26f);
+            }
         }
     }
-    //private void OnTriggerStay2D(Collider2D other)  //持续碰撞检测
-    //{
-    //    if (other.gameObject.CompareTag("platform"))
-    //    {
-    //        onground = true;
-    //        jumpingNum = 2;
-    //        //airDash = 1;
-    //    }
-    //    if (other.gameObject.CompareTag("Turtle"))
-    //    {
-    //        obj1 = other.gameObject;
-    //        playerHealth -= obj1.GetComponent<Turtle>().damage;//减少生命
-    //        animator.SetTrigger("isInjury");//受伤动画
-    //    }
-    //    if (other.gameObject.CompareTag("Trunk"))//树怪
-    //    {
-    //        obj1 = other.gameObject;
-    //        playerHealth -= obj1.GetComponent<Trunk>().damage;//减少生命
-    //        animator.SetTrigger("isInjury");//受伤动画
-    //    }
-    //    if (other.gameObject.CompareTag("Trunk Bullet"))//树怪子弹
-    //    {
-    //        obj1 = other.gameObject;
-    //        playerHealth -= 4; /*(obj1.GetComponent<Trunk>().damage)*2;*/
-    //        animator.SetTrigger("isInjury");//受伤动画
-    //    }
-    //}
+    private void resetInjuryTime()
+    {
+        canInjuryTime -= Time.deltaTime;
+    }
     private void playdeath()//玩家死亡
     {
         if(playerHealth<=0)

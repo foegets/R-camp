@@ -27,14 +27,17 @@ public GameObject bullet;//获取子类子弹
     // Start is called before the first frame update
     void Start()
     {
+        
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        health = 20;//初始化数值
+        maxHp = 20;
+        health = maxHp;//初始化数值
         speed = 5;
         damageBullet = 5.0f;
         bullet.isStatic = false;//初始化bool值（子弹）
         //print(position1.position.x);
         cd = 1.70f;
+        base.Start();
     }
 
     // Update is called once per frame
@@ -43,6 +46,7 @@ public GameObject bullet;//获取子类子弹
         isDie();//判断死亡并失活
         moveToward();//移向玩家
         isHit();//攻击
+        damageTime -= Time.deltaTime;
     }
     private void isHit()
     {
@@ -113,32 +117,42 @@ public GameObject bullet;//获取子类子弹
     }
     private void OnCollisionEnter2D(Collision2D collision)//碰撞检测
     {
-        if (collision.gameObject.CompareTag("Player"))//使玩家被击退
+        //if (collision.gameObject.CompareTag("Player"))//使玩家被击退
+        //{
+        //    if (playerTrans.position.x - this.transform.position.x >= 0)
+        //    {
+        //        playRg.velocity = new Vector2(repelFouce, playRg.velocity.y);
+        //    }
+        //    else if (playerTrans.position.x - this.transform.position.x < 0)
+        //    {
+        //        playRg.velocity = new Vector2(repelFouce, playRg.velocity.y);
+        //    }
+        //}
+        if(collision.gameObject.CompareTag("playerattack"))
         {
-            if (playerTrans.position.x - this.transform.position.x >= 0)
-            {
-                playRg.velocity = new Vector2(repelFouce, playRg.velocity.y);
-                print("daljgadjkhglkadhgkjdahsg");
-            }
-            else if (playerTrans.position.x - this.transform.position.x < 0)
-            {
-                playRg.velocity = new Vector2(repelFouce, playRg.velocity.y);
-            }
+            print("成功");
+            bloodEffect();
+            Invoke("takeDamage", 0.16f);//使玩家动画完再改变bool值
+            print("66");
         }
     }
     private void OnCollisionStay2D(Collision2D collision)//碰撞检测
     {
-        if (collision.gameObject.CompareTag("Player"))//使玩家被击退
-        {
-            if (playerTrans.position.x - this.transform.position.x >= 0)
-            {
-                playRg.velocity = new Vector2(repelFouce, playRg.velocity.y);
-                print("daljgadjkhglkadhgkjdahsg");
-            }
-            else if (playerTrans.position.x - this.transform.position.x < 0)
-            {
-                playRg.velocity = new Vector2(repelFouce, playRg.velocity.y);
-            }
-        }
+        //if (collision.gameObject.CompareTag("Player"))//使玩家被击退
+        //{
+        //    if (playerTrans.position.x - this.transform.position.x >= 0)
+        //    {
+        //        playRg.velocity = new Vector2(repelFouce, playRg.velocity.y);
+        //        print("daljgadjkhglkadhgkjdahsg");
+        //    }
+        //    else if (playerTrans.position.x - this.transform.position.x < 0)
+        //    {
+        //        playRg.velocity = new Vector2(repelFouce, playRg.velocity.y);
+        //    }
+        //}   
+    }
+    public override void disReDamage()
+    {
+        base.disReDamage();
     }
 }

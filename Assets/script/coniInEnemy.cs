@@ -32,7 +32,7 @@ public class coinInEnemy : MonoBehaviour//小怪金币掉落实现
                 rb.velocity = new Vector2(rb.velocity.x, springFouce);//弹起
             }
         }
-        if (trunk1.health <= 0)//爆金币咯
+        if (turtle1.health <= 0)//爆金币咯
         {
             fouceTime -= Time.deltaTime;//时间减少
             if (fouceTime >= 0)
