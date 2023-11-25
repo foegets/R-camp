@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7182054673580237319}
   - component: {fileID: 1186486708074499215}
   - component: {fileID: 5788136229006321708}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Chainsow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,6 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c8d56f61a847c44e9e90428151ddba2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 20
 --- !u!1 &6393148746867104185
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,7 +151,7 @@ GameObject:
   - component: {fileID: 8380675359618846327}
   - component: {fileID: 6388987501333626241}
   - component: {fileID: 4482059819294001391}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Moving Chainsow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -256,7 +257,7 @@ GameObject:
   - component: {fileID: 4920970302564319287}
   - component: {fileID: 4448854300684487797}
   - component: {fileID: 5476151450766005643}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}

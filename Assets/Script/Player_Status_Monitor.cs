@@ -10,10 +10,11 @@ public class Player_Status_Monitor : MonoBehaviour
     public Slider Player_Engry;
     public VideoPlayer videoplayer;
     public GameObject deadimage;
-
+    public Transform OriPos;
     // Start is called before the first frame update
     void Start()
     {
+        OriPos = transform;
         Player_HP.value = 100;
         videoplayer.Prepare();
     }
@@ -21,6 +22,11 @@ public class Player_Status_Monitor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (transform.position.y < -10)
+        {
+            transform.position = OriPos.position;
+            transform.rotation = OriPos.rotation;
+        }
         if (Player_Engry.value == 5)
         {
             Player_HP.value += 10;
