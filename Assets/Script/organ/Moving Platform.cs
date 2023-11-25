@@ -33,7 +33,7 @@ public class MovingPlatform : MonoBehaviour
         if (collision.tag == "back")
         {
             Speed = -Speed;
-            Debug.Log(233);
+            transform.localScale = new Vector2(Speed, 5);
         }//要做到碰到collision之后彻底改变运动性质
     }
 }

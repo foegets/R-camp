@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Jump : MonoBehaviour
 {
@@ -8,10 +9,12 @@ public class Jump : MonoBehaviour
     [SerializeField] float gravityScale = 5;
     [SerializeField] float fallGravityScale = 15;
     private int JumpLimit = 2;
-    public Rigidbody2D rb;
     public LayerMask ground;
-    public Rigidbody2D feet;
+    public Rigidbody2D Rb;
+    public Rigidbody2D Feet;
+    public Rigidbody2D Platform;
     bool mIsOnGround = true;
+    bool mIsOnPlatform=true;
 
 
     /*bool isGround()
@@ -20,21 +23,26 @@ public class Jump : MonoBehaviour
     }*/
     private void CheckIsOnGround()
     {
-        mIsOnGround = feet.IsTouchingLayers(LayerMask.GetMask("Ground"));
+        mIsOnGround = Feet.IsTouchingLayers(LayerMask.GetMask("Ground"));
+        
+    }
+    private void CheckIsOnPlatform()
+    {
+        mIsOnPlatform = Feet.IsTouchingLayers(LayerMask.GetMask("MovingPlatform"));
     }
     private void FixedUpdate()
     {
         CheckIsOnGround();
+        CheckIsOnPlatform();
+        MoveTogether();
     }
     private void Update()
     {
-       
         _Jump();
-
     }
     void _Jump()
     {
-        if (mIsOnGround)
+        if (mIsOnGround|| mIsOnPlatform)
         {
             
             JumpLimit = 1;
@@ -43,19 +51,31 @@ public class Jump : MonoBehaviour
         {
             if (JumpLimit > 0)
             {
-                rb.gravityScale = gravityScale;
-                float jumpForce = Mathf.Sqrt(jumpHeight * (Physics2D.gravity.y * rb.gravityScale) * -2) * rb.mass;
-                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                Rb.gravityScale = gravityScale;
+                float jumpForce = Mathf.Sqrt(jumpHeight * (Physics2D.gravity.y * Rb.gravityScale) * -2) * Rb.mass;
+                Rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 JumpLimit--;
             }
-            if (rb.velocity.y > 0)
+            if (Rb.velocity.y > 0)
             {
-                rb.gravityScale = gravityScale;
+                Rb.gravityScale = gravityScale;
             }
             else
             {
-                rb.gravityScale = fallGravityScale;
+                Rb.gravityScale = fallGravityScale;
             }
+        }
+    }
+    private void MoveTogether()
+    {
+        if (mIsOnPlatform)
+        {
+            Rb.transform.parent = Platform.transform;
+            Debug.Log(1);
+        }
+        if (!mIsOnGround)
+        {
+            Rb.transform.parent = null;
         }
     }
 }

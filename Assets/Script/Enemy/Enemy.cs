@@ -11,19 +11,13 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-
         AutoMove();
-
     }
     private void AutoMove()
     {
-
         Vector2 pos = transform.position;
         pos.x = -13;
-        
-        
-            transform.Translate(0, Speed * Time.deltaTime, 0);
-        
+        transform.Translate(0, Speed * Time.deltaTime, 0);
 
     }
 
@@ -33,7 +27,6 @@ public class Enemy : MonoBehaviour
         if (collision.tag == "back")
         {
             Speed = -Speed;
-            Debug.Log(233);
         }//要做到碰到collision之后彻底改变运动性质
     }
 }
