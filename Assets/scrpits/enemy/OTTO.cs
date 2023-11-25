@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class OTTO : enemy
 {
-    
-    float jumpcounter = 5f; 
+
+    float jumpcounter = 5f;
+   
     private void Update()
     {
         jumpcounter-=Time.deltaTime;
@@ -26,4 +27,5 @@ public class OTTO : enemy
             jumpcounter = 5f;
         }
     }
+ 
 }

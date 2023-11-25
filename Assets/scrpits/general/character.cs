@@ -9,6 +9,7 @@ public class character : MonoBehaviour
     [Header("基本属性")]
     public float maxhealth;
     public float currenthealth;
+    public float starthealth;
 
     [Header("受伤无敌")]
     public float invulnerableDuration;
@@ -23,7 +24,7 @@ public class character : MonoBehaviour
 
     private void Start()
     {
-        currenthealth = maxhealth;
+        currenthealth = starthealth;
     }
 
     private void Update()
@@ -51,7 +52,7 @@ public class character : MonoBehaviour
         }
         if (invulnerable)
             return;
-        if (currenthealth - attacker.damage <= 0)
+        if (currenthealth - attacker.damage <= 0&&currenthealth>0)
         {
             currenthealth = 0;
        
@@ -68,6 +69,9 @@ public class character : MonoBehaviour
             invulnerableCounter = invulnerableDuration;
         }
     }
-    
+    public void dragon()
+    {
+        currenthealth = maxhealth;
+    }
 }
 

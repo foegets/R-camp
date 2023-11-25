@@ -10,6 +10,8 @@ using static UnityEditor.Timeline.TimelinePlaybackControls;
 public class Playercontrol : MonoBehaviour
 {
     // Start is called before the first frame update
+    private int limitcoin;
+    private coinUI coin;
     private coinUI coinUI;
     private Collider2D coll;
     private playanimition playanimition;
@@ -43,6 +45,8 @@ public class Playercontrol : MonoBehaviour
         inputcontrol.GamePlay.attack.started += Playerattack;
         playanimition = GetComponent<playanimition>();
         coll= GetComponent<Collider2D>();
+        coin = GetComponent<coinUI>();
+        limitcoin = 1;
     }
 
 
@@ -67,18 +71,23 @@ public class Playercontrol : MonoBehaviour
         if(!isHurt&&!isattack)
         Move();
         CheckState();
+  
+
     }
   
     private void returnlocation()
     {
-        if (rb.velocity.y <= -100)
-            rb.velocity = new Vector2(0,(float)0.0664);
+        if (isdead==false)
+        {
+            if (rb.velocity.y <= -100)
+                rb.velocity = new Vector2(0, (float)0.0664);
+        }
     }
 
     public void Move()
     {
         if(Fast==0)
-        rb.velocity = new Vector2(inputdirection.x * Speed * Time.deltaTime, rb.velocity.y);
+        rb.velocity = new Vector2(inputdirection.x * 1.5f*Speed * Time.deltaTime, rb.velocity.y);
         else
             rb.velocity = new Vector2(inputdirection.x * Speed * Time.deltaTime*2, rb.velocity.y);
         int faceDir = (int)transform.localScale.x;
@@ -125,11 +134,10 @@ public class Playercontrol : MonoBehaviour
     public void GetHurt(Transform attacker)
     {
         isHurt= true;
-        rb.velocity = Vector2.zero;
         Vector2 dir = new Vector2((transform.position.x - attacker.position.x), 0).normalized;
         rb.AddForce(dir*hurtforce, ForceMode2D.Impulse);
         rb.AddForce(transform.up *(hurtforce/5), ForceMode2D.Impulse);
-        if (coinUI.CurrentCoinQuantity>=3)
+        if (coinUI.CurrentCoinQuantity>=3&&isdead==false)
         {
             coinUI.CurrentCoinQuantity -= 3;
             for(int i=0;i<3;i++)
@@ -141,9 +149,18 @@ public class Playercontrol : MonoBehaviour
     }
     public void PlayerDead()
     {
-        isdead= true;
-        inputcontrol.GamePlay.Disable();
+        if (limitcoin == 1)
+        {
+            isdead = true;
+            inputcontrol.GamePlay.Disable();
 
+            for (int i = 1; i <= 25; i++)
+            {
+                Instantiate(dropcoin, transform.position, Quaternion.identity);
+
+            }
+            limitcoin -= 1;
+        }
     }
     private void CheckState()
     {
@@ -152,5 +169,10 @@ public class Playercontrol : MonoBehaviour
         else
             coll.sharedMaterial = isattack1;
     }
+    public void dragonspeed()
+    {
+        Speed = 350;
+    }
 }
+
 

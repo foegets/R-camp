@@ -19,4 +19,9 @@ public class coinUI : MonoBehaviour
     {
         coinQuanity.text=CurrentCoinQuantity.ToString();
     }
+    public void dead()
+    {
+        CurrentCoinQuantity = 0;
+
+    }
 }
