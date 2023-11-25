@@ -45,6 +45,18 @@ public class Character : MonoBehaviour
             
     }
 
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if(other.CompareTag("Water"))
+        {
+            //死亡，更新血量，或者播放音效？
+            currentHealth = 0;
+            OnHealthChange?.Invoke(this);
+            OnDie?.Invoke();
+
+        }
+    }
+
     //接收伤害
     public void TakeDamage(Attack attacker)
     {
