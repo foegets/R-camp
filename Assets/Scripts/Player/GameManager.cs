@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
 
     public static void RegisterOrb(Orb orb)
     {
+
         if (instance == null)
             return;
         if(!instance.orbs.Contains(orb))

@@ -76,6 +76,8 @@ public class AudioManager : MonoBehaviour
         current.fxSource.Play();
     }
 
+    
+
     public static void PlayerWonAudio()
     {
         current.fxSource.clip = current.winClip;

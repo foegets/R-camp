@@ -89,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
     void PhysicsCheck()
     {   
         //◊Û”“Ω≈≤ø…‰œﬂ
-        RaycastHit2D leftCheck = Raycast(new Vector2(-footOffset/2, 0f), Vector2.down, groundDistance, groundLarer);
+        RaycastHit2D leftCheck = Raycast(new Vector2(-footOffset/2 + 0.1f, 0f), Vector2.down, groundDistance, groundLarer);
         RaycastHit2D rightCheck = Raycast(new Vector2(footOffset/2, 0f), Vector2.down, groundDistance, groundLarer);
 
         if (leftCheck || rightCheck)
@@ -168,7 +168,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        if (jumpPressed && isOnGround && !isJump && !isHeadblocked)
+        if (jumpPressed && isOnGround && !isJump && !isHeadblocked && !isHanging)
         {
             if (isCrouch & isOnGround )
             {
