@@ -5,12 +5,16 @@ using UnityEngine;
 public class PlayerAnimation : MonoBehaviour
 {
     private Animator anim;
+
     private Rigidbody2D rb;
+
+    private PhysicsCheck physicsCheck;
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        physicsCheck = GetComponent<PhysicsCheck>();
     }
 
     public void Update()
@@ -20,6 +24,7 @@ public class PlayerAnimation : MonoBehaviour
 
     public void SetAnimation()
     {
-        anim.SetFloat("velocityx",Mathf.Abs(rb.velocity.x));
+        anim.SetFloat("velocityX",Mathf.Abs(rb.velocity.x));
+        anim.SetBool("isGround", physicsCheck.isGround);
     }
 }
