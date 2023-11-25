@@ -4,14 +4,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
+
 public class PlayerController : MonoBehaviour
 {
     public PlayerInPutController inputControl;
 
     private Rigidbody2D rb;//rb用于获取Rigidbody组件的变量
 
+    public Camera cam;
 
     public SpriteRenderer sr;//sr用于获取SpriteRenderer组件的变量
+
+    public UnityEvent<GameObject> E_Fire;
 
     [Header("基本参数")]
     public Vector2 inputDirection;//方向
@@ -22,36 +27,37 @@ public class PlayerController : MonoBehaviour
 
     public float rushForce;
 
-    private PhysicsCheck physicsCheck;//用于获取脚本PhysicsCheck中的变量（isGround）
-
-    private AudioManager audioManager;
+    public float hurtForce;
 
     public int jumpNum=0;//记录跳跃次数
-
+    [Header("计时器")]
     public float leftPressTime, rightPressTime;
 
     public float maxAwaitTime;
-
+    [Header("状态")]
     public bool isWalk,canRun;
 
-    
-    
+    public Vector3 fireDir;
+    public float correct;
 
+    private PhysicsCheck physicsCheck;//用于获取脚本PhysicsCheck中的变量（isGround）
+    private AudioManager audioManager;
+    private Character character;
     private void Awake()
     {
         inputControl = new PlayerInPutController();
-
+        cam = Camera.main;
         rb = GetComponent<Rigidbody2D>();//获取
         sr = GetComponent<SpriteRenderer>();
         physicsCheck = GetComponent<PhysicsCheck>();
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
-        
+        character = gameObject.GetComponent<Character>();
 
         inputControl.gamePlayer.Jump.started += Jump;//事件注册： += （started：按键按下那一刻），Jump方法将在started事件中执行
         inputControl.gamePlayer.Rush.started += Rush;
+        inputControl.gamePlayer.Fire.started += Fire;
+        
     }
-
-
     private void OnEnable()
     {
         inputControl.Enable();
@@ -79,7 +85,7 @@ public class PlayerController : MonoBehaviour
 
     public void Move()//移动函数
     {
-        if (Input.GetKey(KeyCode.LeftShift) == false)
+        if (physicsCheck.isRush == false&&character.isHurt == false)
         {
             if (isWalk == true && inputDirection.x != 0)
                 rb.velocity = new Vector2(inputDirection.x * walkSpeed * Time.deltaTime, rb.velocity.y);
@@ -112,6 +118,64 @@ public class PlayerController : MonoBehaviour
         #endregion
     }
 
+    private void Rush(InputAction.CallbackContext context)
+    {
+        Vector2 dir = new Vector2(0,0);
+        if(sr.flipX==true)
+            dir = new Vector2(-1, 0);
+        if(sr.flipX==false)
+            dir = new Vector2(1, 0);
+
+        if(physicsCheck.isrushReady==true&&physicsCheck.rushNum>0)
+        {
+            if (inputDirection.x != 0 || inputDirection.y != 0)
+            {
+                Debug.Log("rush case 1");
+                rb.AddForce(inputDirection * rushForce, ForceMode2D.Impulse);
+                physicsCheck.isRush = true;
+            }
+            if (inputDirection.x == 0 && inputDirection.y == 0)
+            {
+                Debug.Log("rush case 2");
+                rb.AddForce(dir * rushForce, ForceMode2D.Impulse);
+                physicsCheck.isRush = true;
+            }
+
+            physicsCheck.rushNum--;
+        }
+    }
+
+    private void Jump(InputAction.CallbackContext context)//跳跃函数
+    {
+        //Debug.Log("JUMP!");        
+            if (physicsCheck.isGround == true || jumpNum <1)
+            {
+                rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+                jumpNum++;
+                audioManager.PlayFXsoure();
+            }
+    }
+
+    private void Fire(InputAction.CallbackContext context)
+    {
+        E_Fire?.Invoke(gameObject);
+    }
+
+    public void GetFireDir()
+    {
+        Debug.Log("Mouse Left");
+
+        Vector3 playerpos = new Vector3(transform.position.x,transform.position.y + correct, transform.position.z);
+        Vector3 mousepos = cam.ScreenToWorldPoint(Input.mousePosition);
+
+        fireDir = (mousepos - playerpos);
+        fireDir.Normalize();
+
+        Debug.Log(fireDir + "fireDir");
+        Debug.Log(playerpos + "playerpos");
+        Debug.Log(mousepos + "mousepos");                
+    }
+
     private void checkRunWalk()
     {
         if (inputDirection.x > 0 && !isWalk)
@@ -137,33 +201,20 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    private void Rush(InputAction.CallbackContext context)
+    public void BeHurt(Transform attacker)
     {
-        Vector2 dir = new Vector2(0,0);
-        if(sr.flipX==true)
-            dir = new Vector2(-1, 0);
-        if(sr.flipX==false)
-            dir = new Vector2(1, 0);
-
-        if(physicsCheck.isrushReady==true&&physicsCheck.rushNum>0)
-        {
-            if(inputDirection.x!= 0||inputDirection.y!=0)
-                rb.AddForce(inputDirection*rushForce,ForceMode2D.Impulse);
-            if(inputDirection.x==0&&inputDirection.y==0)
-                rb.AddForce( dir* rushForce, ForceMode2D.Impulse);
-
-            physicsCheck.rushNum--;
-        }
+        character.isHurt = true;
+        rb.velocity = Vector2.zero;
+        Vector2 dir = new Vector2((transform.position.x-attacker.transform.position.x), 0.5f).normalized;
+        Debug.Log(dir);
+        rb.AddForce(dir * hurtForce,ForceMode2D.Impulse);
     }
 
-    private void Jump(InputAction.CallbackContext context)//跳跃函数
+    private void OnDrawGizmos()
     {
-        //Debug.Log("JUMP!");        
-            if (physicsCheck.isGround == true || jumpNum <1)
-            {
-                rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
-                jumpNum++;
-                audioManager.PlayFXsoure();
-            }
-    }  
+         Vector3 mousepos = cam.ScreenToWorldPoint(Input.mousePosition);
+    Vector3 playerpos = new Vector3(transform.position.x, transform.position.y + correct, transform.position.z);
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(mousepos,playerpos);
+    }
 }

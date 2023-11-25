@@ -18,7 +18,13 @@ public class PhysicsCheck : MonoBehaviour
     [Header("状态")]
     public bool isGround;//是否处于地面
 
+    public bool isPlayform;
+
     public bool isrushReady=true;
+
+    public bool isRush;
+
+    public bool isdead;
 
     public LayerMask groundLayer;
 
@@ -33,10 +39,16 @@ public class PhysicsCheck : MonoBehaviour
         CheckIsRushReady();
     }
 
+    private void FixedUpdate()
+    {
+        CheckisRush();
+    }
+
     public void CheckIsground()//检测处于地面的状态
     {
         
          isGround=Physics2D.OverlapCircle((Vector2)transform.position+bottomOffset,checkRaduis,groundLayer);
+        isPlayform=Physics2D.OverlapCircle((Vector2)transform.position + bottomOffset, checkRaduis,9);
     }
 
     private void CheckIsRushReady()
@@ -53,5 +65,19 @@ public class PhysicsCheck : MonoBehaviour
     private void OnDrawGizmosSelected()//检测范围绘制
     {
         Gizmos.DrawWireSphere((Vector2)transform.position + bottomOffset,checkRaduis);
+    }
+
+    private void CheckisRush()
+    {
+        if(isRush)
+        {
+            
+            rushTime -= Time.fixedDeltaTime;
+            if (rushTime <= 0)
+            {
+                isRush = false;
+                rushTime = rushDuration;
+            }
+        }
     }
 }

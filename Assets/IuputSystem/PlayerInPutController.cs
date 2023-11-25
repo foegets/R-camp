@@ -62,6 +62,15 @@ public partial class @PlayerInPutController: IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Fire"",
+                    ""type"": ""Button"",
+                    ""id"": ""3051ff42-c984-4c81-8ccd-aab69f64cfe5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -229,6 +238,17 @@ public partial class @PlayerInPutController: IInputActionCollection2, IDisposabl
                     ""action"": ""GoToMainMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d8751176-8bad-4c62-946f-369a261b7681"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -330,6 +350,7 @@ public partial class @PlayerInPutController: IInputActionCollection2, IDisposabl
         m_gamePlayer_Jump = m_gamePlayer.FindAction("Jump", throwIfNotFound: true);
         m_gamePlayer_Rush = m_gamePlayer.FindAction("Rush", throwIfNotFound: true);
         m_gamePlayer_GoToMainMenu = m_gamePlayer.FindAction("GoToMainMenu", throwIfNotFound: true);
+        m_gamePlayer_Fire = m_gamePlayer.FindAction("Fire", throwIfNotFound: true);
         // MainMenu
         m_MainMenu = asset.FindActionMap("MainMenu", throwIfNotFound: true);
         m_MainMenu_Newaction = m_MainMenu.FindAction("New action", throwIfNotFound: true);
@@ -398,6 +419,7 @@ public partial class @PlayerInPutController: IInputActionCollection2, IDisposabl
     private readonly InputAction m_gamePlayer_Jump;
     private readonly InputAction m_gamePlayer_Rush;
     private readonly InputAction m_gamePlayer_GoToMainMenu;
+    private readonly InputAction m_gamePlayer_Fire;
     public struct GamePlayerActions
     {
         private @PlayerInPutController m_Wrapper;
@@ -406,6 +428,7 @@ public partial class @PlayerInPutController: IInputActionCollection2, IDisposabl
         public InputAction @Jump => m_Wrapper.m_gamePlayer_Jump;
         public InputAction @Rush => m_Wrapper.m_gamePlayer_Rush;
         public InputAction @GoToMainMenu => m_Wrapper.m_gamePlayer_GoToMainMenu;
+        public InputAction @Fire => m_Wrapper.m_gamePlayer_Fire;
         public InputActionMap Get() { return m_Wrapper.m_gamePlayer; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -427,6 +450,9 @@ public partial class @PlayerInPutController: IInputActionCollection2, IDisposabl
             @GoToMainMenu.started += instance.OnGoToMainMenu;
             @GoToMainMenu.performed += instance.OnGoToMainMenu;
             @GoToMainMenu.canceled += instance.OnGoToMainMenu;
+            @Fire.started += instance.OnFire;
+            @Fire.performed += instance.OnFire;
+            @Fire.canceled += instance.OnFire;
         }
 
         private void UnregisterCallbacks(IGamePlayerActions instance)
@@ -443,6 +469,9 @@ public partial class @PlayerInPutController: IInputActionCollection2, IDisposabl
             @GoToMainMenu.started -= instance.OnGoToMainMenu;
             @GoToMainMenu.performed -= instance.OnGoToMainMenu;
             @GoToMainMenu.canceled -= instance.OnGoToMainMenu;
+            @Fire.started -= instance.OnFire;
+            @Fire.performed -= instance.OnFire;
+            @Fire.canceled -= instance.OnFire;
         }
 
         public void RemoveCallbacks(IGamePlayerActions instance)
@@ -557,6 +586,7 @@ public partial class @PlayerInPutController: IInputActionCollection2, IDisposabl
         void OnJump(InputAction.CallbackContext context);
         void OnRush(InputAction.CallbackContext context);
         void OnGoToMainMenu(InputAction.CallbackContext context);
+        void OnFire(InputAction.CallbackContext context);
     }
     public interface IMainMenuActions
     {

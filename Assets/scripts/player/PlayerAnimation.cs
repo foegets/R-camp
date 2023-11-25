@@ -12,12 +12,15 @@ public class PlayerAnimation : MonoBehaviour
 
     private PhysicsCheck pk;
 
+    private Character character;
+
     private void Awake()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         pc = GetComponent<PlayerController>();
         pk = GetComponent<PhysicsCheck>();
+        character = GetComponent<Character>();
     }
 
     private void Update()
@@ -32,5 +35,12 @@ public class PlayerAnimation : MonoBehaviour
         anim.SetBool("canRun", pc.canRun);
         anim.SetFloat("velocityY", rb.velocity.y);
         anim.SetBool("isGround", pk.isGround);
+        anim.SetBool("isInvulnerable", character.invulnerable);
+        anim.SetBool("isDead", character.isdead);
+    }
+
+    public void Playhurt()
+    {
+        anim.SetTrigger("hurt");
     }
 }
