@@ -5,9 +5,13 @@ using UnityEngine;
 
 public class player : MonoBehaviour
 {
+    /*public float AttackSpeed=1.5f;*///普通攻击补充速度
+    private bool isattack=false;
+    private int combostep=0;//攻击段数
+    private float timer;//计时器
+    private float interval=2f;//可以连续攻击的时间间隔
     public static float direction;//移动方向
    public static int jumpingNum;//可以跳跃的次数
-    SpriteRenderer spriteRenderer;
     Animator animator;
     private Rigidbody2D rb;
     public float speed = 10.0f;//速度
@@ -30,7 +34,6 @@ public class player : MonoBehaviour
     {
         this.rb = GetComponent<Rigidbody2D>();
         this.animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
         attackSound = GetComponent<AudioSource>();
         maxPlayerHp = 60;//初始化生命值
          playerHealth=maxPlayerHp ;
@@ -48,25 +51,38 @@ public class player : MonoBehaviour
         dash(direction);//冲刺实现       
         playerattack();//角色普通攻击
         /* isIdle(direction);*///判断是否为Idle
-        checkerAttack = StartCoroutine(CheckAttackAnimation());//普通攻击协程
         playdeath();
         resetInjuryTime();//刷新受伤后无敌的时间
     }  
-    IEnumerator CheckAttackAnimation()//普通攻击协程
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            animator.Play("player attack");
-            yield return null;
-        }
-    }
+
     private void playerattack()//角色普攻
     {
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0)&&!isattack)
         {
+            isattack = true;
+            combostep++;
+            timer = interval;
+            if(combostep>3)
+            {
+                combostep = 1;
+            }
             animator.SetTrigger("isattack");
+            animator.SetInteger("combostep", combostep);
             attackSound.Play();
         }
+        if(timer!=0)
+        {
+            timer -= Time.deltaTime;
+            if(timer<=0)//连击断了
+            {
+                combostep = 0;
+                timer = 0;
+            }
+        }
+    }
+    public void AttackOver()
+    {
+        isattack = false;
     }
   private void playerjumping()//角色跳跃
     {
@@ -90,28 +106,29 @@ public class player : MonoBehaviour
     }
    private void playerMove(float direction)//角色移动
     {
-        //rb.AddForce(new Vector2(direction * speed, rb.velocity.y));
-        rb.velocity = new Vector2(direction * speed, rb.velocity.y);
-        if (onground == true && direction != 0) //移动动画
-        {
+        
+ //rb.AddForce(new Vector2(direction * speed, rb.velocity.y));
+          rb.velocity = new Vector2(direction * speed, rb.velocity.y);
+          if (onground == true && direction != 0) //移动动画
+          {
 
             animator.SetBool("isrunning", true);
-        }
-        else if (onground == false || direction == 0)
-        {
+          }
+          else if (onground == false || direction == 0)
+          {
             animator.SetBool("isrunning", false);
-        }
-        //移动左右方向转换
-        if (direction > 0)
-        {
-            //spriteRenderer.flipX = false;
+          }
+          //移动左右方向转换
+          if (direction > 0)
+          {
             transform.localScale = playerScale;
-        }
-        else if (direction < 0)
-        {
-            Vector3 playerScale1 = new Vector3(-playerScale.x, playerScale.y, playerScale.z);
-            transform.localScale = playerScale1;
-        }
+          }
+          else if (direction < 0)
+          {
+              Vector3 playerScale1 = new Vector3(-playerScale.x, playerScale.y, playerScale.z);
+              transform.localScale = playerScale1;
+          }
+        
     }
  private void dash(float direction)//冲刺实现
 {
@@ -147,6 +164,12 @@ public class player : MonoBehaviour
 }
     private void OnTriggerEnter2D(Collider2D other)  //碰撞检测
     {
+        if (other.gameObject.CompareTag("platform"))
+        {
+            onground = true;
+            jumpingNum = 2;
+            //airDash = 1;
+        }
         if(canInjuryTime<=0)
         {
           if (other.gameObject.CompareTag("Trunk Bullet"))//树怪子弹
@@ -167,12 +190,7 @@ public class player : MonoBehaviour
         }
     private void OnCollisionStay2D(Collision2D collision)  //持续碰撞检测
     {
-        if (collision.gameObject.CompareTag("platform"))
-        {
-            onground = true;
-            jumpingNum = 2;
-            //airDash = 1;
-        }
+        
         if (canInjuryTime <= 0)
         {
             if (collision.gameObject.CompareTag("Turtle"))
