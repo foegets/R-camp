@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Scences
+  m_EditorClassIdentifier: 
+  m_GroupName: Scences
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 88ce80878a8aa43498b345aa8725f6a1
+  m_SerializeEntries:
+  - m_GUID: b24aeeaf5db416c49b65e87f9ccaaec4
+    m_Address: test
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 733792da69160304a9709ddccab3ec52
+    m_Address: PriorScence
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a52615c8fe80cb34ea0915d8bf2da681
+    m_Address: waitscence
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c9332dec9a576f244b81205896e087e5
+    m_Address: enemytest
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 55f7e292808d2194ba035f8ec5b09c23, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 11e0daf48dc8f7243af95b539802e5be, type: 2}
+    - {fileID: 11400000, guid: 6f89a94b7e68a2c4da12249820de2813, type: 2}

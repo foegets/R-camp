@@ -9,11 +9,9 @@ public class SummonCoins : MonoBehaviour
     public GameObject Block;
 
     public void OnTriggerEnter2D(Collider2D Player){
-        for(int i = 0;i<=2;i++){
-        Instantiate(Coin, new Vector3(7.97f + i, 7f, 0), Quaternion.identity);
-        }
+        Instantiate(Coin, new Vector3(transform.position.x + 2, transform.position.y, 0), Quaternion.identity);
         for(int i =0;i<=3;i++){
-        Instantiate(Block, new Vector3(6.97f + i, 6.04f, 0), Quaternion.identity);
+        Instantiate(Block, new Vector3(transform.position.x + i + 1, transform.position.y - 1, 0), Quaternion.identity);
         }
         Destroy(gameObject,0.01f);
     }

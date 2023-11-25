@@ -5,8 +5,18 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 0
+    path: Assets/Scenes/test.unity
+    guid: b24aeeaf5db416c49b65e87f9ccaaec4
+  - enabled: 0
+    path: Assets/Scenes/enemytest.unity
+    guid: c9332dec9a576f244b81205896e087e5
+  - enabled: 0
+    path: Assets/Scenes/waitscence.unity
+    guid: a52615c8fe80cb34ea0915d8bf2da681
   m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: b875c02ea6b8668478952a08633d6618, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: cafc04e90d87dc54b8daa48588d67a9c, type: 2}

@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class CoinsCounter : MonoBehaviour
 {
     public int startCoin;
-    public int coinQuantity;
-    public Text t;
+    public static int currentCoinQuantity;
+    public Text coinQuanity;
     void Start(){
-        coinQuantity = startCoin;
+        currentCoinQuantity = startCoin;
     }
-    void update(){
-        t.text = coinQuantity.ToString();
+    void Update(){
+        coinQuanity.text = currentCoinQuantity.ToString();
     }
 }

@@ -9,8 +9,8 @@ public class SummonBombTrap : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D Player){
         for(int i = 0;i<=2;i++){
-        Instantiate(Trap1, new Vector3(-3.653f + i, -2.484f, 0), Quaternion.identity);
+        Instantiate(Trap1, new Vector3(transform.position.x + i + 2, transform.position.y, 0), Quaternion.identity);
         }
-        Destroy(gameObject,0.01f);
+        Destroy(gameObject,0.005f);
     }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5847883204614453237}
   - component: {fileID: 444660652786449416}
   - component: {fileID: -7545094991003124190}
-  - component: {fileID: 477875637961886848}
+  - component: {fileID: 115669594489123532}
   m_Layer: 0
   m_Name: Coin
   m_TagString: Untagged
@@ -121,7 +121,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.6, y: 1.2}
   m_Direction: 0
---- !u!114 &477875637961886848
+--- !u!114 &115669594489123532
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,5 +133,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9253b1c023ff9b2459f7e4cef8c689ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cc: {fileID: 0}
   coins: 0

@@ -11,7 +11,7 @@ public class BombTrap : MonoBehaviour
         cd = GetComponent<Collider2D>();
     }
     public void OnTriggerEnter2D(Collider2D Player){
-        shootOffTrigger = true;
-        Destroy(gameObject,0.01f);
+        TrapTrigger.shootOffTrigger = true;
+        Destroy(gameObject);
     }
 }
