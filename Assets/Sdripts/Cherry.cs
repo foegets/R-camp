@@ -33,8 +33,6 @@ public class Cherry : MonoBehaviour
                 Destroy(gameObject);
                 LevelManeger.gensCollected++;
                 LevelManeger.gensCollected++;
-                UIController.gensCollected++;
-                UIController.gensCollected++;
             }
 
         }

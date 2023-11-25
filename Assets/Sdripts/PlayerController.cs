@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerContrl : MonoBehaviour
 {
+    private PauseMune PauseMune;
+    private Spikes Spikes;
+
     // Start is called before the first frame update
     public Rigidbody2D theRB;
     public float Movespeed;//速度
@@ -21,18 +24,24 @@ public class PlayerContrl : MonoBehaviour
     void Start()
     { 
         anim = GetComponent<Animator>();
-       // theRB = GetComponent<Rigidbody2D>();        //获取刚体
-       
+        PauseMune = PauseMune.instance;
+        Spikes = Spikes.instance;
+        // theRB = GetComponent<Rigidbody2D>();        //获取刚体
+
     }
 
     // Update is called once per frame
     void Update()
-    {
-        Horizontal = Input.GetAxisRaw("Horizontal");//获取玩家输入的值
-        Move();
-        Jump();
-
-       anim.SetBool("isGroud", isGroud);
+    { 
+        
+        if (!PauseMune.instance.isPaused&&!Spikes.instance.isDied)
+        {
+            Horizontal = Input.GetAxisRaw("Horizontal");//获取玩家输入的值
+            Move();
+            Jump();
+        }
+        anim.SetBool("isDie", Spikes.instance.isDied);
+        anim.SetBool("isGroud", isGroud);
        anim.SetFloat("moveSpeed",Mathf.Abs(theRB.velocity.x));
         anim.SetFloat("jumpSpeed", theRB.velocity.y);
     }
@@ -40,7 +49,15 @@ public class PlayerContrl : MonoBehaviour
     
     public void Move()
     {
-        theRB.velocity = new Vector2(Horizontal * Movespeed, theRB.velocity.y);
+        if (!Spikes.instance.isDied)
+        {
+            theRB.velocity = new Vector2(Horizontal * Movespeed, theRB.velocity.y);
+        }
+        else
+        {
+            theRB.velocity = new Vector2(0, 0);
+        }
+        
         if ((Facingright && Horizontal < 0) || (!Facingright && Horizontal > 0))    //转向
         {
             Facingright = !Facingright;

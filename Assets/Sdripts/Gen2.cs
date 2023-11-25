@@ -31,7 +31,6 @@ public class Gen2 : MonoBehaviour
             {
                 Destroy(gameObject);
                 LevelManeger.gensCollected++;
-                UIController.gensCollected++;
 
                 GameObject cherry_0 = Instantiate(prefaCherry);
                 cherry_0.transform.position = new Vector2(this.gameObject.transform.localPosition.x, this.gameObject.transform.localPosition.y+3);

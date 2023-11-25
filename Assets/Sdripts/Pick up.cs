@@ -33,7 +33,6 @@ public class Pickup : MonoBehaviour
                 
                 Destroy(gameObject);
                 LevelManeger.gensCollected++;
-                UIController.gensCollected++;
             }
         }
     }
