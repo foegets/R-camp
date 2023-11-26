@@ -6,12 +6,11 @@ public class GoldCoinSettings : MonoBehaviour
 {
     private Transform trans;
     private float goldScale;
-    public bool isEngage;
+    public float coinSize;
     private void Awake()
     {
         trans=GetComponent<Transform>();
-        goldScale = 1;
-        isEngage = false;
+        goldScale = coinSize;
     }
 
     void Update()
@@ -23,7 +22,6 @@ public class GoldCoinSettings : MonoBehaviour
     {
         if(collision.name == "player")
         {
-            this.isEngage = true;
             this.gameObject.SetActive(false);
         }
 
@@ -31,15 +29,15 @@ public class GoldCoinSettings : MonoBehaviour
 
     public void Rotating()
     {
-        if(trans.localScale.x<=1 && trans.localScale.x>=-1) 
+        if(trans.localScale.x<= coinSize && trans.localScale.x>=-coinSize) 
         {
-            goldScale -= 0.035F;
+            goldScale -= 0.035F* coinSize;
         }
         else
         {
-            goldScale = 1;
+            goldScale = coinSize;
         }
-        trans.localScale = new Vector3 (goldScale, 1,1);
+        trans.localScale = new Vector3 (goldScale, coinSize, 1);
     }
 
    

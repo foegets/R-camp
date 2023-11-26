@@ -10,6 +10,8 @@ public class PhysicsCheck : MonoBehaviour
     public LayerMask groundLayer;
     public bool isMovable;
     public bool isJumpable;
+  
+    public LayerMask platLayer;
 
     private void Update()
     {
@@ -19,6 +21,7 @@ public class PhysicsCheck : MonoBehaviour
     public void Check()
     {
         isGround = Physics2D.OverlapCircle(transform.position, checkRaduis, groundLayer);
+        
     }
 
     public void UnJumpable()
@@ -31,8 +34,15 @@ public class PhysicsCheck : MonoBehaviour
         isMovable = false;  
     }
 
+    public void Moveable()
+    {
+        isMovable = true;
+    }
+
     public void Jumpable()
     {
         isJumpable = true;
     }
+
+
 }

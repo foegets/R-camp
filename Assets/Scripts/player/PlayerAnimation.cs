@@ -28,7 +28,7 @@ public class PlayerAnimation : MonoBehaviour
         anim.SetFloat("velocityY", rb.velocity.y);
         anim.SetBool("IsGround", physicsCheck.isGround);
         anim.SetFloat("velocityX", Math.Abs(rb.velocity.x));
-       // anim.SetBool("IsAttack", playerController.isAttack);
+        
         
     }
 

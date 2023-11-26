@@ -11,10 +11,10 @@ public class PlayerController : MonoBehaviour
     private Vector2 inputDirection;
     private PhysicsCheck physicsCheck;
     private PlayerAnimation playeranim;
+    private SpriteRenderer spriteRenderer;
   
     public float speed;
     public float jumpForce=16;
-    public bool IsMoveable;
     public bool isAttack = true;
     public int combo;
     private void Awake()
@@ -25,7 +25,9 @@ public class PlayerController : MonoBehaviour
         physicsCheck = GetComponent<PhysicsCheck>();
         inputControl.Gameplay.Attack.started += Attack;
         playeranim = GetComponent<PlayerAnimation>();
+        spriteRenderer = GetComponent<SpriteRenderer>();    
         combo = 0;
+        physicsCheck.isMovable = true;  
     }
 
    
@@ -53,21 +55,24 @@ public class PlayerController : MonoBehaviour
 
     public void Move()
     {
-        rb.velocity = new Vector2(inputDirection.x * speed , rb.velocity.y);
-        float faceDir = transform.localScale.x;
+        if (physicsCheck.isMovable)
+        {
+            rb.velocity = new Vector2(inputDirection.x * speed, rb.velocity.y);
+        }
         
-        if(inputDirection.x > 0)
-            faceDir = 1;
-        else if(inputDirection.x < 0)
-            faceDir = -1;
+        float faceDir = transform.localScale.x;
+
+        if (inputDirection.x > 0)
+            spriteRenderer.flipX = false;
+        else if (inputDirection.x < 0)
+            spriteRenderer.flipX= true;
         transform.localScale = new Vector3(faceDir,1,1);
     }
     private void Jump(InputAction.CallbackContext context)
     {
-        if (physicsCheck.isGround && physicsCheck.isJumpable == true)
+        if (physicsCheck.isGround  && physicsCheck.isJumpable == true)
         {
             rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
-            //Debug.Log("jump!");
         }
     }
 
@@ -81,6 +86,8 @@ public class PlayerController : MonoBehaviour
             combo = 0;
         }
     }
+
+    
 
 
 }    
