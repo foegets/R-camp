@@ -15,6 +15,8 @@ public class Attack : MonoBehaviour
         if (collision.tag == "Arrow")
         {
             health--;
+            Destroy(collision.gameObject);
+        
         }
         if(health == 0)
         {
