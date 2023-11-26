@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Coins
+  - Water
+  - Interactable
+  - Bounds
   layers:
   - Default
   - TransparentFX
@@ -13,7 +16,7 @@ TagManager:
   - Water
   - UI
   - Player
-  - 
+  - Enermy
   - 
   - 
   - 
@@ -42,11 +45,17 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BackGround
+    uniqueID: 987641813
+    locked: 0
   - name: Back
     uniqueID: 4277864863
     locked: 0
   - name: Middle
     uniqueID: 413904073
+    locked: 0
+  - name: Water
+    uniqueID: 504017585
     locked: 0
   - name: Front
     uniqueID: 4155613835
