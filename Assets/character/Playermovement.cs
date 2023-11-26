@@ -18,6 +18,10 @@ public class Playermovement : MonoBehaviour
     public LayerMask whatIsGround;
     int n;
     public float force = 15.0f;
+    //¹¥»÷
+    public float damage;
+    //ÑªÁ¿
+    public float health;
     //ÒôÐ§
     AudioSource Au;
     public AudioClip Jumpping;
@@ -44,9 +48,13 @@ public class Playermovement : MonoBehaviour
             GroundMovement();
             Direction();
             Atack(); 
-            Jump();
+            Jump(); 
         }
-       
+        if (health <= 0)
+        {
+            Gameover();
+        }
+
         SwitchAnimation();
     }
    
@@ -89,15 +97,10 @@ public class Playermovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.J))
         {
-            An.SetBool("Atack", true);
+            An.SetTrigger("Atack");
             Au.clip = Fight;
             Au.Play();
         }
-    }
-
-    void AtackExit()
-    {
-        An.SetBool("Atack", false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -112,16 +115,28 @@ public class Playermovement : MonoBehaviour
         }
         else if (collision.gameObject.tag=="Trap")
         {
-            isLive = false;
-            Au.clip = Die;
-            Au.Play();
-            Trail.SetActive(false);
-            An.SetBool("Die", true);
+            Gameover();
         }
+        else if (collision.gameObject.tag == "Enermy")
+        {
+            collision.GetComponent<Green>().TakeDamage(damage);
+        }
+    }
 
+    void Gameover()
+    {
+        if (isLive)
+        {
+           Au.clip = Die;
+           Au.Play();
+           Trail.SetActive(false);
+           An.SetBool("Die", true);
+           isLive = false;
+        }
+       
     }
     public void Restart()
-    {
+    {        
         SceneManager.LoadScene("Play");
     }
 
@@ -141,8 +156,17 @@ public class Playermovement : MonoBehaviour
             An.SetBool("Ide", true);
             An.SetBool("Fall", false);
         }
+        else if(rb.velocity.y < 0.0f)
+        {
+            An.SetBool("Fall", true);
+        }
+    }
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
     }
 
-    
-    
+
+
+
 }
