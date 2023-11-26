@@ -57,6 +57,14 @@ public class Mob_Type1_StatusMonitor : PatrolTypeEnemy
         {
             animator.SetBool("isreturning", false);
         }
+        if (isattacking)
+        {
+            animator.SetBool("isattacking", true);
+        }
+        else
+        {
+            animator.SetBool("isattacking", true);
+        }
         #endregion
 
         #region 检测相关
@@ -94,8 +102,7 @@ public class Mob_Type1_StatusMonitor : PatrolTypeEnemy
         // 受到攻击后的应激状态
         if (!isonbattle && isgethit && !isdead)
         {
-            isonbattle = true;
-            isdefending = true;
+            UnderAttack();
         }
         #endregion
 

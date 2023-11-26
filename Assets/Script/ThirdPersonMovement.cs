@@ -28,8 +28,6 @@ public class ThirdPersonMovement : MonoBehaviour
     public float jumpTimeFlag = 0;
     // 重力力度
     public float gravity = -10.0f;
-    // 判断是否暂停
-    public bool isPause;
 
     void Start()
     {
@@ -37,29 +35,12 @@ public class ThirdPersonMovement : MonoBehaviour
         playercontroller = GetComponent<CharacterController>();
         // 锁定并隐藏光标
         Cursor.lockState = CursorLockMode.Locked;
-        isPause = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Escape))
-        {
-            if (!isPause)
-            {
-                // 按下ESC后给鼠标解锁
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-                Time.timeScale = 0.001f;
-
-            }
-            else
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-                Time.timeScale = 1f;
-            }
-        }
+        
         if (Input.GetKeyDown(KeyCode.Space) && !isjumping)
         {
             isjumping = true;

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Character_BasicStatus : MonoBehaviour
 {
     [Header("血条相关")]
-    // 获得血条
+    // 获得血条UI
     public UnityEngine.UI.Slider HP_Bar;
     // 设置最大血量
     public float HP = 100;
@@ -37,18 +37,8 @@ public class Character_BasicStatus : MonoBehaviour
     [Header("对象状态")]
     // 判断是否死亡
     public bool isdead;
-    void Start()
-    {
-        CharacterBaseInitialize();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // 检测死亡
-        DeathDetect();
-    }
-
+ 
+    // 初始化
     protected void CharacterBaseInitialize()
     {
         isdead = false;
@@ -66,7 +56,7 @@ public class Character_BasicStatus : MonoBehaviour
         MarkTimer = 0f;
         ElapedTime = 0f;
     }
-
+    // 死亡检测
     protected void DeathDetect()
     {
         if (HP_Bar.value == HP_Bar.minValue)

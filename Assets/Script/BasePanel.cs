@@ -2,20 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasePanelSwitch : MonoBehaviour
+public class BasePanel : MonoBehaviour
 {
-    // 判断界面是否是激活状态
-    public bool isActive = false;
-    // 目标界面
+    // 判断界面是否已打开
+    public bool isRemove = false;
+    // 界面名称
+    protected new string name;
     
-    
-    public void OpenPanel()
+    public virtual void OpenPanel(string name)
     {
-        
+        this.name = name;
+        gameObject.SetActive(true);
     }
-    public void ClosePanel()
+    public virtual void ClosePanel()
     {
-        
+        isRemove = true;
+        gameObject.SetActive(false);
+        Destroy(gameObject);
+
+        if (UIManager.Instance.ExistPanelPathDic.ContainsKey(name))
+        {
+            UIManager.Instance.ExistPanelPathDic.Remove(name);
+        }
     }
 
 }

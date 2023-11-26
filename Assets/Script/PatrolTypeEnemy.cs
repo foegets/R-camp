@@ -14,6 +14,8 @@ public class PatrolTypeEnemy : Enemy_Base
     public float OutBatElaped = 1f;
     // 巡逻站立持续时间
     public float PatrolElaped = 2.5f;
+    // 防御持续时间
+    public float DefendLastTime = 3f;
 
     [Header("墙壁检测相关")]
     // 设置墙壁检测光线检测距离
@@ -91,22 +93,45 @@ public class PatrolTypeEnemy : Enemy_Base
     // 战斗模式
     protected void BattleMode()
     {
-        ElapedTime = Time.time - MarkTimer;
+        
         float Distance = Vector3.Distance(transform.position, player.position);
         // 记录当前旋转
         Quaternion currentRot = transform.rotation;
 
         // 防御姿态
-        if (isdefending)
+        if (isdefending && !isattacking)
         {
-            transform.LookAt(player.position);
-            AiGuide.SetDestination(player.forward);
+            ElapedTime = Time.time - MarkTimer;
+            if (ElapedTime >= DefendLastTime)
+            {
+                isdefending = false;
+                if (isfindplayer)
+                {
+                    transform.LookAt(player.position);
+                    StartCoroutine(AttackDelayTime());
+                }
+                else
+                {
+                    // 进入准备脱战状态
+                    SetBasicStatus(true, false, false);
+                }
+                ElapedTime = 0;
+            }
+            else
+            {
+                if (isfindplayer)
+                {
+                    transform.LookAt(player.position);
+                }
+            }
+            //AiGuide.SetDestination(player.forward);
         }
         else if (Distance <= 5f && !isattacking)
         {
             // 对玩家进行攻击
             transform.LookAt(player.position);
-            SetBasicStatus(false, false, true);
+            SetBasicStatus(false, false, false);
+            MarkTimer = Time.time;
         }
         else if (Distance > 5f && !isattacking)
         {
@@ -119,6 +144,7 @@ public class PatrolTypeEnemy : Enemy_Base
         // 攻击ing
         else if (isattacking)
         {
+            ElapedTime = Time.time - MarkTimer;
             if (ElapedTime >= AttackLastTime)
             {
                 // 攻击完检测一次前方是否还有敌人
@@ -128,10 +154,13 @@ public class PatrolTypeEnemy : Enemy_Base
                 if (isfindplayer)
                 {
                     isdefending = true;
+                    MarkTimer = Time.time;
+                    SetBasicStatus(false, true, false);
                 }
                 else
                 {
                     SetBasicStatus(true, false, false);
+                    ElapedTime = 0;
                 }
             }
         }
@@ -140,6 +169,18 @@ public class PatrolTypeEnemy : Enemy_Base
         if (!isfindplayer && ElapedTime >= AggroLastTime && !isattacking)
         {
             SetBasicStatus(true, false, false);
+            ElapedTime = 0;
+        }
+    }
+    // 受到攻击后的应激反应
+    protected void UnderAttack()
+    {
+        // 受到攻击后的应激状态
+        if (!isonbattle && isgethit && !isdead)
+        {
+            isonbattle = true;
+            isdefending = true;
+            MarkTimer = Time.time;
         }
     }
     // 战斗准备
@@ -174,7 +215,7 @@ public class PatrolTypeEnemy : Enemy_Base
         yield return PatrolElaped;
     }
     #endregion
-    #region 三大基本状态
+    #region 三个基本状态
     protected void SetBasicStatus(bool idleActive, bool moveActive, bool attackActive)
     {
         ismove = moveActive;
