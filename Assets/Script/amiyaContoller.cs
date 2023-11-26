@@ -23,8 +23,12 @@ public class amiyaContoller : MonoBehaviour
 
     [Header("数值参数")]
     public bool isDead;
-    public int blood;
+    public int blood { get { return blood; } }
     private int recordCount = 0;
+
+    [Header("设置参数(目前为作战记录)")]
+    public int gameTarget;
+
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
@@ -67,7 +71,7 @@ public class amiyaContoller : MonoBehaviour
          Filp();
          ani.SetBool("isRun", isRun&&isOnground);
     }
-
+    
     void Jump()
     {
         if(Input.GetButtonDown("Jump")&&isOnground)
@@ -107,4 +111,14 @@ public class amiyaContoller : MonoBehaviour
             Destroy(other.gameObject); 
         }
     }
+
+    public bool isCompleteTarget()
+    {
+        if (recordCount == gameTarget)
+        {
+            return true;
+        }
+        return false;
+    }
+
 }

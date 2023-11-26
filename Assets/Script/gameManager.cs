@@ -15,7 +15,6 @@ public class gameManager : MonoBehaviour
         instance = this;
     }
 
-    
     public void RestartGame()
     {
         

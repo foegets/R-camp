@@ -18,7 +18,6 @@ public class seaMonster : Enemy
 
     void Start()
     {
-        Debug.Log("1");
         base.Start();
         ani = GetComponent<Animator>();
         rig = GetComponent<Rigidbody2D>();
@@ -38,7 +37,6 @@ public class seaMonster : Enemy
         Filp();
         if(!isFind)
         {  
-            Debug.Log("pursuit");
             if (Vector2.Distance(transform.position, movePos.position) < 0.1f)
             {
                 if(waitTime<0.1f)
