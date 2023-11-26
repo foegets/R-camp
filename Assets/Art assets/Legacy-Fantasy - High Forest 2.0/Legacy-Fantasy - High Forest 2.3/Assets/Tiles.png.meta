@@ -7397,13 +7397,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_347
+      name: Tiles_box0
       rect:
         serializedVersion: 2
         x: 288
-        y: 112
-        width: 16
-        height: 16
+        y: 96
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -7413,69 +7413,6 @@ TextureImporter:
       bones: []
       spriteID: bbfd9a17919a3e345872729940d71726
       internalID: -1034696277
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tiles_348
-      rect:
-        serializedVersion: 2
-        x: 304
-        y: 112
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5e81b112e3fdc2e4080b723cbab95ed6
-      internalID: -2042528676
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tiles_349
-      rect:
-        serializedVersion: 2
-        x: 320
-        y: 112
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f11f16a1f9a36e641b80804d16c10e82
-      internalID: 1419310120
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tiles_350
-      rect:
-        serializedVersion: 2
-        x: 336
-        y: 112
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b907830a64f97d148aad46f7319988a8
-      internalID: -396375782
       vertices: []
       indices: 
       edges: []
@@ -7775,76 +7712,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_365
-      rect:
-        serializedVersion: 2
-        x: 288
-        y: 96
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 69fb4ffa1b3146c48a2313357c968992
-      internalID: -717068408
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tiles_366
-      rect:
-        serializedVersion: 2
-        x: 304
-        y: 96
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 60b8cd7c585ccb34899cb2227f8ad751
-      internalID: 1455312924
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tiles_367
+      name: Tiles_box1
       rect:
         serializedVersion: 2
         x: 320
         y: 96
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 60dee3fcf91f7a449ab03a995a7bc650
-      internalID: 1491689601
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tiles_368
-      rect:
-        serializedVersion: 2
-        x: 336
-        y: 96
-        width: 16
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -10123,7 +9997,6 @@ TextureImporter:
       Tiles_344: -819493949
       Tiles_345: 2040890172
       Tiles_346: -1225908902
-      Tiles_347: -1034696277
       Tiles_348: -2042528676
       Tiles_349: 1419310120
       Tiles_35: 1020786388
@@ -10143,7 +10016,6 @@ TextureImporter:
       Tiles_365: -717068408
       Tiles_366: 1455312924
       Tiles_367: 1491689601
-      Tiles_368: -688123906
       Tiles_369: 1766726477
       Tiles_37: 36270764
       Tiles_370: 355485485
@@ -10316,6 +10188,8 @@ TextureImporter:
       Tiles_b3: -91424809
       Tiles_b4: -1001249450
       Tiles_b5: -547556098
+      Tiles_box0: -1034696277
+      Tiles_box1: -688123906
       WaterFall1-1: -396461112
       WaterFall1-10: 1276145251
       WaterFall1-11: -415618426

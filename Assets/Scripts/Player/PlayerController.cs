@@ -129,7 +129,11 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("JUMP");
         //给刚体rb施加一个（瞬时的）力，方向向上
         if(physicscheck.isGround)
+        {
             rb.AddForce(transform.up * jumpForce,ForceMode2D.Impulse);
+            GetComponent<AudioDefination>()?.PlayAudioClip();
+        }
+            
     }
 
     //创建玩家attack的函数方法
