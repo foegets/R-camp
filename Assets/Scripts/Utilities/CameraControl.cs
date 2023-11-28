@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
+    [Header("事件监听")]
+    public VoidEventSO afterSceneLoadedEvent;
+
     //获取一下相机的这个组件
     private CinemachineConfiner2D confiner2D;
 
@@ -19,16 +22,19 @@ public class CameraControl : MonoBehaviour
         confiner2D = GetComponent<CinemachineConfiner2D>();
     }
 
-    //注册一个函数，在相机抖动的时候执行
+    //注册函数
     private void OnEnable()
     {
+        //我听到了！我要注册函数执行！
         cameraShakeEvent.OnEventRaised += OnCameraShakeEvent;
+        afterSceneLoadedEvent.OnEventRaised += OnAfterSceneLoadedEvent;
     }
 
     //用完记得注销嗷
     private void OnDisable()
     {
         cameraShakeEvent.OnEventRaised -= OnCameraShakeEvent;
+        afterSceneLoadedEvent.OnEventRaised -= OnAfterSceneLoadedEvent;
     }
 
     //
@@ -39,7 +45,7 @@ public class CameraControl : MonoBehaviour
 
     //场景切换后更改
 
-    private void Start()
+    private void OnAfterSceneLoadedEvent()
     {
         GetNewCameraBounds();
     }

@@ -33,6 +33,11 @@ public class Sign : MonoBehaviour
         playerInput.Gameplay.Confirm.started += OnConfirm;
     }
 
+    private void OnDisable()
+    {
+        //“人物被关闭的时候，你也就被关闭罢！”
+        canPress = false;
+    }
     private void Update()
     {
         //如果是可互动的物体，就激活这个项目

@@ -10,25 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Scenes
+  m_Name: Enemies
   m_EditorClassIdentifier: 
-  m_GroupName: Scenes
+  m_GroupName: Enemies
   m_Data:
     m_SerializedData: []
-  m_GUID: 4190df13f6dc4e04c8e6d49d9fefbbae
+  m_GUID: fe2603fc6da7e754a9639e0041a711fb
   m_SerializeEntries:
-  - m_GUID: cbbdf9e20af48f8438aab19f1e59b2e9
-    m_Address: forest
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 14c042f36588ca3489f0b392f43eff9d
-    m_Address: forest1
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1d16e5ca4773d0347949b5af467037de
-    m_Address: Persistent
+  - m_GUID: d78c1b73536b7544db160463fb1a684f
+    m_Address: Boar
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -36,5 +26,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: b8678bb0f03f2ea4cb77509d14fe0b26, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 133e548fc4e21574c869a205c4022261, type: 2}
-    - {fileID: 11400000, guid: 534ac2d2594387a45818d679d8a32909, type: 2}
+    - {fileID: 11400000, guid: 8c1ca08c5dcc48349b081e995cdd3e14, type: 2}
+    - {fileID: 11400000, guid: 98afde5ae38f33745831d3f35bace074, type: 2}
