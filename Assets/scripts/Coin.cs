@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Coin : MonoBehaviour
 {
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -15,4 +18,5 @@ public class Coin : MonoBehaviour
     {
         transform.Rotate(0, 1, 0);
     }
+   
 }
