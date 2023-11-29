@@ -6,6 +6,7 @@ public class FPSLimit : MonoBehaviour
 {
     private void Awake()
     {
-        Application.targetFrameRate = 120;//锁定最大帧率为165帧
+        Application.targetFrameRate = 60;//锁定最大帧率为60帧
+        //Application.targetFrameRate = 120;//锁定最大帧率为120帧
     }
 }

@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 6.3f;
     public float jumpHoldForce = 1.9f;
     public float jumpHoldDuration = 0.1f;
-    public float crouchJumpBoost = 2.5f;
+    public float crouchJumpBoost = 2.7f;
     public float hangingJumpForce = 15f;
 
     private float jumpTime;
