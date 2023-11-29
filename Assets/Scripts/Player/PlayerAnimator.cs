@@ -30,4 +30,20 @@ public class PlayerAnimator : MonoBehaviour
         playerAnimator.SetFloat("airSpeed", rb.velocity.y);
         playerAnimator.SetBool("isGround", physicsCheck.isGround);
     }
+    public void PlayerHurt()
+    {
+        playerAnimator.SetTrigger("Hurt");
+    }
+    public void PlayerDie()
+    {
+        playerAnimator.SetBool("Die", true);
+    }
+    public void PlayerAttack()
+    {
+        playerAnimator.SetBool("Attack", true);
+    }
+    public void OutAttack()
+    {
+        playerAnimator.SetBool("Attack", false);
+    }
 }

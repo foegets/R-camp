@@ -22,10 +22,12 @@ public class PlayerGet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag=="Coin")
-        Destroy(collision.gameObject);
-        source.Play();
-        coinCount++;
-        coin.text = "Coin:"+coinCount.ToString();//改变ui文本
+        {
+            Destroy(collision.gameObject);
+            source.Play();
+            coinCount++;
+            coin.text = "Coin:" + coinCount.ToString();//改变ui文本
+        }
         if(coinCount==5)
             coinIsAllPicked=true;//设置值判断通关
     }

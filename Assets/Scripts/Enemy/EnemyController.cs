@@ -11,6 +11,7 @@ public class EnemyController : MonoBehaviour
     public GameObject enemyPoint1;//左边点
     public GameObject enemyPoint2;//右边点
     private int direction = 2;//调整朝向
+    public float hurtBackDistance;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,12 +41,12 @@ public class EnemyController : MonoBehaviour
     {
         enemyRb.velocity = new Vector2(-direction*moveSpeed, 0);//给敌人一个移动速度
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void GetHurt(Transform attacker)//受到伤害直接修改位置达成弹开效果
     {
-        if (collision.collider.tag == "Player")//角色撞到敌人失败重来
-        {
-            Destroy(collision.gameObject);
-            SceneManager.LoadSceneAsync(2);
-        }
+        transform.position = new Vector2(attacker.position.x + (int)transform.localScale.x * hurtBackDistance, transform.position.y);
+    }
+    public void Die()
+    {
+        Destroy(gameObject);
     }
 }
