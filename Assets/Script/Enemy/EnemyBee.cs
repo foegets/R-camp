@@ -13,7 +13,7 @@ public class EnemyBee : Enemy
     public Transform leftDownPos;
     public Transform rightUpPos;
     // Start is called before the first frame update
-    public void Start()
+    public new void Start()
     {
         base.Start();
 
@@ -22,7 +22,7 @@ public class EnemyBee : Enemy
     }
 
     // Update is called once per frame
-    public void Update()
+    public new void Update()
     {
         base.Update();
 

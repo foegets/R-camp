@@ -1,50 +1,60 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyFrog : Enemy 
+public class EnemyFrog : Enemy
 {
     public float speed;
-    public float startWaitTime;
-    private float waitTime;
+    public float waitTime;
+    public Transform[] movePos;
 
-    public Transform movePos;
-    public Transform leftDownPos;
-    public Transform rightUpPos;
+    private int i = 0;
+    private bool movingRight = true;
+    private float wait;
     // Start is called before the first frame update
-    public void Start()
+    public new void Start()
     {
         base.Start();
-        
-        waitTime = startWaitTime;
-        movePos.position = GetRandomPos();
+        wait = waitTime;
     }
 
     // Update is called once per frame
-    public void Update()
+    public new void Update()
     {
         base.Update();
+        transform.position =
+            Vector2.MoveTowards(transform.position, movePos[i].position, speed * Time.deltaTime);
 
-        transform.position = Vector2.MoveTowards(transform.position, movePos.position, speed * Time.deltaTime);
-
-        if(Vector2.Distance(transform.position,movePos.position) < 0.1f)
+        if (Vector2.Distance(transform.position, movePos[i].position) < 0.1f)
         {
-            if(waitTime <= 0)
+            if (waitTime > 0)
             {
-                movePos.position = GetRandomPos();
-                waitTime = startWaitTime;
+                waitTime -= Time.deltaTime;
             }
             else
             {
-                waitTime = Time.deltaTime;
+                if (movingRight)
+                {
+                    transform.eulerAngles = new Vector3(0, -180, 0);
+                    movingRight = false;
+                }
+                else
+                {
+                    transform.eulerAngles = new Vector3(0, 0, 0);
+                    movingRight = true;
+                }
+
+                if (i == 0)
+                {
+                    i = 1;
+                }
+                else
+                {
+                    i = 0;
+                }
+
+                waitTime = wait;
             }
         }
-    }
-
-    Vector2  GetRandomPos()
-    {
-        Vector2 rndPos = new Vector2(Random.Range(leftDownPos.position.x, rightUpPos.position.x), Random.Range(leftDownPos.position.y, rightUpPos.position.y));
-        return rndPos;
     }
 }

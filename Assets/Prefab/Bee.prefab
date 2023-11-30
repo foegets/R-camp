@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4683456449739690445}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Bee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2020508190711760268}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LeftDownPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6037772161021464090}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RightDownPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 8472308017747900080}
   - component: {fileID: 6879486298351907926}
   - component: {fileID: 3634371902230817334}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: enemyBee
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -264,7 +264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 4
   damage: 2
-  dropGem: {fileID: 0}
+  dropGem: {fileID: 3393755892397444231, guid: a888ac4f9e93fea499fe7b5ed00021f4, type: 3}
   flashtime: 0.2
   speed: 3
   startWaitTime: 0
@@ -280,7 +280,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4453361321844258899}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MovePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}

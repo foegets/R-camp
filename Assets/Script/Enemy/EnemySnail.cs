@@ -12,14 +12,14 @@ public class EnemySnail : Enemy
     private bool movingRight = true;
     private float wait;
     // Start is called before the first frame update
-    public void Start()
+    public new void Start()
     {
         base.Start();
         wait = waitTime;
     }
 
     // Update is called once per frame
-    public void Update()
+    public new void Update()
     {
         base.Update();
         transform.position =
