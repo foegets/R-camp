@@ -7,6 +7,12 @@ using UnityEngine.InputSystem;
 //新建子类【玩家操控器】
 public class PlayerController : MonoBehaviour
 {
+    [Header("监听事件")]
+    //场景加载中——loading——
+    public SceneLoadEventSO loadEvent;
+    //场景加载完力——
+    public VoidEventSO afterSceneLoadedEvent;
+
     //创建使用输入控制类型的变量（未有需要实例化）
     public PlayerInputControl inputControl;
 
@@ -83,11 +89,18 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         inputControl.Enable();
+        //注册函数方法，场景要加载啦，我要干啥
+        loadEvent.LoadRequestEvent += OnLoadEvent;
+        //场景加载完啦，我要干啥
+        afterSceneLoadedEvent.OnEventRaised += OnAfterSceneLoadedEvent;
     }
 
     //关闭
     private void OnDisable(){
         inputControl.Disable();
+        //执行完函数记得注销嗷
+        loadEvent.LoadRequestEvent -= OnLoadEvent;
+        afterSceneLoadedEvent.OnEventRaised -= OnAfterSceneLoadedEvent;
     }
 
     //根据实际情况更新
@@ -105,7 +118,17 @@ public class PlayerController : MonoBehaviour
             Move();
     }
 
-    
+    //场景加载的时候可不能动嗷
+    private void OnLoadEvent(GameSceneSO arg0, Vector3 arg1, bool arg2)
+    {
+        inputControl.Gameplay.Disable();
+    }
+
+    //场景加载完啦，可以自由移动！
+    private void OnAfterSceneLoadedEvent()
+    {
+        inputControl.Gameplay.Enable();
+    }
 
     //创建move函数方法
     public void Move(){

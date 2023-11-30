@@ -5,11 +5,19 @@ using UnityEngine.Events;
 
 public class Character : MonoBehaviour
 {
+    [Header("事件监听")]
+    //新的冒险，启动！
+    public VoidEventSO newGameEvent;
+
     [Header("基本属性")]
     //最大血量
     public float maxHealth;
     //目前血量
     public float currentHealth;
+    //最大能量
+    public float maxPower;
+    //目前能量
+    public float currentPower;
 
     [Header("受伤无敌")]
     //无敌时间
@@ -27,11 +35,20 @@ public class Character : MonoBehaviour
     //创建一个死亡事件
     public UnityEvent OnDie;
 
-    private void Start()
+    private void NewGame()
     {
         //使得每次游戏开始时都有：满血状态
         currentHealth = maxHealth;
+        currentPower = maxPower;
         OnHealthChange?.Invoke(this);
+    }
+
+    private void OnEnable(){
+        newGameEvent.OnEventRaised += NewGame;
+    }
+
+    private void OnDisable(){
+        newGameEvent.OnEventRaised -= NewGame;
     }
 
     private void Update()

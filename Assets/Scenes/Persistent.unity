@@ -386,12 +386,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTrans: {fileID: 1662823860}
-  firstPosition: {x: 15.4, y: 12.6, z: 0}
+  firstPosition: {x: 15.47, y: 12.48, z: 0}
+  menuPosition: {x: -9.8, y: -6.91, z: 0}
   loadEventSO: {fileID: 11400000, guid: 360623c44afc72445b065f58b7c72a63, type: 2}
-  firstLoadScene: {fileID: 11400000, guid: e90d9d0932b21484aa0fb80a09822fe6, type: 2}
+  newGameEvent: {fileID: 11400000, guid: 84f38e8d212db7947b57d1a23749eea2, type: 2}
   afterSceneLoadedEvent: {fileID: 11400000, guid: 671a7f3e53436c740b7900b77a282d48, type: 2}
+  fadeEvent: {fileID: 11400000, guid: c6918f6235d439045bc0a01ea6fbf6aa, type: 2}
+  unloadedSceneEvent: {fileID: 11400000, guid: 251d4a59443d51548b8a827a5a74b954, type: 2}
+  firstLoadScene: {fileID: 11400000, guid: e90d9d0932b21484aa0fb80a09822fe6, type: 2}
+  menuScene: {fileID: 11400000, guid: 8c2a995b24eea2d45814ed2151ce0d9d, type: 2}
   currentLoadedScene: {fileID: 0}
-  fadeDuration: 0
+  fadeDuration: 1
 --- !u!1 &400746575
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,7 +522,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &431238425
 RectTransform:
   m_ObjectHideFlags: 0
@@ -813,13 +818,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 621701912}
+  - component: {fileID: 621701913}
   m_Layer: 5
   m_Name: Gold coins bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &621701912
 RectTransform:
   m_ObjectHideFlags: 0
@@ -842,6 +848,20 @@ RectTransform:
   m_AnchoredPosition: {x: -152.69995, y: -41.19995}
   m_SizeDelta: {x: 91.08215, y: 102.256714}
   m_Pivot: {x: 1, y: 1}
+--- !u!114 &621701913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 621701911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d878d0419884dd44897ed75a12e7c40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CoinCount: 0
+  scoreText: {fileID: 1941024933}
 --- !u!1 &716992524
 GameObject:
   m_ObjectHideFlags: 0
@@ -1497,7 +1517,7 @@ Transform:
   m_GameObject: {fileID: 911329901}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.400001, y: 13.68, z: -10}
+  m_LocalPosition: {x: 15.470001, y: 13.559999, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1657,7 +1677,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStatBar: {fileID: 431238426}
+  goldCoinsBar: {fileID: 621701913}
   healthEvent: {fileID: 11400000, guid: 8b1c05c7373d56e41abe7303ee15eaf2, type: 2}
+  loadEvent: {fileID: 11400000, guid: 251d4a59443d51548b8a827a5a74b954, type: 2}
+  pickCoinEvent: {fileID: 11400000, guid: 85e615070bf453c43aa6bd4e3adcf6bb, type: 2}
 --- !u!1 &1089558119
 GameObject:
   m_ObjectHideFlags: 0
@@ -1727,7 +1750,7 @@ Transform:
   m_GameObject: {fileID: 1089558119}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.400001, y: 13.68, z: -10}
+  m_LocalPosition: {x: 15.470001, y: 13.559999, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1954,7 +1977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2068,6 +2091,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30a64b549e70e14c8cdf78afd4bd1fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeEvent: {fileID: 11400000, guid: c6918f6235d439045bc0a01ea6fbf6aa, type: 2}
   fadeImage: {fileID: 1153111721}
 --- !u!114 &1260053759
 MonoBehaviour:
@@ -2403,8 +2427,8 @@ Transform:
   m_GameObject: {fileID: 1662823858}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.4, y: 12.6, z: 0}
-  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_LocalPosition: {x: 15.47, y: 12.48, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 345442313}
@@ -2485,6 +2509,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0734c0766c239e648a4f7ed840a6a961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadEvent: {fileID: 11400000, guid: 360623c44afc72445b065f58b7c72a63, type: 2}
+  afterSceneLoadedEvent: {fileID: 11400000, guid: 671a7f3e53436c740b7900b77a282d48, type: 2}
   inputDirection: {x: 0, y: 0}
   collection: {fileID: 0}
   speed: 290
@@ -2564,8 +2590,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 115facd24b0828a478fc98d4e9091cd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  newGameEvent: {fileID: 11400000, guid: 84f38e8d212db7947b57d1a23749eea2, type: 2}
   maxHealth: 100
   currentHealth: 0
+  maxPower: 50
+  currentPower: 0
   invulnerableDuration: 2
   invulnerable: 0
   OnHealthChange:
@@ -3085,7 +3114,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 000
+  m_Text: 0
 --- !u!222 &1941024935
 CanvasRenderer:
   m_ObjectHideFlags: 0

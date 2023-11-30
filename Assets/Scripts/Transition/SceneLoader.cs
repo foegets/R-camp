@@ -11,15 +11,31 @@ public class SceneLoader : MonoBehaviour
 {
     //传入玩家坐标
     public Transform playerTrans;
+    //玩家第一个要去的坐标
     public Vector3 firstPosition;
-    [Header("事件监听")]
-    public SceneLoadEventSO loadEventSO;
+    //玩家在菜单栏的时候应该在的坐标
+    public Vector3 menuPosition;
 
-    //获取第一个要加载的场景
-    public GameSceneSO firstLoadScene;
+    [Header("事件监听")]
+    //要加载场景力
+    public SceneLoadEventSO loadEventSO;
+    //哦呦，新的冒险要开始了吗！
+    public VoidEventSO newGameEvent;
+
 
     [Header("广播")]
+    //我加载完场景啦！
     public VoidEventSO afterSceneLoadedEvent;
+    //我要渐入渐出啦！
+    public FadeEventSO fadeEvent;
+    //卸载完上一个场景力！
+    public SceneLoadEventSO unloadedSceneEvent;
+
+    [Header("场景")]
+    //获取第一个要加载的场景
+    public GameSceneSO firstLoadScene;
+    //获取主菜单场景捏
+    public GameSceneSO menuScene;
 
     //获取当前加载的场景(ser序列化，使得该变量能在unity窗口显示)
     [SerializeField]private GameSceneSO currentLoadedScene;
@@ -34,35 +50,42 @@ public class SceneLoader : MonoBehaviour
     //渐入渐出，加载时间
     public float fadeDuration;
 
+    //太早了，其他代码还没生成（？？？(awake在onenable之前就执行了）
     public void Awake()
     {
         //Addressables.LoadSceneAsync(firstLoadScene.sceneReference, LoadSceneMode.Additive);
         //currentLoadedScene = firstLoadScene;
         //currentLoadedScene.sceneReference.LoadSceneAsync(LoadSceneMode.Additive);
+
     }
 
     //勇士传说，启动！
     private void Start()
     {
-        NewGame();
+        loadEventSO.RaiseLoadRequestEvent(menuScene, menuPosition, true);
+        //NewGame();
     }
 
     //注册事件
     private void OnEnable()
     {
         loadEventSO.LoadRequestEvent += OnLoadRequestEvent;
+        newGameEvent.OnEventRaised += NewGame;
     }
 
     //注销事件
     private void OnDisable()
     {
         loadEventSO.LoadRequestEvent -= OnLoadRequestEvent;
+        newGameEvent.OnEventRaised -= NewGame;
     }
 
     private void NewGame()
     {
         sceneToLoad = firstLoadScene;
-        OnLoadRequestEvent(sceneToLoad, firstPosition, true);
+        //OnLoadRequestEvent(sceneToLoad, firstPosition, true);
+        //自己呼叫自己喵？？？？
+        loadEventSO.RaiseLoadRequestEvent(sceneToLoad, firstPosition, true);
     }
 
     //事件
@@ -96,12 +119,16 @@ public class SceneLoader : MonoBehaviour
     //创建一个携程方法(涉及计算，等待一定事件再进行（？)
     private IEnumerator UnLoadPreviousScene()
     {
+        //变黑！
         if(fadeScreen){
-            //TODO:实现渐入渐出
+            fadeEvent.FadeIn(fadeDuration);
         }
 
         //等到场景变黑(一段时间)之后才执行下一步（即卸载场景
         yield return new WaitForSeconds(fadeDuration);
+
+        //广播事件调整血条显示
+        unloadedSceneEvent.RaiseLoadRequestEvent(sceneToLoad,positionToGo,true);
 
         //等待卸载完毕之后才执行下一步
         yield return currentLoadedScene.sceneReference.UnLoadScene();
@@ -130,14 +157,17 @@ public class SceneLoader : MonoBehaviour
         //登登！玩家闪亮登场！
         playerTrans.gameObject.SetActive(true);
 
+        //变透明！
         if(fadeScreen){
-            //TODO：
+            fadeEvent.FadeOut(fadeDuration);
         }
+
         //切换状态为加载完毕！
         isLoading = false;
 
-        //广播一下！！告诉他们，我的场景加载完啦！！
-        afterSceneLoadedEvent.RaiseEvent();
+        //（如果当前不是菜单界面滴话）广播一下！！告诉他们，我的场景加载完啦！！可以移动啦！
+        if(currentLoadedScene.sceneType != SceneType.Menu)
+            afterSceneLoadedEvent.RaiseEvent();
     }
 
 
