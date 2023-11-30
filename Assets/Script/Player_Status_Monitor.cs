@@ -1,27 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
 public class Player_Status_Monitor : MonoBehaviour
 {
+    // 设置初始血量
+    public float HP = 100;  
+
+    // 获取对象
     public Slider Player_HP;
     public Slider Player_Engry;
     public VideoPlayer videoplayer;
-    public GameObject deadimage;
-    public Transform OriPos;
+    //public GameObject PausePanel;
+    // 标记初始位置
+    Transform OriPos;
+    // 判断是否打开PausePanel界面
+    bool isOpen;
     // Start is called before the first frame update
     void Start()
     {
         OriPos = transform;
-        Player_HP.value = 100;
+        Player_HP.maxValue = HP;
+        Player_HP.value = HP;
+        Player_Engry.value = 0;
+        Time.timeScale = 1f;
         videoplayer.Prepare();
+        isOpen = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        Player_HP.value = HP;
         if (transform.position.y < -10)
         {
             transform.position = OriPos.position;
@@ -33,10 +46,21 @@ public class Player_Status_Monitor : MonoBehaviour
             videoplayer.Play();
             Player_Engry.value = 0;
         }
-        if (Player_HP.value == 0)
+        if (HP <= 0)
         {
-            deadimage.SetActive(true);
+            UIManager.Instance.OpenPanel(UIConst.DeathPanel);
             gameObject.SetActive(false);
+        }
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            if (!isOpen)
+            {
+                Time.timeScale = 0f;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                UIManager.Instance.OpenPanel(UIConst.PausePanel);
+            }
+            isOpen = !isOpen;
         }
     }
 }

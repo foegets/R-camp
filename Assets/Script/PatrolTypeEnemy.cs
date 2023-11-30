@@ -16,6 +16,8 @@ public class PatrolTypeEnemy : Enemy_Base
     public float PatrolElaped = 2.5f;
     // 防御持续时间
     public float DefendLastTime = 3f;
+    // 战斗准备时间
+    public float BatPrepareTime = 1f;
 
     [Header("墙壁检测相关")]
     // 设置墙壁检测光线检测距离
@@ -44,9 +46,15 @@ public class PatrolTypeEnemy : Enemy_Base
     public bool isfindplayer;
     // 是否在防御状态
     public bool isdefending;
+    // 是否是脱战状态
+    public bool isoutbattle;
 
     // 获得AI相关组件
-    NavMeshAgent AiGuide; 
+    NavMeshAgent AiGuide;
+
+    // 协程相关
+    // 巡逻相关协程
+    protected Coroutine PatrolCoroutine;
 
     void Start()
     {
@@ -54,10 +62,6 @@ public class PatrolTypeEnemy : Enemy_Base
     }
 
     
-    void Update()
-    {
-
-    }
     // 初始化
     protected void PatrolBaseInitialize()
     {
@@ -65,12 +69,14 @@ public class PatrolTypeEnemy : Enemy_Base
         isfrontexitwall = false;
         isfindplayer = false;
         isdefending = false;
-
+        isoutbattle = false;
         AiGuide = GetComponent<NavMeshAgent>();
     }
     // 脱战模式
     protected void OutBattleMode()
     {
+        // 设置状态
+        SetMoveStatus(false, true, false, false);
         // 回到初始位置
         // 计算对象与玩家之间偏移量
         Vector3 offset = originalpos - transform.position;
@@ -80,13 +86,12 @@ public class PatrolTypeEnemy : Enemy_Base
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, smoothing);
         // 朝向初始位置前进
         transform.position += transform.forward * movespeed * 1.2f * Time.deltaTime;
-        SetBasicStatus(false, true, false);
-        if (Vector3.Distance(transform.position, originalpos) <= 0.1f)
+        if (Vector3.Distance(transform.position, originalpos) <= 0.8f)
         {
             isonpatrol = true;
             transform.position = originalpos;
             transform.rotation = originalrot;
-            SetBasicStatus(true, false, false);
+            SetMoveStatus(true, false, false, false);
             StartCoroutine(OutBattleDelayTime());
         }
     }
@@ -104,16 +109,15 @@ public class PatrolTypeEnemy : Enemy_Base
             ElapedTime = Time.time - MarkTimer;
             if (ElapedTime >= DefendLastTime)
             {
-                isdefending = false;
+                SetMoveStatus(true, false, false, false);
                 if (isfindplayer)
                 {
                     transform.LookAt(player.position);
-                    StartCoroutine(AttackDelayTime());
                 }
                 else
                 {
                     // 进入准备脱战状态
-                    SetBasicStatus(true, false, false);
+                    SetModeStatus(false, false, true);
                 }
                 ElapedTime = 0;
             }
@@ -130,14 +134,14 @@ public class PatrolTypeEnemy : Enemy_Base
         {
             // 对玩家进行攻击
             transform.LookAt(player.position);
-            SetBasicStatus(false, false, false);
+            SetMoveStatus(false, false, true, false);
             MarkTimer = Time.time;
         }
         else if (Distance > 5f && !isattacking)
         {
             // 进入追击状态
             PursueMode(currentRot);
-            SetBasicStatus(false, true, false);
+            SetMoveStatus(false, true, false, false);
             //AiGuide.speed = movespeed * 1.2f;
             //AiGuide.SetDestination(player.transform.position);
         }
@@ -153,13 +157,13 @@ public class PatrolTypeEnemy : Enemy_Base
                 SearchPlayer();
                 if (isfindplayer)
                 {
-                    isdefending = true;
                     MarkTimer = Time.time;
-                    SetBasicStatus(false, true, false);
+                    SetMoveStatus(false, false, false, true);
                 }
                 else
                 {
-                    SetBasicStatus(true, false, false);
+                    SetModeStatus(false, false, true);
+                    SetMoveStatus(true, false, false, false);
                     ElapedTime = 0;
                 }
             }
@@ -168,59 +172,61 @@ public class PatrolTypeEnemy : Enemy_Base
         // 仇恨计时器
         if (!isfindplayer && ElapedTime >= AggroLastTime && !isattacking)
         {
-            SetBasicStatus(true, false, false);
+            SetMoveStatus(true, false, false, false);
+            SetModeStatus(false, false, true);
             ElapedTime = 0;
         }
     }
     // 受到攻击后的应激反应
     protected void UnderAttack()
     {
-        // 受到攻击后的应激状态
-        if (!isonbattle && isgethit && !isdead)
-        {
-            isonbattle = true;
-            isdefending = true;
-            MarkTimer = Time.time;
-        }
+        SetModeStatus(false, true, false);
+        SetMoveStatus(false, false, false, true);
+        MarkTimer = Time.time;
     }
-    // 战斗准备
-    protected void PrepareBattle()
-    {
-        transform.LookAt(player.position);
-        SetBasicStatus(true, false, false);
-        StartCoroutine(AttackDelayTime());
-        isonbattle = true;
-    }
-    // 巡逻
+    
+    // 巡逻行走
     protected void MoveOnPatrol()
-    {
-        SetBasicStatus(false, true, false);
+    {   
         transform.position += transform.forward * movespeed * Time.deltaTime;
     }
 
     #region 间隔时间相关
-    // 攻击间隔时间
-    IEnumerator AttackDelayTime()
-    {
-        yield return AttackElaped;
-    }
     // 脱战站立间隔时间
     IEnumerator OutBattleDelayTime()
     {
         yield return OutBatElaped;
+        SetModeStatus(true, false, false);
+        SetMoveStatus(false, true, false, false);
     }
     // 巡逻站立间隔时间
     IEnumerator PatrolDelayTime()
     {
         yield return PatrolElaped;
+        SetMoveStatus(false, true, false, false);
+    }
+    // 战斗准备时间
+    IEnumerator BattleDelayTime()
+    {
+        yield return BatPrepareTime;
+        SetModeStatus(false, true, false);
     }
     #endregion
-    #region 三个基本状态
-    protected void SetBasicStatus(bool idleActive, bool moveActive, bool attackActive)
+    #region 设置状态相关
+    // 四个动作相关状态
+    protected void SetMoveStatus(bool idleActive, bool moveActive, bool attackActive, bool defendActive)
     {
         ismove = moveActive;
         isidle = idleActive;
         isattacking = attackActive;
+        isdefending = defendActive;
+    }
+    // 三个行为模式相关状态
+    protected void SetModeStatus(bool patrolActive, bool battleAtive, bool outbatActive)
+    {
+        isonpatrol = patrolActive;
+        isonbattle = battleAtive;
+        isoutbattle = outbatActive;
     }
     #endregion
 
@@ -253,21 +259,32 @@ public class PatrolTypeEnemy : Enemy_Base
             {
                 if (hitObject.collider.CompareTag("Player"))
                 {
+                    // 标记时间点
                     MarkTimer = Time.time;
+                    // 设置状态
                     isfindplayer = true;
                     isonpatrol = false;
+                    // 设置敌人行为
+                    transform.LookAt(player.position);
+                    SetMoveStatus(true, false, false, false);
+                    StartCoroutine(BattleDelayTime());
+                    StopCoroutine(PatrolCoroutine);
                 }
-            }
+            }   
+        }
+        if (hitObject.collider == null)
+        {
+            isfindplayer = false;
         }
     }
     // 检测墙壁
     protected void DetectWall()
     {
         if(Physics.Raycast(transform.position + new Vector3(0, Yoffset, 0), transform.forward + new Vector3(0, Yoffset, 0), RayToMonitorWall_Distance, WallLayer))
-            {
-            SetBasicStatus(true, false, true);
+        {
+            SetMoveStatus(true, false, false, false);
             transform.rotation = Quaternion.Euler(transform.eulerAngles.x, -transform.eulerAngles.y, transform.eulerAngles.z);
-            StartCoroutine(PatrolDelayTime());
+            PatrolCoroutine = StartCoroutine(PatrolDelayTime());
         }
     }
     #endregion

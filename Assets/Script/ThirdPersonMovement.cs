@@ -7,7 +7,7 @@ public class ThirdPersonMovement : MonoBehaviour
 {
     CharacterController playercontroller;
     // 获得目标摄像机
-    public Transform thirdcam;
+    public Transform thirdCam;
     // 设置移动速度
     public float movespeed = 20.0f;
     // 移动方向
@@ -73,9 +73,10 @@ public class ThirdPersonMovement : MonoBehaviour
 
         movedir = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
 
-        targetangle = Mathf.Atan2(movedir.x, movedir.z) * Mathf.Rad2Deg + thirdcam.eulerAngles.y; 
-        float finalangle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetangle, ref turnSmoothVelocity, smoothrottime);
-        transform.rotation = Quaternion.Euler(0f, finalangle, 0f);
+        targetangle = Mathf.Atan2(movedir.x, movedir.z) * Mathf.Rad2Deg + thirdCam.eulerAngles.y; 
+        float RotAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetangle, ref turnSmoothVelocity, smoothrottime);
+        transform.rotation = Quaternion.Euler(0f, RotAngle, 0f);
+
         if (movedir.magnitude > 0.1f)
         {
             Vector3 forwarddir = Quaternion.Euler(0f, targetangle, 0f) * Vector3.forward;
@@ -87,7 +88,7 @@ public class ThirdPersonMovement : MonoBehaviour
             {
                 playercontroller.Move(forwarddir.normalized * movespeed * Time.deltaTime);
             }
-            //playercontroller.Move(forwarddir.normalized * movespeed * Time.deltaTime);
+            
         }
 
     } 

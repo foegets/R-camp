@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Enemy_Base : Character_BasicStatus
 {
-    [Header("获取玩家对象")]
+    [Header("获取对象")]
     // 获得玩家对象
     public Transform player;
+    // 获得伤害判断区域
+    public List<GameObject> AttackDetect;
 
     [Header("计时器相关")]
     public float AttackElaped = 0.5f;

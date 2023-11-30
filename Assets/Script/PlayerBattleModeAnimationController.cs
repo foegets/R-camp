@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class PlayerBattleModeAnimationController : MonoBehaviour
 {
+    // 获取伤害判断范围
+    public List<GameObject> AttackDetect;
+
     Animator playeranimator;
     bool isbattlemode;
     float attackweight;
-    // Start is called before the first frame update
+
+    // 攻击间隔时间
+    public float AttackElaped;
+    // 标记时间点
+    public float MarkTime;
+    
     void Start()
     {
         playeranimator = GetComponent<Animator>();
@@ -15,7 +23,7 @@ public class PlayerBattleModeAnimationController : MonoBehaviour
         attackweight = 0f;        
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.T))
@@ -25,14 +33,14 @@ public class PlayerBattleModeAnimationController : MonoBehaviour
             {
                 playeranimator.SetLayerWeight(1, 0);
                 playeranimator.SetLayerWeight(2, 1);
-                playeranimator.SetLayerWeight(3, 0);
+                //playeranimator.SetLayerWeight(3, 0);
                 attackweight = 0f;
             }
             else
             {
                 playeranimator.SetLayerWeight(1, 1);
                 playeranimator.SetLayerWeight(2, 0);
-                playeranimator.SetLayerWeight(3, 1);
+                //playeranimator.SetLayerWeight(3, 1);
                 attackweight = 0f;
             }
         }
@@ -60,11 +68,24 @@ public class PlayerBattleModeAnimationController : MonoBehaviour
                 playeranimator.SetTrigger("isattack");
                 playeranimator.SetFloat("Attack", attackweight);
                 attackweight += 0.25f;
+                AttackDetect[0].SetActive(true);
+                MarkTime = Time.time;
             }
+        }
+        AttackElaped = Time.time - MarkTime;
+        if (AttackElaped >= 0.5f)
+        {
+            AttackDetect[0].SetActive(false);
         }
         if (attackweight > 1)
         {
             attackweight = 0f;
         }
+    }
+
+    IEnumerator DeleAttackAttack()
+    {
+        yield return 1f;
+        AttackDetect[0].SetActive(false);
     }
 }

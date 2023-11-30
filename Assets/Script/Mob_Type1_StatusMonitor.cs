@@ -13,57 +13,61 @@ public class Mob_Type1_StatusMonitor : PatrolTypeEnemy
         PatrolBaseInitialize();
         CharacterBaseInitialize();
         EnemyBaseInitialize();
+        ismove = true;
+        isidle = false;
     }
     
     void Update()
     {
+        HP_Bar.value = HP;
+
         // 检测死亡
         DeathDetect();
 
         #region 动画相关
-        if (ismove && isonpatrol)
+        if (isdead)
         {
-            animator.SetBool("ismove_patrol", true);
+            animator.SetTrigger("isdead");
+        }
+        if (ismove && !isonbattle && !isdead)
+        {
+            animator.SetBool("isnormalmove", true);
         }
         else
         {
-            animator.SetBool("ismove_patrol", false);
+            animator.SetBool("isnormalmove", false);
         }
-        if (ismove && isonbattle)
+        if (ismove && isonbattle && !isdead)
         {
-            animator.SetTrigger("ismove_battle");
-        }
-        if (isonbattle)
-        {
-            animator.SetBool("isonbattle", true);
+            animator.SetBool("isbattlemove", true);
         }
         else
         {
-            animator.SetBool("isonbattle", false);
+            animator.SetBool("isbattlemove", false);
         }
-        if (isdefending)
+        if (isdefending && !isdead)
         {
             animator.SetBool("isdefending", true);
         }
         else
         {
-            animator.SetBool("isdefending", true);
+            animator.SetBool("isdefending", false);
         }
-        if (!isonbattle && !isidle && !isonpatrol)
-        {
-            animator.SetBool("isreturning", true);
-        }
-        else
-        {
-            animator.SetBool("isreturning", false);
-        }
-        if (isattacking)
+        if (isattacking && !isdead)
         {
             animator.SetBool("isattacking", true);
         }
         else
         {
-            animator.SetBool("isattacking", true);
+            animator.SetBool("isattacking", false);
+        }
+        if (isidle && !isdead)
+        {
+            animator.SetBool("isidle", true);
+        }
+        else
+        {
+            animator.SetBool("isidle", false);
         }
         #endregion
 
@@ -74,30 +78,32 @@ public class Mob_Type1_StatusMonitor : PatrolTypeEnemy
             SearchPlayer();
         }
         // 检测前方是否有墙壁
-        if (!isdead && isonpatrol)
+        if (!isdead && isonpatrol && ismove)
         {
             DetectWall();
         }
         #endregion
 
         #region 巡逻相关状态
-        if (isonpatrol)
+        if (isonpatrol && ismove && !isdead)
         {
             MoveOnPatrol();
         }
         #endregion
 
         #region 战斗相关状态
-        // 朝向玩家，准备战斗
-        if (isfindplayer && !isdead && !isonbattle && !isonpatrol)
-        {
-            PrepareBattle();
-        }
-
         // 进入战斗状态
         if (isonbattle && !isdead)
         {
             BattleMode();
+            if (isattacking)
+            {
+                AttackDetect[0].SetActive(true);
+            }
+            else
+            {
+                AttackDetect[0].SetActive(false);
+            }
         }
         // 受到攻击后的应激状态
         if (!isonbattle && isgethit && !isdead)
@@ -107,15 +113,8 @@ public class Mob_Type1_StatusMonitor : PatrolTypeEnemy
         #endregion
 
         #region 脱战相关状态
-        // 进入准备脱战状态
-        if (isidle && isonbattle && ElapedTime >= AggroLastTime + 1 && !isdead)
-        {
-            isonbattle = false;
-            isidle = false;
-
-        }
         // 进入脱战状态
-        if (!isonbattle && !isonpatrol && !isdead)
+        if (isoutbattle && !isdead)
         {
             OutBattleMode();
         }

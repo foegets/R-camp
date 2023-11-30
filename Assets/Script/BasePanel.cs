@@ -5,7 +5,7 @@ using UnityEngine;
 public class BasePanel : MonoBehaviour
 {
     // 判断界面是否已打开
-    public bool isRemove = false;
+    protected bool isRemove = false;
     // 界面名称
     protected new string name;
     
@@ -17,13 +17,12 @@ public class BasePanel : MonoBehaviour
     public virtual void ClosePanel()
     {
         isRemove = true;
+        if (UIManager.Instance.PanelDic.ContainsKey(name))
+        {
+            UIManager.Instance.PanelDic.Remove(name);
+        }
         gameObject.SetActive(false);
         Destroy(gameObject);
-
-        if (UIManager.Instance.ExistPanelPathDic.ContainsKey(name))
-        {
-            UIManager.Instance.ExistPanelPathDic.Remove(name);
-        }
     }
 
 }

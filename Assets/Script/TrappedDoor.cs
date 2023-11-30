@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class Trapped_Door : MonoBehaviour
 {
-    public float hitForce = 10.0f;
+    // 旋转速度
+    public float RotSpeed = 30f;
+    // 击飞力度
+    public float hitForce = 50.0f;
+    // 获取玩家组件
     Rigidbody rb;
     CharacterController playerController;
     // Start is called before the first frame update
@@ -13,32 +17,38 @@ public class Trapped_Door : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
         
     }
-
-    private void OnCollisionEnter(Collision collision)
+    void Update()
     {
-        if (collision.gameObject.tag == "Player")
+        Vector3 CurAngle = transform.eulerAngles;
+        CurAngle.y += RotSpeed * Time.deltaTime;
+        transform.eulerAngles = CurAngle;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
         {
-            rb = collision.gameObject.GetComponent<Rigidbody>();
-            playerController = collision.gameObject.GetComponent<CharacterController>();
-            // 获得门的旋转速度
-            float DoorRotSpeed = Mathf.Abs(transform.rotation.eulerAngles.y);
-            // 计算力的速度和方向
-            Vector3 ForceDir = transform.right;
-            float ForceStrength = DoorRotSpeed * hitForce;
-            Vector3 Force = ForceDir * ForceStrength;
+            rb = other.gameObject.GetComponent<Rigidbody>();
+            playerController = other.gameObject.GetComponent<CharacterController>();
+            Vector3 HitDir = transform.position - other.transform.position + Vector3.up;
             if (rb != null)
             {
-                rb.AddForce(Force, ForceMode.Impulse);
+                rb.AddForce(HitDir * hitForce, ForceMode.Impulse);
             }
             else if (playerController != null)
             {
-                playerController.SimpleMove(Force);
+
+                playerController.SimpleMove(HitDir * hitForce);
+            }
+            else
+            {
+                Debug.Log("玩家身上没有有效的碰撞组件");
             }
         }
     }
+ 
 }
