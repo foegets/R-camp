@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class character : MonoBehaviour
 {
+
     // Start is called before the first frame update
     [Header("»ù±¾ÊôĞÔ")]
     public float maxhealth;

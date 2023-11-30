@@ -24,7 +24,11 @@ public class bossblood2 : MonoBehaviour
     {
         maxhealth=GetComponent<character>().maxhealth;
         currenthealth=GetComponent<character>().currenthealth;
-     if(currenthealth<1000)
+     if(currenthealth<1000&&currenthealth>0)
             Bar.fillAmount = Mathf.Lerp(Bar.fillAmount,currenthealth/1000,changespeed*Time.deltaTime);
+        if(currenthealth==0)
+            Bar.fillAmount = Mathf.Lerp(Bar.fillAmount,0,changespeed*Time.deltaTime);
+
+
     }
 }

@@ -20,7 +20,7 @@ public class checkbakc : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("00");
+        
         myrigidbody.AddForce(new Vector2(-30, 4), ForceMode2D.Impulse);
     }
 }

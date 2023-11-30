@@ -5,17 +5,26 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEditor.Timeline.TimelinePlaybackControls;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 
 public class Playercontrol : MonoBehaviour
 {
     // Start is called before the first frame update
+    public bool restart;
+    public UnityEvent leftfire;
+    public UnityEvent rightfire;
+    private int faceDir;
+    public bool hasgun;
     private int limitcoin;
     private coinUI coin;
     private coinUI coinUI;
     private Collider2D coll;
     private playanimition playanimition;
     public GameObject dropcoin;
+    public GameObject left;
+    public GameObject right;
     int limit;
     public PlayerInputControl inputcontrol;
     private Rigidbody2D rb;
@@ -47,6 +56,7 @@ public class Playercontrol : MonoBehaviour
         coll= GetComponent<Collider2D>();
         coin = GetComponent<coinUI>();
         limitcoin = 1;
+        restart = false;
     }
 
 
@@ -90,7 +100,7 @@ public class Playercontrol : MonoBehaviour
         rb.velocity = new Vector2(inputdirection.x * 1.5f*Speed * Time.deltaTime, rb.velocity.y);
         else
             rb.velocity = new Vector2(inputdirection.x * Speed * Time.deltaTime*2, rb.velocity.y);
-        int faceDir = (int)transform.localScale.x;
+         faceDir = (int)transform.localScale.x;
         if (inputdirection.x > 0)
             faceDir = 2;
         if (inputdirection.x < 0)
@@ -112,10 +122,21 @@ public class Playercontrol : MonoBehaviour
     {
         if (isHurt)
             return;
-  
-        playanimition.PlayAttack();
-        isattack = true;
+        if (hasgun == false)
+        {
+            playanimition.PlayAttack();
+            isattack = true;
+        }
+        else 
+        {
+            if (faceDir > 0)
+                leftfire?.Invoke();
+            if(faceDir< 0)
+                rightfire?.Invoke();
+
        
+        }
+        
 
 
     }
@@ -172,6 +193,19 @@ public class Playercontrol : MonoBehaviour
     public void dragonspeed()
     {
         Speed = 350;
+    }
+    public void gaingun()
+    {
+       hasgun = true;
+    }
+    private void Restart()
+    {
+        if(restart==true)
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    public void scene2()
+    {
+       restart = true;
     }
 }
 

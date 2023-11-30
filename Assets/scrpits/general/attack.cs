@@ -8,14 +8,14 @@ public class attack : MonoBehaviour
     public float attackRange;
     public float atackRate;
     private character character;
-
+    
 
     private void Awake()
     {
         character = GetComponent<character>();
 
     }
-    private void OnTriggerStay2D(Collider2D other)
+    public void OnTriggerStay2D(Collider2D other)
     {
 
         other.GetComponent<character>()?.Takedamage(this);

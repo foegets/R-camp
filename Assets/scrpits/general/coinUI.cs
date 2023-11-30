@@ -5,10 +5,15 @@ using UnityEngine.UI;
 
 public class coinUI : MonoBehaviour
 {
+    
     public int startCoinQuantity;
     public Text coinQuanity;
     public static int CurrentCoinQuantity;
     // Start is called before the first frame update
+    private void Awake()
+    {
+      
+    }
     void Start()
     {
         CurrentCoinQuantity = startCoinQuantity;
@@ -19,9 +24,24 @@ public class coinUI : MonoBehaviour
     {
         coinQuanity.text=CurrentCoinQuantity.ToString();
     }
+    public void FixedUpdate()
+    {
+
+    }
+    public void hurt()
+    {
+        
+
+    }
     public void dead()
     {
         CurrentCoinQuantity = 0;
+
+    }
+    public void gaincoin()
+    {
+        CurrentCoinQuantity+= 1;
+
 
     }
 }
