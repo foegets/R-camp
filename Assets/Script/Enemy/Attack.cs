@@ -1,28 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class Attack : MonoBehaviour
 {
-    [SerializeField] int health;
-    private bool isDead=true;
-    public Collider2D cd;
-    public Animator anim;
-    // Start is called before the first frame update
+    public int damage;
+    public float attackRange;
+    public float attackRate;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-        if (collision.tag == "Arrow")
-        {
-            health--;
-            Destroy(collision.gameObject);
-        
-        }
-        if(health == 0)
-        {
-            Debug.Log(1);
-            anim.SetBool("Dead", isDead);
-            
-        }
+        if (collision.tag == "Player")
+            collision.GetComponent<Attribute>().TakeDamage(this);
     }
 }

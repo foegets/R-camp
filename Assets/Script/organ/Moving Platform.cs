@@ -1,19 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class MovingPlatform : MonoBehaviour
 {
     [SerializeField] float Speed = 5;
+    public Animator anim;
     public Rigidbody2D rb;
     public Collider2D collision;
     // Start is called before the first frame update
 
     private void FixedUpdate()
     {
-
         AutoMove();
-
     }
     private void AutoMove()
     {
@@ -26,6 +26,8 @@ public class MovingPlatform : MonoBehaviour
         }
 
     }
+
+    // Start is called before the first frame update
 
 
     void OnTriggerEnter2D(Collider2D collision)

@@ -16,6 +16,7 @@ public class CameraControl : MonoBehaviour
             pos = Vector3.Lerp(pos, lookat.transform.position, smooth);
             pos.z = -10;
             transform.position = pos;
+          
         }
         else
         {
