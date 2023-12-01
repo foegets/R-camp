@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    // Start is called before the first frame update
     public Animator anim;
     public Rigidbody2D rb;
     private void Update()
@@ -13,6 +12,11 @@ public class PlayerAnimation : MonoBehaviour
     }
     public void SetAnimation()
     {
-        anim.SetFloat("velocityX",Mathf.Abs(rb.velocity.x));//取绝对值关键字Mathf.Abs
-    }//啊米诺斯
+        anim.SetFloat("velocityX", Mathf.Abs(rb.velocity.x));//取绝对值关键字Mathf.Abs
+    }
+    public void GetHurt()
+    {
+        anim.SetTrigger("Hurt");
+        Debug.Log(1);
+    }
 }
