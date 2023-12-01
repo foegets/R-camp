@@ -30,15 +30,15 @@ public class Enemy : MonoBehaviour
         attacker = attackTrans;
         if(attackTrans.position.x- transform.position.x > 0)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.eulerAngles = new Vector3(0, -180, 0);
             if (i == 0) i = 1;
             
         }
 
 
         if (attackTrans.position.x - transform.position.x < 0)
-        { 
-            transform.localScale = new Vector3(1, 1, 1);
+        {
+            transform.eulerAngles = new Vector3(0, 0, 0);
             if (i == 1) i = 0;
             
         }
