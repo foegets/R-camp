@@ -24,7 +24,7 @@ public class doortonextlevel : MonoBehaviour
     {
         if(collision.tag=="Player")
         {
-            DontDestroyOnLoad(collision);
+            
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             
             

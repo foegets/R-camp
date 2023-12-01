@@ -18,12 +18,26 @@ public class PlayerAnimation : MonoBehaviour
     private void Update()
     {
         SetAnimation();
+        
     }
     private void SetAnimation()
     {
         anim.SetFloat("velocityX", Mathf.Abs(rb.velocity.x));
         anim.SetFloat("velocityY", rb.velocity.y);
         anim.SetBool("isGround", physicsCheck.isGround);
+        anim.SetBool("isDead", GetComponent<PlayerController>().isDead);
+        anim.SetBool("isAttack", GetComponent<PlayerController>().isAttack);
+
+
     }
 
+    public void PlayerHurt()
+    {
+        anim.SetTrigger("hurt");
+    }
+
+    public void PlayAttack()
+    {
+        anim.SetTrigger("attack");
+    }
 }
