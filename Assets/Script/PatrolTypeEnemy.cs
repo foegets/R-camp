@@ -195,20 +195,20 @@ public class PatrolTypeEnemy : Enemy_Base
     // 脱战站立间隔时间
     IEnumerator OutBattleDelayTime()
     {
-        yield return OutBatElaped;
+        yield return new WaitForSeconds(OutBatElaped);
         SetModeStatus(true, false, false);
         SetMoveStatus(false, true, false, false);
     }
     // 巡逻站立间隔时间
     IEnumerator PatrolDelayTime()
     {
-        yield return PatrolElaped;
+        yield return new WaitForSeconds(PatrolElaped);
         SetMoveStatus(false, true, false, false);
     }
     // 战斗准备时间
     IEnumerator BattleDelayTime()
     {
-        yield return BatPrepareTime;
+        yield return new WaitForSeconds(BatPrepareTime);
         SetModeStatus(false, true, false);
     }
     #endregion

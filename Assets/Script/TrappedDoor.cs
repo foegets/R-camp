@@ -8,18 +8,37 @@ public class Trapped_Door : MonoBehaviour
     public float RotSpeed = 30f;
     // 击飞力度
     public float hitForce = 50.0f;
+    // 判断是否发生碰撞
+    public bool isCollid;
+    // 击飞方向
+    Vector3 hitDir;
     // 获取玩家组件
     Rigidbody rb;
     CharacterController playerController;
     // Start is called before the first frame update
     void Start()
     {
-
+        isCollid = false;
     }
 
     private void FixedUpdate()
     {
-        
+        if (isCollid)
+        {
+            if (rb != null)
+            {
+                rb.AddForce(hitDir.normalized * hitForce, ForceMode.Impulse);
+            }
+            else if (playerController != null)
+            {
+                // 不知道,我只知道SimpleMove卵用没有
+            }
+            else
+            {
+                print("没有检测到有效的碰撞组件");
+            }
+            isCollid = false;
+        }
     }
     void Update()
     {
@@ -27,28 +46,20 @@ public class Trapped_Door : MonoBehaviour
         CurAngle.y += RotSpeed * Time.deltaTime;
         transform.eulerAngles = CurAngle;
     }
-
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
-            rb = other.gameObject.GetComponent<Rigidbody>();
-            playerController = other.gameObject.GetComponent<CharacterController>();
-            Vector3 HitDir = transform.position - other.transform.position + Vector3.up;
-            if (rb != null)
-            {
-                rb.AddForce(HitDir * hitForce, ForceMode.Impulse);
-            }
-            else if (playerController != null)
-            {
-
-                playerController.SimpleMove(HitDir * hitForce);
-            }
-            else
-            {
-                Debug.Log("玩家身上没有有效的碰撞组件");
-            }
+            rb = collision.gameObject.GetComponent<Rigidbody>();
+            playerController = collision.gameObject.GetComponent<CharacterController>();
+            // 获得撞击点的运动方向并用作撞击方向
+            hitDir = rb.GetPointVelocity(collision.contacts[0].point);
+            hitDir.y = 0;
+            isCollid = true;
         }
     }
+
+
+    
  
 }

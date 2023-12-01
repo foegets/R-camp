@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     private PackageTable PackTab;
+    public int NextSceneIndex;
     private void Awake()
     {
         instance = this;
@@ -21,7 +22,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        UIManager.Instance.OpenPanel(UIConst.PackagePanel);
+        //UIManager.Instance.OpenPanel(UIConst.PackagePanel);
     }
 
     

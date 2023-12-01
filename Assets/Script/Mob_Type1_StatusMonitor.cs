@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 public class Mob_Type1_StatusMonitor : PatrolTypeEnemy
 {
-
+    float tmp = 1;
     void Start()
     {
         PatrolBaseInitialize();
@@ -19,7 +19,10 @@ public class Mob_Type1_StatusMonitor : PatrolTypeEnemy
     
     void Update()
     {
-        HP_Bar.value = HP;
+        if (HP < HP_Bar.value)
+        {
+            HP_Bar.value -= 0.5f;
+        }
 
         // 检测死亡
         DeathDetect();
@@ -98,7 +101,16 @@ public class Mob_Type1_StatusMonitor : PatrolTypeEnemy
             BattleMode();
             if (isattacking)
             {
-                AttackDetect[0].SetActive(true);
+                // 临时怎么搞的，主要没好好设计敌人AI
+                tmp += Time.deltaTime;
+                if ((int)tmp % 2 == 1)
+                {
+                    AttackDetect[0].SetActive(true);
+                }
+                else
+                {
+                    AttackDetect[0].SetActive(false);
+                }
             }
             else
             {

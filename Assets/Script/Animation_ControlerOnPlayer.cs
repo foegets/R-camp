@@ -8,26 +8,26 @@ public class Animation_Controler : MonoBehaviour
 {
     //// 获取头部要看向的物体
     //public GameObject target;
-    // 获得CharacterController
-    CharacterController playercontroller;
+    //// 获得CharacterController
+    //CharacterController playercontroller;
     // 获取动画机组件
     Animator playeranimator;
     bool isjumping = false;
     // Start is called before the first frame update
     void Start()
     {
-        playercontroller = GetComponent<CharacterController>();
+        //playercontroller = GetComponent<CharacterController>();
         playeranimator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (playercontroller.collisionFlags == CollisionFlags.Below && isjumping)
-        {
-            playeranimator.SetBool("isjumpdown", true);
-            isjumping = false;
-        }
+        //if (GetComponent<Physical_Jump>().isGroundHeight <= 0.1f && isjumping)
+        //{
+        //    playeranimator.SetBool("isjumpdown", true);
+        //    isjumping = false;
+        //}
 
         if (isjumping == false && Input.GetKeyDown(KeyCode.Space))
         {
@@ -97,7 +97,14 @@ public class Animation_Controler : MonoBehaviour
 
         //}
     }
-    
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+        {
+            playeranimator.SetBool("isjumpdown", true);
+            isjumping = false;
+        }
+    }
     //void OnAnimatorIK(int layerIndex)
     //{
     //    GetComponent<Animator>().SetLookAtWeight(0.5f);

@@ -10,7 +10,6 @@ public class StartGameLoader : MonoBehaviour
     public float ElapedTime;
     //// 异步加载对象
     //AsyncOperation asyncLoad;
-    // Start is called before the first frame update
     void Start()
     {
         isTrigger = false;
@@ -18,13 +17,13 @@ public class StartGameLoader : MonoBehaviour
         //StartCoroutine(LoadScene());
     }
 
-    // Update is called once per frame
     void Update()
     {
         ElapedTime = GetComponent<MenuButtonMonitor>().ElapedTime;
         isTrigger = GetComponent<MenuButtonMonitor>().isTrigger;
         if (isTrigger && ElapedTime >= 2.2f)
         {
+            GameManager.Instance.NextSceneIndex = 2;
             //asyncLoad.allowSceneActivation = true;
             //SceneManager.UnloadSceneAsync(0);
 
@@ -36,7 +35,7 @@ public class StartGameLoader : MonoBehaviour
     //{
     //    asyncLoad = SceneManager.LoadSceneAsync(1);// 跳转到Loading场景
     //    asyncLoad.allowSceneActivation = false;
-        
+
     //    yield return null;
     //}
 }

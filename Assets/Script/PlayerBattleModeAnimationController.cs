@@ -11,16 +11,20 @@ public class PlayerBattleModeAnimationController : MonoBehaviour
     bool isbattlemode;
     float attackweight;
 
-    // 攻击间隔时间
-    public float AttackElaped;
-    // 标记时间点
-    public float MarkTime;
-    
+    // 判断是否在进行攻击
+    public bool isAttacking;
+    // 攻击攻击前摇时间
+    public float attackWindup = 0.15f;
+    // 攻击时间
+    public float onAttacking = 0.4f;
+    // 攻击后摇
+    public float attackWinddown = 0.15f;
     void Start()
     {
         playeranimator = GetComponent<Animator>();
         isbattlemode = false;
-        attackweight = 0f;        
+        attackweight = 0f;       
+        isAttacking = false;
     }
 
     
@@ -47,7 +51,19 @@ public class PlayerBattleModeAnimationController : MonoBehaviour
         
         if (isbattlemode)
         {
-            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+            if (attackweight > 1f)
+            {
+                attackweight = 0f;
+            }
+            if (Input.GetMouseButtonDown(0) && !isAttacking)
+            {
+                playeranimator.SetBool("isAttack", true);
+                playeranimator.SetFloat("Attack", attackweight);
+                attackweight += 0.25f;
+                isAttacking = true;
+                StartCoroutine(AttackWind_up());
+            }
+            else if (Input.GetAxis("Horizontal") != 0 && !isAttacking || Input.GetAxis("Vertical") != 0 && !isAttacking)
             {
                 if (Input.GetKey(KeyCode.LeftShift))
                 {
@@ -63,29 +79,26 @@ public class PlayerBattleModeAnimationController : MonoBehaviour
             {
                 playeranimator.SetBool("isfronting", false);
             }
-            if (Input.GetMouseButtonDown(0))
-            {
-                playeranimator.SetTrigger("isattack");
-                playeranimator.SetFloat("Attack", attackweight);
-                attackweight += 0.25f;
-                AttackDetect[0].SetActive(true);
-                MarkTime = Time.time;
-            }
         }
-        AttackElaped = Time.time - MarkTime;
-        if (AttackElaped >= 0.5f)
-        {
-            AttackDetect[0].SetActive(false);
-        }
-        if (attackweight > 1)
-        {
-            attackweight = 0f;
-        }
+    
     }
 
-    IEnumerator DeleAttackAttack()
+    IEnumerator AttackWind_up()
     {
-        yield return 1f;
+        yield return new WaitForSeconds(attackWindup);
+        AttackDetect[0].SetActive(true);
+        StartCoroutine(OnAttacking());
+    }
+    IEnumerator OnAttacking()
+    {
+        yield return new WaitForSeconds(onAttacking);
         AttackDetect[0].SetActive(false);
+        StartCoroutine(AttackWind_down());
+    }
+    IEnumerator AttackWind_down()
+    {
+        yield return new WaitForSeconds(attackWinddown);
+        isAttacking = false;
+        playeranimator.SetBool("isAttack", false );
     }
 }

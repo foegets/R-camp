@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LoadingScene_Immediate_Syn : MonoBehaviour
+public class LoadingScene : MonoBehaviour
 {
     public Camera cam;
     // 获取要加载的场景的下标
@@ -19,14 +19,12 @@ public class LoadingScene_Immediate_Syn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SceneIndex = GameManager.Instance.NextSceneIndex;
         loadingprogress = 0f;
         loadprogrssbar = GetComponent<Slider>();
         StartCoroutine(LoadScene());
-
-
     }
 
-    // Update is called once per frame
     void Update()
     {
         

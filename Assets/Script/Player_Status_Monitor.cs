@@ -19,7 +19,6 @@ public class Player_Status_Monitor : MonoBehaviour
     Transform OriPos;
     // 判断是否打开PausePanel界面
     bool isOpen;
-    // Start is called before the first frame update
     void Start()
     {
         OriPos = transform;
@@ -30,11 +29,13 @@ public class Player_Status_Monitor : MonoBehaviour
         videoplayer.Prepare();
         isOpen = false;
     }
-
-    // Update is called once per frame
+  
     void Update()
     {
-        Player_HP.value = HP;
+        if (HP < Player_HP.value)
+        {
+            Player_HP.value -= 0.5f;
+        }
         if (transform.position.y < -10)
         {
             transform.position = OriPos.position;
