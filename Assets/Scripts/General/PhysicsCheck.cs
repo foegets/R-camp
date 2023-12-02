@@ -5,6 +5,7 @@ using UnityEngine;
 public class PhysicsCheck : MonoBehaviour
 {
     private CapsuleCollider2D coll;
+
     [Header("¼ì²â²ÎÊý")]
     public bool manual;
     public Vector2 bottomOffset;
@@ -12,6 +13,7 @@ public class PhysicsCheck : MonoBehaviour
     public Vector2 rightwallOffset;
     public float checkRaduis;
     public LayerMask groundLayer;
+
     [Header("×´Ì¬")]
     public bool isGround;
     public bool touchLeftWall;
