@@ -11,8 +11,8 @@ public class Green : MonoBehaviour
     public float nomalSpeed;
     public float nowSpeed;
     //¹¥»÷
-    public float damage;
-    public float health;
+    public int damage;
+    public int health;
     //Ñ²Âß
     public GameObject pa;
     public GameObject pb;
@@ -67,14 +67,18 @@ public class Green : MonoBehaviour
     }
     void Update()
     {
-        Move();
-        Lost();
-        Derection();
+        if (isLive)
+        {
+            Move();
+            Lost();
+            Derection();
+        }
     }
     
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
         health -= damage;
+        an.SetTrigger("Hurt");
     }
 
     private void Lost()
@@ -97,8 +101,7 @@ public class Green : MonoBehaviour
         {
             if (collision.gameObject.tag == "Player")
             {
-                an.SetTrigger("Atack");
-                
+                an.SetTrigger("Atack");              
                 collision.GetComponent<Playermovement>().TakeDamage(damage);
             }
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Playermovement : MonoBehaviour
 {
@@ -19,9 +20,9 @@ public class Playermovement : MonoBehaviour
     int n;
     public float force = 15.0f;
     //¹¥»÷
-    public float damage;
+    public int damage;
     //ÑªÁ¿
-    public float health;
+    public int health;
     //ÒôÐ§
     AudioSource Au;
     public AudioClip Jumpping;
@@ -38,6 +39,8 @@ public class Playermovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         An  = GetComponent<Animator>();
         Au = GetComponent<AudioSource>();
+        Healthbar.maxHealth = health;
+        Healthbar.currentHealth = Healthbar.maxHealth;
     }
 
     // Update is called once per frame
@@ -115,6 +118,7 @@ public class Playermovement : MonoBehaviour
         }
         else if (collision.gameObject.tag=="Trap")
         {
+            Healthbar.currentHealth = 0;
             Gameover();
         }
         else if (collision.gameObject.tag == "Enermy")
@@ -161,9 +165,15 @@ public class Playermovement : MonoBehaviour
             An.SetBool("Fall", true);
         }
     }
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
         health -= damage;
+        An.SetTrigger("Hurt");
+        Healthbar.currentHealth = health;
+        if (health <= 0)
+        {
+            Healthbar.currentHealth = 0;
+        }
     }
 
 
