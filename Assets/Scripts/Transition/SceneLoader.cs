@@ -111,9 +111,10 @@ public class SceneLoader : MonoBehaviour
 
         }
         isLoading = false;
-        if(currentLoadedScene.SceneType == SceneType.Location)
-            //场景加载完成后事件
-            afterSceneLoadedEvent.RaiseEvent();
+
+        //场景加载完成后事件
+        if (currentLoadedScene.SceneType == SceneType.Location) afterSceneLoadedEvent.RaiseEvent();
+        
 
     }
 }

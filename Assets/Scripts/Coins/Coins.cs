@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Coins : MonoBehaviour
-{
+{//一碰到就消失
     int player;
     // Start is called before the first frame update
     void Start()

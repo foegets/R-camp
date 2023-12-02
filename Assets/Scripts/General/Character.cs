@@ -6,6 +6,8 @@ using UnityEngine.Events;
 
 public class Character : MonoBehaviour
 {
+    public Item armor;
+    public bool isArmorUsed;
     [Header("事件监听")]
     public VoidEventSO newGameEvent;
     [Header("基本属性")]
@@ -20,6 +22,10 @@ public class Character : MonoBehaviour
     public UnityEvent<Character> OnHealthChange;
     public UnityEvent<Transform> OnTakeDamage;
     public UnityEvent OnDie;
+    private void Start()
+    {
+        nowHealth = maxHealth;
+    }
     private void NewGame()
     {
         nowHealth = maxHealth;
@@ -44,6 +50,15 @@ public class Character : MonoBehaviour
             }
         }
     }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Blood")) // 如果碰撞的游戏对象tag为"Blood"
+        {
+            nowHealth += 1f;
+            if (nowHealth >= maxHealth) nowHealth = maxHealth;
+            OnHealthChange?.Invoke(this);
+        }
+    }
     private void OnTriggerStay2D(Collider2D other)
     {
         if(other.CompareTag("Water"))
@@ -57,9 +72,16 @@ public class Character : MonoBehaviour
     public void TakeDamage(Attack attacker)
     {
         if (invulnerable)  return;
-        if(nowHealth - attacker.damage > 0)
+        // 检查attacker的标签是否为"Enemy"，同时检查背包是否有盾牌
+        if (attacker.CompareTag("Enemy") && armor.itemHeld!=0 && isArmorUsed==false)
+        {
+            attacker.damage /= 2;
+            isArmorUsed=true;
+        }
+        if (nowHealth - attacker.damage > 0)
         {
             nowHealth -= attacker.damage;
+            //执行受伤
             OnTakeDamage?.Invoke(attacker.transform);
             TriggerInvulnerable();
         }

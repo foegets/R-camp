@@ -12,6 +12,8 @@ public class Enermy : MonoBehaviour
     public float chaseSpeed;
     [HideInInspector]public float nowSpeed;
     public Vector3 faceDir;
+    public float hurtForce;
+    public Transform attacker;
     [Header("检测")]
     public Vector2 centerOffset;
     public Vector2 checkSize;
@@ -24,6 +26,8 @@ public class Enermy : MonoBehaviour
     public float lostTime;
     public float lostTimeCounter;
     [Header("状态")]
+    public bool isHurt;
+    public bool isDead;
     private BaseState currentState;
     protected BaseState patrolState;
     protected BaseState chaseState;
@@ -50,7 +54,7 @@ public class Enermy : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (!wait) Move();
+        if (!isHurt&&!wait&&!isDead) Move();
         currentState.PhysicsUpdate();
     }
     private void OnDisable()
@@ -63,6 +67,9 @@ public class Enermy : MonoBehaviour
 
         rb.velocity = new Vector2(nowSpeed * faceDir.x * Time.deltaTime, rb.velocity.y);
     }
+    /// <summary>
+    /// 计时器
+    /// </summary>
     private void TimeCounter()
     {
         if(wait)
@@ -84,6 +91,36 @@ public class Enermy : MonoBehaviour
         //{
         //    lostTimeCounter = lostTime;
         //}
+    }
+    public void OnTakeDamage(Transform attackTrans)
+    {
+        attacker = attackTrans;
+        //转身
+        if (attackTrans.position.x - transform.position.x > 0)
+            transform.localScale = new Vector3(-1, 1, 1);
+        if (attackTrans.position.x - transform.position.x < 0)
+            transform.localScale = new Vector3(1, 1, 1);
+        //受伤被击退
+        isHurt = true;
+        anim.SetTrigger("Hurt");
+        Vector2 dir = new Vector2(transform.position.x - attackTrans.position.x, 0).normalized;
+        StartCoroutine(OnHurt(dir));
+    }
+    private IEnumerator OnHurt(Vector2 dir)
+    {
+        rb.AddForce(dir * hurtForce, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(0.5f);
+        isHurt = false;
+    }
+    public void OnDie()
+    {
+        gameObject.layer = 2;
+        anim.SetBool("Dead", true);
+        isDead = true;
+    }
+    public void DestroyAfterAnimation()
+    {
+        Destroy(this.gameObject);
     }
     public bool FoundPlayer()
     {

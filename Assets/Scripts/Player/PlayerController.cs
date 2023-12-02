@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -7,10 +8,12 @@ public class PlayerController : MonoBehaviour
     [Header("监听事件")]
     public SceneLoadEventSO loadEvent;
     public VoidEventSO afterSceneLoadedEvent;
+
     public int PlayerCoins { get; private set; } = 0;
     public PlayerInputControl inputControl;
     private Rigidbody2D rb;
     private PhysicsCheck physicsCheck;
+    private CapsuleCollider2D coll;
     public Vector2 inputDirection;
     private PlayerAnimation playerAnimation;
     public GameObject myBag;
@@ -18,14 +21,21 @@ public class PlayerController : MonoBehaviour
     [Header("基本参数")]
     public float speed=310f;
     public float jumpForce=16.5f;
+    public float hurtForce;
+    [Header("物理材质")]
+    public PhysicsMaterial2D normal;
+    public PhysicsMaterial2D wall;
     [Header("状态")]
     public bool isAttack;
+    public bool isHurt;
+    public bool isDead;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         physicsCheck = GetComponent<PhysicsCheck>();
         inputControl = new PlayerInputControl();
         playerAnimation = GetComponent<PlayerAnimation>();
+        coll = GetComponent<CapsuleCollider2D>();
         //跳跃
         inputControl.Gameplay.Jump.started += Jump;
         //攻击
@@ -50,11 +60,11 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         inputDirection = inputControl.Gameplay.Move.ReadValue<Vector2>();
+        CheckState();
         OpenMyBag(); 
     }
     private void FixedUpdate()
-    {
-        Move();
+    {   if(!isHurt) Move();
     }
     //场景加载过程停止控制
     private void OnLoadEvent(GameSceneSO arg0, Vector3 arg1, bool arg2)
@@ -81,20 +91,39 @@ public class PlayerController : MonoBehaviour
         if(physicsCheck.isGround)
             rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
     }
+    public void GetHurt(Transform attacker)
+    {
+        isHurt = true;
+        rb.velocity = Vector2.zero;
+        Vector2 dir = new Vector2((transform.position.x - attacker.position.x), 0).normalized;
+        rb.AddForce(dir * hurtForce, ForceMode2D.Impulse);
+    }
+    public void PlayerDead()
+    {
+        isDead = true;
+        inputControl.Gameplay.Disable();
+    }
     private void PlayerAttack(InputAction.CallbackContext obj)
     {
         playerAnimation.PlayAttack();
         isAttack = true;
         
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void CheckState()
     {
-       if (collision.gameObject.CompareTag("Coins")) // 如果碰撞的游戏对象tag为"Coins"
-        {
-            PlayerCoins += 100; // 玩家金币数加100
-            Debug.Log("Player coins: " + PlayerCoins); // 打印或显示玩家的金币数
-        }
+        coll.sharedMaterial = physicsCheck.isGround ? normal : wall;
     }
+
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Blood")) // 如果碰撞的游戏对象tag为"Blood"
+    //    {
+    //        character.nowHealth += 1f;
+    //        float persentage = character.nowHealth / character.maxHealth;
+    //        playerStatBar.OnHealthChange(persentage);//目前还有一堆bug
+
+    //    }
+    //}
     void OpenMyBag()
     {
         isOpen = myBag.activeSelf;

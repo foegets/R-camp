@@ -10,6 +10,7 @@ public class CameraControl : MonoBehaviour
     public VoidEventSO afterSceneLoadedEvent;
 
     private CinemachineConfiner2D confiner2D;
+    public GameObject obj;
     private void Awake()
     {
         confiner2D=GetComponent<CinemachineConfiner2D>();
@@ -32,9 +33,10 @@ public class CameraControl : MonoBehaviour
     //}
     private void GetNewCameraBounds()
     {
-        var obj = GameObject.FindGameObjectWithTag("Bounds");
-        if (obj = null) 
-            return;
+        obj = GameObject.FindGameObjectWithTag("Bounds");
+        Debug.Log(obj.name);
+        Debug.Log(obj);
+        if (obj = null) return;
         confiner2D.m_BoundingShape2D = obj.GetComponent<Collider2D>();
         confiner2D.InvalidateCache();
     }
