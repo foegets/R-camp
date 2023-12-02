@@ -13,14 +13,14 @@ public class Bandit : MonoBehaviour {
     private bool                m_combatIdle = false;
     private bool                m_isDead = false;
 
-    // Use this for initialization
+    // Use this for initialization  用作初始化
     void Start () {
         m_animator = GetComponent<Animator>();
         m_body2d = GetComponent<Rigidbody2D>();
         m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_Bandit>();
     }
 	
-	// Update is called once per frame
+	// Update is called once per frame  每帧调用一次更新
 	void Update () {
         //Check if character just landed on the ground
         if (!m_grounded && m_groundSensor.State()) {
@@ -28,25 +28,25 @@ public class Bandit : MonoBehaviour {
             m_animator.SetBool("Grounded", m_grounded);
         }
 
-        //Check if character just started falling
+        //Check if character just started falling  检查角色是否刚刚落地
         if(m_grounded && !m_groundSensor.State()) {
             m_grounded = false;
             m_animator.SetBool("Grounded", m_grounded);
         }
 
-        // -- Handle input and movement --
+        // -- Handle input and movement --  处理输入和移动
         float inputX = Input.GetAxis("Horizontal");
 
-        // Swap direction of sprite depending on walk direction
+        // Swap direction of sprite depending on walk direction  根据行走方向交换角色朝向
         if (inputX > 0)
             transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
         else if (inputX < 0)
             transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
-        // Move
+        // Move  移动
         m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
 
-        //Set AirSpeed in animator
+        //Set AirSpeed in animator  在动画机中设置空气速度
         m_animator.SetFloat("AirSpeed", m_body2d.velocity.y);
 
         // -- Handle Animations --
@@ -69,7 +69,7 @@ public class Bandit : MonoBehaviour {
             m_animator.SetTrigger("Attack");
         }
 
-        //Change between idle and combat idle
+        //Change between idle and combat idle  战斗与闲置的变换
         else if (Input.GetKeyDown("f"))
             m_combatIdle = !m_combatIdle;
 

@@ -26,7 +26,8 @@ public class trap : MonoBehaviour
     }
     private void Respawn()
     {
-        transform.position = startpos;
+
+        Destroy(gameObject);
     }
 
 }
