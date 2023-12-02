@@ -118,7 +118,7 @@ public class PackagePanel : BasePanel
             }
             Transform PackUIItem = Instantiate(PackItemPrefab.transform, scrollContent) as Transform;
             PackageCell packCell = PackUIItem.GetComponent<PackageCell>();
-            packCell.Refresh(item, this);
+            //packCell.Refresh(item, this);
         }
     }
     void OnClickWeapon()

@@ -132,8 +132,6 @@ public class PackageCell : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        //SelectAni.gameObject.SetActive(false);
         MouseOverAni.GetComponent<Animator>().SetTrigger("Exit");
-        //MouseOverAni.gameObject.SetActive(false);
     }
 }
