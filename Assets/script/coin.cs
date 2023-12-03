@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class coin : MonoBehaviour
 {
+    private GameObject coinTextUI;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        coinTextUI = GameObject.FindGameObjectWithTag("coinUI");//找到游戏对象
     }
     private void OnTriggerEnter2D(Collider2D other)//金币的触碰检测
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            player.coinNum++;
+            coinTextUI.GetComponent<coinUi>().currentCoinNum++;
             this.gameObject.SetActive(false);
         }
     }

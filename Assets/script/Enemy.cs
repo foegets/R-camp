@@ -7,25 +7,22 @@ public class Enemy : MonoBehaviour
     public  float health;//小怪生命
     public   float maxHp;//小怪最大生命值
     public  float damage;//小怪伤害
-    public GameObject injuryEffect;
+    public GameObject injuryEffect;//流血的粒子特效
     public  float damageTime;
     // Start is called before the first frame update
-    public void Start()
+       void Start()
     {
-        damageTime = 0.16f;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     public void bloodEffect()
     {
        Instantiate(injuryEffect,this.transform.position, Quaternion.identity);//激活受伤流血粒子
     }
-    virtual public void disReDamage()//防止小怪重复受伤
-    {
-        damageTime = 0.16f;
-    }
+   
 }

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class player : MonoBehaviour
 {
-    /*public float AttackSpeed=1.5f;*///普通攻击补充速度
     private bool isattack=false;
     private int combostep=0;//攻击段数
     private float timer;//计时器
@@ -20,9 +19,8 @@ public class player : MonoBehaviour
     public float superRunFouce = 20.0f;//冲刺参数
     int airDash;//空中冲刺参数
     private  Coroutine checkerAttack;
-    public static int coinNum;
     public static bool isContactEnemy;//是否接触怪物
-    public static float playerDamage;//玩家伤害
+    public  float playerDamage;//玩家伤害
     public  static float playerHealth;//玩家生命
     public static float maxPlayerHp;
     public GameObject obj1;//在外部拖入Turtle
@@ -30,6 +28,7 @@ public class player : MonoBehaviour
     private AudioSource attackSound;
     public bool canAttack;//是否可以攻击（防止受伤时可以攻击）
     private Vector3 playerScale;
+    private GameObject trunk;
     void Start()
     {
         this.rb = GetComponent<Rigidbody2D>();
@@ -40,8 +39,9 @@ public class player : MonoBehaviour
         playerDamage = 6;
         canInjuryTime = 1;
         playerScale = transform.localScale;
+        canAttack = true;
+        trunk = GameObject.FindGameObjectWithTag("Trunk");
     }
-
     // Update is called once per frame
     void Update()
     { 
@@ -50,18 +50,18 @@ public class player : MonoBehaviour
         playerjumping();//角色跳跃
         dash(direction);//冲刺实现       
         playerattack();//角色普通攻击
-        /* isIdle(direction);*///判断是否为Idle
         playdeath();
         resetInjuryTime();//刷新受伤后无敌的时间
     }  
 
     private void playerattack()//角色普攻
     {
-        if(Input.GetMouseButtonDown(0)&&!isattack)
+        if(Input.GetMouseButtonDown(0) && !isattack && canAttack)//不加isattack的话会导致普攻不间断
+                                                                 //canAttack防止小怪在玩家受伤时还可以攻击
         {
             isattack = true;
             combostep++;
-            timer = interval;
+            timer = interval;//表示重新开始计时（需要重新开始计时时将time再次初始化
             if(combostep>3)
             {
                 combostep = 1;
@@ -70,15 +70,16 @@ public class player : MonoBehaviour
             animator.SetInteger("combostep", combostep);
             attackSound.Play();
         }
-        if(timer!=0)
+        if(timer>=0)
         {
             timer -= Time.deltaTime;
-            if(timer<=0)//连击断了
-            {
-                combostep = 0;
-                timer = 0;
-            }
+            
         }
+       else if(timer<=0)//连击断了
+            {
+                combostep = 0;//初始化数值
+                //timer = 0;
+            }
     }
     public void AttackOver()
     {
@@ -86,10 +87,9 @@ public class player : MonoBehaviour
     }
   private void playerjumping()//角色跳跃
     {
- if ( Input.GetKeyDown(KeyCode.Space)&&jumpingNum>0) //跳跃实现
+ if ( Input.GetKeyDown(KeyCode.Space)&&jumpingNum>0) //跳跃实现//如果增加onground==true作为条件就会导致第二段跳起不来
         {
-            //rb.AddForce(new Vector2(rb.velocity.x, jumpfouce));
-            rb.velocity = new Vector2(rb.velocity.x, jumpfouce);       
+            rb.velocity = new Vector2(rb.velocity.x, jumpfouce);
             onground = false;
             jumpingNum--;
         }
@@ -106,7 +106,6 @@ public class player : MonoBehaviour
     }
    private void playerMove(float direction)//角色移动
     {
-        
  //rb.AddForce(new Vector2(direction * speed, rb.velocity.y));
           rb.velocity = new Vector2(direction * speed, rb.velocity.y);
           if (onground == true && direction != 0) //移动动画
@@ -119,7 +118,7 @@ public class player : MonoBehaviour
             animator.SetBool("isrunning", false);
           }
           //移动左右方向转换
-          if (direction > 0)
+          if (direction > 0)//不使用localscale而使用flipx的话，会导致后面子类普攻碰撞盒无法随玩家作用移动而改变
           {
             transform.localScale = playerScale;
           }
@@ -162,58 +161,58 @@ public class player : MonoBehaviour
         }
     }
 }
-    private void OnTriggerEnter2D(Collider2D other)  //碰撞检测
+    private void OnTriggerEnter2D(Collider2D other)  //子弹和平台碰撞检测
     {
         if (other.gameObject.CompareTag("platform"))
         {
             onground = true;
             jumpingNum = 2;
-            //airDash = 1;
         }
         if(canInjuryTime<=0)
         {
           if (other.gameObject.CompareTag("Trunk Bullet"))//树怪子弹
            {
             obj1 = other.gameObject;
-            playerHealth -= 4; /*(obj1.GetComponent<Trunk>().damage)*2;*/
-            animator.SetTrigger("isInjury");//受伤动画
+            playerHealth -= trunk.GetComponent<Trunk>().damageBullet; 
+            animator.SetTrigger("isPlayerInjury");//受伤动画
                 canInjuryTime = 1;
-                canAttack = true;
-                Invoke("setcanAttack", 0.5f);
+                canAttack=false;
+                Invoke("setcanAttack", 0.26f);
             }
         }
      
     } 
     void setcanAttack()
         {
-            canAttack = false;
+            canAttack = true;
         }
-    private void OnCollisionStay2D(Collision2D collision)  //持续碰撞检测
+    private void OnCollisionStay2D(Collision2D collision)  //小怪持续碰撞检测
     {
         
-        if (canInjuryTime <= 0)
+        if (canInjuryTime <= 0)//玩家受伤后的无敌时间
         {
             if (collision.gameObject.CompareTag("Turtle"))
            {
             obj1 = collision.gameObject;
             playerHealth -= obj1.GetComponent<Turtle>().damage;//减少生命
             animator.SetTrigger("isPlayerInjury");//受伤动画
-            canInjuryTime = 1;
-                canAttack = true;
+            canInjuryTime = 1;//一般在发挥效果的地方重置时间变量
+                canAttack = false;
                 Invoke("setcanAttack", 0.26f);
             }
-           if (collision.gameObject.CompareTag("Trunk"))//树怪
-           {
-            obj1 = collision.gameObject;
-            playerHealth -= obj1.GetComponent<Trunk>().damage;//减少生命
-            animator.SetTrigger("isPlayerInjury");//受伤动画
-            canInjuryTime = 1;
-                canAttack = true;
+            if(collision.gameObject.CompareTag("Trunk"))
+            {
+                obj1 = collision.gameObject;
+                playerHealth -= obj1.GetComponent<Trunk>().damage;//减少生命
+                animator.SetTrigger("isPlayerInjury");//受伤动画
+                canInjuryTime = 1;//一般在发挥效果的地方重置时间变量
+                canAttack = false;
                 Invoke("setcanAttack", 0.26f);
             }
         }
     }
-    private void resetInjuryTime()
+    private void resetInjuryTime()//单独把无敌时间写成函数而不是写在碰撞检测里是
+                                  //为了不让碰撞时才让无敌时间减少
     {
         canInjuryTime -= Time.deltaTime;
     }
@@ -221,7 +220,7 @@ public class player : MonoBehaviour
     {
         if(playerHealth<=0)
         {
-           StartCoroutine(playerDeathAnimation());
+           StartCoroutine(playerDeathAnimation());//也可以在动画里插入事件来解决
             speed = 0;//重置数值
             jumpfouce = 0;
         }
@@ -229,7 +228,7 @@ public class player : MonoBehaviour
     IEnumerator playerDeathAnimation()
     {
         animator.Play("player death");
-        yield return new WaitForSeconds(0.29f);
+        yield return new WaitForSeconds(1.04f);
         this.gameObject.SetActive(false);
     }
     

@@ -19,7 +19,7 @@ public class NewBehaviourScript : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(coinUi.currentCoinNum>=20 && collision.gameObject.CompareTag("Player"))
+        if(coinUi.currentCoinNum>=12 && collision.gameObject.CompareTag("Player"))
         {
             SceneManager.LoadScene(2);
         }
