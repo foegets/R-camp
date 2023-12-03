@@ -246,7 +246,7 @@ CapsuleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -278,16 +278,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc107a3b89c03774abfc3e0053906251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 200
-  currentHealth: 6000
-  invulnerableDuration: 0
+  maxHealth: 2000
+  currentHealth: 2000
+  invulnerableDuration: 0.2
   invulnerable: 0
   isHurt: 0
   isdead: 0
   playerController: {fileID: 0}
   OntakeDamage:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5675020768491020238}
+        m_TargetAssemblyTypeName: Enemy, Assembly-CSharp
+        m_MethodName: HurtAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDie:
     m_PersistentCalls:
       m_Calls:
@@ -318,6 +330,8 @@ MonoBehaviour:
   damage: 15
   attackRange: 0
   attackRate: 0
+  knockBack: 5
+  character: {fileID: 0}
 --- !u!95 &3577705903796601197
 Animator:
   serializedVersion: 5
@@ -368,6 +382,7 @@ MonoBehaviour:
   faceDir: 0
   standbyTime: 0
   checkIsPlayerRange: 0
+  enemyScore: 0
   standbyPoint: {x: 4.34, y: -2.52}
   standbyPointRadius: 1.07
   isWalk: 0

@@ -39,8 +39,9 @@ public class Enemy : MonoBehaviour
     
 
     public BaseState currentState;
-    public BaseState patrolState;
-    public BaseState chaseState;
+    public BaseState state_a;
+    public BaseState state_b;
+    public BaseState state_c;
     public BaseState deadState;
 
     [HideInInspector] public Rigidbody2D rigid;
@@ -52,12 +53,13 @@ public class Enemy : MonoBehaviour
     public Character character;
 
     private int a = 1;
+    private int b = 1;
 
 
     // Start is called before the first frame update
     private void OnEnable()
     {
-        currentState = patrolState;
+        currentState = state_a;
         currentState.OnEnter(this);
     }
     protected virtual void Awake()
@@ -82,8 +84,10 @@ public class Enemy : MonoBehaviour
         CheckisStandbypoint();
         currentState.LogicUpdate();
         checkPlayer = CheckisPlayerinRange();
-        if(character.isdead)
+
+        if(character.isdead&&b==1)
         {
+            b++;
             Debug.Log("ToDeadState");
             currentState = deadState;
             currentState.OnEnter(this);
@@ -112,7 +116,6 @@ public class Enemy : MonoBehaviour
         isPlayerinRange = Physics2D.OverlapArea((Vector2)transform.position+pointA, (Vector2)transform.position + pointB,mask);
         if (isPlayerinRange)
         {
-            Debug.Log("Player Here");
             player =  Physics2D.OverlapArea((Vector2)transform.position + pointA, (Vector2)transform.position + pointB, mask);
             return player;
         }
@@ -139,7 +142,7 @@ public class Enemy : MonoBehaviour
     }
     private void CheckisStandbypoint()
     {
-        if (currentState == chaseState && isPlayerinRange == false)
+        if (currentState == state_b && isPlayerinRange == false)
         {
             isStandbyPoint = Physics2D.OverlapCircle(standbyPoint, standbyPointRadius, standbyPointCheckMask);
         }
@@ -153,13 +156,18 @@ public class Enemy : MonoBehaviour
         anim.SetBool("isRun", isRun);
     }
 
+    public void HurtAnimation()
+    {
+        anim.SetTrigger("Hurt");
+        
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.name == "CheckLeftStandbyPoint" && currentState == patrolState)
+        if(collision.name == "CheckLeftStandbyPoint" && currentState == state_a)
         {
             isInLeftStandbyCheckPoint = true;
         }
-        if (collision.name == "CheckRightStandbyPoint" && currentState == patrolState)
+        if (collision.name == "CheckRightStandbyPoint" && currentState == state_a)
         {
             isInRightStandbyCheckPoint = true;
         }

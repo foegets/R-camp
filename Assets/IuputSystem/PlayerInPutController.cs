@@ -71,6 +71,15 @@ public partial class @PlayerInPutController: IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pick"",
+                    ""type"": ""Button"",
+                    ""id"": ""d47b0a58-7bc7-4e94-988d-43a4ac8e5279"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -249,6 +258,17 @@ public partial class @PlayerInPutController: IInputActionCollection2, IDisposabl
                     ""action"": ""Fire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4499874f-d7b0-4fee-bfcd-6838a73862af"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Pick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -351,6 +371,7 @@ public partial class @PlayerInPutController: IInputActionCollection2, IDisposabl
         m_gamePlayer_Rush = m_gamePlayer.FindAction("Rush", throwIfNotFound: true);
         m_gamePlayer_GoToMainMenu = m_gamePlayer.FindAction("GoToMainMenu", throwIfNotFound: true);
         m_gamePlayer_Fire = m_gamePlayer.FindAction("Fire", throwIfNotFound: true);
+        m_gamePlayer_Pick = m_gamePlayer.FindAction("Pick", throwIfNotFound: true);
         // MainMenu
         m_MainMenu = asset.FindActionMap("MainMenu", throwIfNotFound: true);
         m_MainMenu_Newaction = m_MainMenu.FindAction("New action", throwIfNotFound: true);
@@ -420,6 +441,7 @@ public partial class @PlayerInPutController: IInputActionCollection2, IDisposabl
     private readonly InputAction m_gamePlayer_Rush;
     private readonly InputAction m_gamePlayer_GoToMainMenu;
     private readonly InputAction m_gamePlayer_Fire;
+    private readonly InputAction m_gamePlayer_Pick;
     public struct GamePlayerActions
     {
         private @PlayerInPutController m_Wrapper;
@@ -429,6 +451,7 @@ public partial class @PlayerInPutController: IInputActionCollection2, IDisposabl
         public InputAction @Rush => m_Wrapper.m_gamePlayer_Rush;
         public InputAction @GoToMainMenu => m_Wrapper.m_gamePlayer_GoToMainMenu;
         public InputAction @Fire => m_Wrapper.m_gamePlayer_Fire;
+        public InputAction @Pick => m_Wrapper.m_gamePlayer_Pick;
         public InputActionMap Get() { return m_Wrapper.m_gamePlayer; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -453,6 +476,9 @@ public partial class @PlayerInPutController: IInputActionCollection2, IDisposabl
             @Fire.started += instance.OnFire;
             @Fire.performed += instance.OnFire;
             @Fire.canceled += instance.OnFire;
+            @Pick.started += instance.OnPick;
+            @Pick.performed += instance.OnPick;
+            @Pick.canceled += instance.OnPick;
         }
 
         private void UnregisterCallbacks(IGamePlayerActions instance)
@@ -472,6 +498,9 @@ public partial class @PlayerInPutController: IInputActionCollection2, IDisposabl
             @Fire.started -= instance.OnFire;
             @Fire.performed -= instance.OnFire;
             @Fire.canceled -= instance.OnFire;
+            @Pick.started -= instance.OnPick;
+            @Pick.performed -= instance.OnPick;
+            @Pick.canceled -= instance.OnPick;
         }
 
         public void RemoveCallbacks(IGamePlayerActions instance)
@@ -587,6 +616,7 @@ public partial class @PlayerInPutController: IInputActionCollection2, IDisposabl
         void OnRush(InputAction.CallbackContext context);
         void OnGoToMainMenu(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
+        void OnPick(InputAction.CallbackContext context);
     }
     public interface IMainMenuActions
     {

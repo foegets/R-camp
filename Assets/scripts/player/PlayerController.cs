@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
 
     public UnityEvent<GameObject> E_Fire;
 
+    public UnityEvent E_Pick;
+
     [Header("基本参数")]
     public Vector2 inputDirection;//方向
 
@@ -27,22 +29,29 @@ public class PlayerController : MonoBehaviour
 
     public float rushForce;
 
-    public float hurtForce;
-
     public int jumpNum=0;//记录跳跃次数
     [Header("计时器")]
     public float leftPressTime, rightPressTime;
 
     public float maxAwaitTime;
     [Header("状态")]
-    public bool isWalk,canRun;
+    public bool isWalk;
 
-    public Vector3 fireDir;
+    public bool canRun;
+
+    public GameObject currentWeapon;
+
     public float correct;
+
+    public bool isableusemelee;
+
+    [HideInInspector] public Vector3 fireDir;
 
     private PhysicsCheck physicsCheck;//用于获取脚本PhysicsCheck中的变量（isGround）
     private AudioManager audioManager;
     private Character character;
+    private PickChecker pickChecker;
+
     private void Awake()
     {
         inputControl = new PlayerInPutController();
@@ -52,12 +61,18 @@ public class PlayerController : MonoBehaviour
         physicsCheck = GetComponent<PhysicsCheck>();
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         character = gameObject.GetComponent<Character>();
+        pickChecker = transform.Find("PickCheck").GetComponent<PickChecker>();
+        isableusemelee = true;
 
+        #region  事件注册
         inputControl.gamePlayer.Jump.started += Jump;//事件注册： += （started：按键按下那一刻），Jump方法将在started事件中执行
         inputControl.gamePlayer.Rush.started += Rush;
         inputControl.gamePlayer.Fire.started += Fire;
-        
+        inputControl.gamePlayer.Pick.started += Pick;
+        #endregion
+
     }
+
     private void OnEnable()
     {
         inputControl.Enable();
@@ -92,7 +107,7 @@ public class PlayerController : MonoBehaviour
             if (isWalk == true && canRun == true && inputDirection.x != 0)
                 rb.velocity = new Vector2(inputDirection.x * runSpeek * Time.deltaTime, rb.velocity.y);
             if (inputDirection.x == 0)
-                rb.velocity = new Vector2(0, rb.velocity.y);
+                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y);
         }
         //修改rigidboy组件中的速度值，实现移动
         //rb.velocity = new Vector2(inputDirection.x * speed * Time.deltaTime, rb.velocity.y);
@@ -130,13 +145,11 @@ public class PlayerController : MonoBehaviour
         {
             if (inputDirection.x != 0 || inputDirection.y != 0)
             {
-                Debug.Log("rush case 1");
                 rb.AddForce(inputDirection * rushForce, ForceMode2D.Impulse);
                 physicsCheck.isRush = true;
             }
             if (inputDirection.x == 0 && inputDirection.y == 0)
             {
-                Debug.Log("rush case 2");
                 rb.AddForce(dir * rushForce, ForceMode2D.Impulse);
                 physicsCheck.isRush = true;
             }
@@ -146,8 +159,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Jump(InputAction.CallbackContext context)//跳跃函数
-    {
-        //Debug.Log("JUMP!");        
+    {     
             if (physicsCheck.isGround == true || jumpNum <1)
             {
                 rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
@@ -159,21 +171,38 @@ public class PlayerController : MonoBehaviour
     private void Fire(InputAction.CallbackContext context)
     {
         E_Fire?.Invoke(gameObject);
+
+        if(currentWeapon.tag == "RemoteWeapon")
+            Instantiate(currentWeapon, currentWeapon.GetComponent<RemoteWeapon>().summonpos(this.gameObject), this.transform.rotation);
+
+        if (currentWeapon.tag == "MeleeWeapon"&&isableusemelee)
+        { 
+            Instantiate(currentWeapon, currentWeapon.GetComponent<MeleeWeapon>().summonpos(this.gameObject), this.transform.rotation, rb.transform);
+            isableusemelee = false;
+        }
+    }
+
+    private void Pick(InputAction.CallbackContext context)
+    {
+        if (pickChecker.item != null)
+        {
+            currentWeapon = pickChecker.item;
+
+            Destroy(pickChecker.pickableitem);
+        }
     }
 
     public void GetFireDir()
     {
-        Debug.Log("Mouse Left");
-
         Vector3 playerpos = new Vector3(transform.position.x,transform.position.y + correct, transform.position.z);
         Vector3 mousepos = cam.ScreenToWorldPoint(Input.mousePosition);
 
         fireDir = (mousepos - playerpos);
         fireDir.Normalize();
 
-        Debug.Log(fireDir + "fireDir");
-        Debug.Log(playerpos + "playerpos");
-        Debug.Log(mousepos + "mousepos");                
+        //Debug.Log(fireDir + "fireDir");
+        //Debug.Log(playerpos + "playerpos");
+        //Debug.Log(mousepos + "mousepos");                
     }
 
     private void checkRunWalk()
@@ -203,13 +232,23 @@ public class PlayerController : MonoBehaviour
 
     public void BeHurt(Transform attacker)
     {
+        float knockBack = attacker.GetComponent<Attack>().knockBack;
         character.isHurt = true;
         rb.velocity = Vector2.zero;
         Vector2 dir = new Vector2((transform.position.x-attacker.transform.position.x), 0.5f).normalized;
         Debug.Log(dir);
-        rb.AddForce(dir * hurtForce,ForceMode2D.Impulse);
+        rb.AddForce(dir*knockBack , ForceMode2D.Impulse);
     }
 
+    public void Test()
+    {
+       
+    }
+
+    public void TestFuction()
+    {
+
+    }
     private void OnDrawGizmos()
     {
          Vector3 mousepos = cam.ScreenToWorldPoint(Input.mousePosition);

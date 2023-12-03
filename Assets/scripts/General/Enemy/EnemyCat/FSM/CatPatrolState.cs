@@ -22,7 +22,7 @@ public class CatPatrolState : BaseState
         }
         if(currentEnemy.isPlayerinRange == true)
         {
-            currentEnemy.currentState = currentEnemy.chaseState;
+            currentEnemy.currentState = currentEnemy.state_b;
             currentEnemy.currentState.OnEnter(currentEnemy);
         }
     }
@@ -39,7 +39,7 @@ public class CatPatrolState : BaseState
 
     protected virtual void Move()
     {
-        currentEnemy.rigid.velocity = new Vector3(currentEnemy.faceDir * currentEnemy.walkSpeed, 0, 0);
+        currentEnemy.rigid.velocity = new Vector3(currentEnemy.faceDir * currentEnemy.walkSpeed,currentEnemy.GetComponent<Rigidbody2D>().velocity.y, 0);
         currentEnemy.isWalk = true;
     }
 }

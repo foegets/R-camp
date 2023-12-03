@@ -9,13 +9,9 @@ public class EnemyCat : Enemy
     protected override void Awake()
     {
         base.Awake();
-        patrolState = new CatPatrolState();
-        chaseState = new CatChaseState();
+        state_a = new CatPatrolState();
+        state_b = new CatChaseState();
         deadState = new CaiDeadState();
-    }
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame

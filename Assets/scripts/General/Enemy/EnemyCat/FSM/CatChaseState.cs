@@ -38,7 +38,7 @@ public class CatChaseState : BaseState
             {
                 currentEnemy.isRun = false;
                 currentEnemy.isWalk = true;
-                currentEnemy.currentState = currentEnemy.patrolState;
+                currentEnemy.currentState = currentEnemy.state_a;
                 currentEnemy.currentState.OnEnter(currentEnemy);
             }
             
@@ -52,7 +52,6 @@ public class CatChaseState : BaseState
 
     public override void OnExit()
     {
-        Debug.Log("Onexit");
     //    currentEnemy.isRun = false;
     //    currentEnemy.currentState = currentEnemy.patrolState;
     //    currentEnemy.currentState.OnEnter(currentEnemy);

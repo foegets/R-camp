@@ -10,9 +10,20 @@ public class Attack : MonoBehaviour
 
     public float attackRate;
 
+    public float knockBack;
+
+    public Character character;
+
+    private void Awake()
+    {
+        character = gameObject.GetComponent<Character>();
+    }
+
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        other.GetComponent<Character>()?.TakeDamage(this);
+        if(character != null&&other.tag == "Player" )
+            if(character.isdead != true)
+                other.GetComponent<Character>()?.TakeDamage(this);
     }
 }

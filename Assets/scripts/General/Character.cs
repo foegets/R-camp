@@ -25,6 +25,8 @@ public class Character : MonoBehaviour
 
     private PhysicsCheck PhysicsCheck;
 
+    private Animator anim;
+
     public PlayerController playerController;
 
 
@@ -36,6 +38,8 @@ public class Character : MonoBehaviour
     private void Awake()
     {
         PhysicsCheck = GetComponent<PhysicsCheck>();
+
+        anim = GetComponent<Animator>();
 
         playerController = GetComponent<PlayerController>();
     }
@@ -95,7 +99,7 @@ public class Character : MonoBehaviour
             currentHealth -= attacker.weaponDamage;
             TriggerInvulnerable();
 
-            //OntakeDamage?.Invoke(attacker.transform);
+            OntakeDamage?.Invoke(attacker.transform);
 
         }
         else
@@ -106,11 +110,34 @@ public class Character : MonoBehaviour
 
 
     }//其他远程受击
+
+    public void TakeDamage(MeleeWeapon attacker)
+    {
+        if (invulnerable == true)
+            return;
+
+        if (currentHealth - attacker.weaponDamage > 0)
+        {
+            isHurt = true;
+
+            Debug.Log(attacker.weaponDamage);
+            currentHealth -= attacker.weaponDamage;
+            TriggerInvulnerable();
+
+            OntakeDamage?.Invoke(attacker.transform);
+
+        }
+        else
+        {
+            currentHealth = 0;//death
+            OnDie?.Invoke();
+        }
+    }
     private void TriggerInvulnerable()
     {
         if (invulnerable != true)
             invulnerable = true;
-
+           
         invulnerableCounter = invulnerableDuration;
     }
 
@@ -124,7 +151,7 @@ public class Character : MonoBehaviour
     public void OtherDead()
     {
         isdead = true;
-        Destroy(gameObject, 10);
+        //Destroy(gameObject, 10);
     }
    
 }
