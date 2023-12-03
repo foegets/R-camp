@@ -7,9 +7,8 @@ public abstract class Enemy : MonoBehaviour
 {
     public int health;
     public int damage;
+    public float flashTime;
     public GameObject dropGem;
-
-    public float flashtime;
 
     private SpriteRenderer sr;
     private Color originalColor;
@@ -35,7 +34,7 @@ public abstract class Enemy : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
-        FlashColor(flashtime);
+        FlashColor(flashTime);
     }
 
     void FlashColor(float time)

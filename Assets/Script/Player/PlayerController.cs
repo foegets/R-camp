@@ -35,7 +35,7 @@ public class PlayController : MonoBehaviour
 
     void CheckGrounded()
     {
-        isGround = myFeet.IsTouchingLayers(LayerMask.GetMask("Ground"));
+        isGround = myFeet.IsTouchingLayers(LayerMask.GetMask("Ground")) || myFeet.IsTouchingLayers(LayerMask.GetMask("MovingPlatform"));
         Debug.Log(isGround);
     }
 

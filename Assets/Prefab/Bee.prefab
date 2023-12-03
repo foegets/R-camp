@@ -60,7 +60,7 @@ Transform:
   m_GameObject: {fileID: 4233087126481280490}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.38, y: 7.21, z: 0}
+  m_LocalPosition: {x: 16.96, y: 5.66, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -76,7 +76,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6037772161021464090}
   m_Layer: 10
-  m_Name: RightDownPos
+  m_Name: RightUpPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91,7 +91,7 @@ Transform:
   m_GameObject: {fileID: 4631118830377468581}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 28.56, y: 15.23, z: 0}
+  m_LocalPosition: {x: 23.03, y: 9.84, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -126,7 +126,7 @@ Transform:
   m_GameObject: {fileID: 6294883243380015819}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22.41, y: 10.99, z: 0.81862175}
+  m_LocalPosition: {x: 20.11, y: 8.46, z: 0.81862175}
   m_LocalScale: {x: 0.726, y: 0.726, z: 0.726}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -264,8 +264,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 4
   damage: 2
+  flashTime: 0.5
   dropGem: {fileID: 3393755892397444231, guid: a888ac4f9e93fea499fe7b5ed00021f4, type: 3}
-  flashtime: 0.2
   speed: 3
   startWaitTime: 0
   movePos: {fileID: 4453361321844258899}
