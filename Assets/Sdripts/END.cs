@@ -5,11 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class Effect : MonoBehaviour
 {
-    public bool isEffect;
-    public GameObject prefaEffect;
+    //public bool isEffect;
+   // public GameObject prefaEffect;
+
     public string mainMune,Again;
     public GameObject VScreen;
+
     private PauseMune PauseMune;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,31 +26,27 @@ public class Effect : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-    
-        
-            VUnpause();
-        
-
-     }
-    public void VUnpause()
+        VUnpause();
+    }
+    public void VUnpause()//结束UI
     {
-        
-        
-            VScreen.SetActive(true);
-            Time.timeScale = 0f;
+        VScreen.SetActive(true);
+        Time.timeScale = 0f;
         PauseMune.isPaused = true;
     }
 
-    public void Again_Game()
+    public void Again_Game()//重新开始
     {
         SceneManager.LoadScene(Again);
         Time.timeScale = 1f;
+        PauseMune.isPaused = false;
         LevelManeger.gensCollected=0;
     }
-    public void MainMune()
+    public void MainMune()//主菜单
     {
         VScreen.SetActive(false);
         SceneManager.LoadScene(mainMune);
         PauseMune.isPaused = false;
+        Time.timeScale = 1f;
     }
 }

@@ -9,10 +9,6 @@ public class UIController : MonoBehaviour
 {
     public static UIController instance;
     public Text genText;
-    
-
-    //public static int gensCollected;
-    // Start is called before the first frame update
     void Start()
     {
         instance = this;

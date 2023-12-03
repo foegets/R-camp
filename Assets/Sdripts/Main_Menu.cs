@@ -23,7 +23,7 @@ public class Main_Menu : MonoBehaviour
     {
         SceneManager.LoadScene(StartScene);
         Time.timeScale = 1f;
-        LevelManeger.gensCollected = 0;
+        LevelManeger.gensCollected = 0;//重置gem的收集
     }
 
 

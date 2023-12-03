@@ -5,14 +5,11 @@ using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class Pickup : MonoBehaviour
 {
-    private UIController uIController;
     public bool isGen;
-    // public bool isCollected=false;
-
-    // Start is called before the first frame update
+    public bool isCherry;
     void Start()
     {
-        uIController = UIController.instance;
+        
     }
 
     // Update is called once per frame
@@ -23,15 +20,17 @@ public class Pickup : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        
         if (other.CompareTag("player"))
         {
-
-
             if (isGen)
             {
-                
-                Destroy(gameObject);
+                Destroy(gameObject); //销毁依附的gameObject
+                LevelManeger.gensCollected++;
+            }
+            if (isCherry)
+            {
+                Destroy(gameObject); //销毁依附的gameObject
+                LevelManeger.gensCollected++;
                 LevelManeger.gensCollected++;
             }
         }

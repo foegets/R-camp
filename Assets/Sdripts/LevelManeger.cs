@@ -5,7 +5,6 @@ using UnityEngine;
 public class LevelManeger : MonoBehaviour
 {
     public static LevelManeger instance;
-    public int A;
     public static int gensCollected;
     // Start is called before the first frame update
     void Start()
@@ -16,6 +15,6 @@ public class LevelManeger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        A = gensCollected;
+
     }
 }

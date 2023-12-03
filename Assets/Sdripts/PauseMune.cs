@@ -8,8 +8,9 @@ public class PauseMune : MonoBehaviour
     public static PauseMune instance;
     public string  mainMune;
     public GameObject pauseScreen;
+    public GameObject genScreen;
     public bool isPaused;
-
+    public bool isGen;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,12 +30,14 @@ public class PauseMune : MonoBehaviour
     {
         if (isPaused)
         {
+            genUnpause();
             isPaused = false;
             pauseScreen.SetActive(false);
             Time.timeScale = 1f;
         }
         else
         {
+            genUnpause();
             isPaused = true;
             pauseScreen.SetActive(true);
             Time.timeScale = 0f;
@@ -42,8 +45,23 @@ public class PauseMune : MonoBehaviour
     }
     public void MainMune()
     {
+        genUnpause();
         SceneManager.LoadScene(mainMune);
         isPaused = false;
+        Time.timeScale = 1f;
     }
 
+    public void genUnpause()
+    {
+        if (isGen)
+        {
+            isGen = false;
+            genScreen.SetActive(false);
+        }
+        else
+        {
+            isGen = true;
+            genScreen.SetActive(true);
+        }
+    }
 }

@@ -24,6 +24,8 @@ public class EnemyController : MonoBehaviour
     private float moveCount, waitCount;
 
     private Spikes Spikes;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +34,7 @@ public class EnemyController : MonoBehaviour
         LeftPoint.parent = null;
         RightPoint.parent = null;
 
-        movingRight = false;
+        movingRight = true;
 
         moveCount = moveTime;
         theSR.flipX =true ;
@@ -41,30 +43,19 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        anim.SetFloat("JumpSpeed", theRb.velocity.y);
         anim.SetFloat("MoveCount", moveCount);
+
         if (moveCount > 0)
         {
-            moveCount -= Time.deltaTime;
+            moveCount -= Time.deltaTime;   
             if (movingRight)
             {
-                theRb.velocity = new Vector2(moveSpeed, theRb.velocity.y);
-                if (transform.position.x > RightPoint.position.x)
-                {
-                    theSR.flipX = false;
-                    movingRight = false;
-
-                }
+                theRb.velocity = new Vector2(moveSpeed, JumpForce);
             }
             else
             {
-
-                theRb.velocity = new Vector2(-moveSpeed, theRb.velocity.y);
-                if (transform.position.x < LeftPoint.position.x)
-                {
-                    theSR.flipX = true;
-                    movingRight = true;
-                }
-
+                theRb.velocity = new Vector2(-moveSpeed, JumpForce);
             }
             if (moveCount<=0)
             {
@@ -81,12 +72,23 @@ public class EnemyController : MonoBehaviour
                 if (waitCount<=0)
                 {
                     moveCount = moveTime;
+                    if (transform.position.x > RightPoint.position.x)
+                    {
+                        theSR.flipX = false;
+                        movingRight = false;
+
+                    }
+                    if (transform.position.x < LeftPoint.position.x)
+                    {
+                        theSR.flipX = true;
+                        movingRight = true;
+                    }
                 }
             }
         }
 
     }
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)//ÅÐ¶ÏÅö×²
     {
         if (other.CompareTag("player"))
         {
