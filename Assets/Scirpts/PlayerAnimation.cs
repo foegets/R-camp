@@ -11,7 +11,6 @@ public class PlayerAnimation : MonoBehaviour
     private Animator animator;
     private bool isMove = false;
     //private bool isOnWall = false;
-
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -23,28 +22,6 @@ public class PlayerAnimation : MonoBehaviour
     {
         SetAnim();
     }
-    //µÅÇ½Ìø¹¦ÄÜ
-    /*private void OnTriggerStay2D(Collider2D collision)
-    {
-       if(collision.CompareTag("Wall"))
-        {
-
-            isOnWall = true;
-            rb.gravityScale = 0.1f;
-            //Debug.Log(CompareTag("Wall"));
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Wall"))
-        {
-
-            isOnWall = false;
-            rb.gravityScale = 1f;
-            //Debug.Log(CompareTag("Wall"));
-        }
-    }*/
 
     public void SetAnim()
     {
@@ -59,7 +36,23 @@ public class PlayerAnimation : MonoBehaviour
             //Debug.Log(ismove);
         }
         animator.SetBool("ismove",isMove);
-        animator.SetFloat("Velocity_Y", rb.velocity.y);
-        animator.SetBool("isOnGround", player.isOnGround);
+        animator.SetFloat("velocity_Y", rb.velocity.y);
+        animator.SetBool("isGround", player.isOnGround);
+        animator.SetBool("isDead", player.isDead);
+        animator.SetBool("isAttack", player.isAttack);
+        //animator.SetInteger("combo", player.combo);
+        //Debug.Log(player.isOnGround);
     }
+
+    public void Playerhurt()
+    {
+        animator.SetTrigger("hurt");
+        //Debug.Log("fuck");
+    }
+
+    public void PlayerAttack()
+    {
+        animator.SetTrigger("attack");
+    }
+
 }
