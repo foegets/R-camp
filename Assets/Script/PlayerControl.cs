@@ -11,11 +11,13 @@ public class PlayerControl : MonoBehaviour
         stateMove,
         stateJump,
         stateAttack,
+        stadeDie,
         stateUpdate,
         stateUpdateStand,
         stateUpdateMove,
         stateUpdateJump,
-        stateUpdateAttack
+        stateUpdateAttack,
+        stateUpdateDie
     }
     
     public static State playerState;
@@ -32,7 +34,7 @@ public class PlayerControl : MonoBehaviour
 
     //…Ë÷√∂Øª≠
     public SkeletonAnimation battleAnimation, buildingAnimation, updateBattleAnimation, updateBuildingAnimation;
-    public AnimationReferenceAsset idle, attack, move, update, updateIdle, updateAttack, updateMove;
+    public AnimationReferenceAsset idle, attack, move, die, update, updateIdle, updateAttack, updateMove, updateDie;
     private string currentState;
 
     //…Ë÷√π•ª˜HitBox
@@ -148,6 +150,8 @@ public class PlayerControl : MonoBehaviour
                     playerState = State.stateStand;
                 }
                 break;
+            case State.stadeDie:
+                break;
             case State.stateUpdate:
                 updateBattlePlayer.SetActive(true);
                 battlePlayer.SetActive(false);
@@ -238,7 +242,8 @@ public class PlayerControl : MonoBehaviour
                     playerState = State.stateUpdateStand;
                 }
                 break;
-
+            case State.stateUpdateDie:
+                break;
         }
     }
 

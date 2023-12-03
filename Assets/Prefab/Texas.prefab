@@ -241,6 +241,7 @@ GameObject:
   - component: {fileID: 6635307543369181265}
   - component: {fileID: 1460139814699633116}
   - component: {fileID: 1673194778915056799}
+  - component: {fileID: 789730341279264073}
   m_Layer: 0
   m_Name: Texas
   m_TagString: Player
@@ -486,7 +487,7 @@ MonoBehaviour:
   buildingPlayer: {fileID: 8208404853812055553}
   updateBattlePlayer: {fileID: 1355409182163793884}
   updateBuildingPlayer: {fileID: 5895037878854825371}
-  runSpeed: 6
+  runSpeed: 8
   jumpSpeed: 10
   battleAnimation: {fileID: 7906504192903939046}
   buildingAnimation: {fileID: 244065466578276853}
@@ -495,16 +496,31 @@ MonoBehaviour:
   idle: {fileID: 11400000, guid: 23c6b69d08e31904ca9585893c268294, type: 2}
   attack: {fileID: 11400000, guid: 37254365de02af04db2b9d4295055e1d, type: 2}
   move: {fileID: 11400000, guid: de0bad55c4079f24e84a3fbd304c7e67, type: 2}
+  die: {fileID: 11400000, guid: effae60c734162d4dbfc6777ea02dfc5, type: 2}
   update: {fileID: 11400000, guid: 3d50916e24a7bd74ba5dd363797ff4ef, type: 2}
   updateIdle: {fileID: 11400000, guid: 5f2780b68b1990e4883b1111fe0877b0, type: 2}
   updateAttack: {fileID: 11400000, guid: b7b0e8ecfff0f5249b31532eb724f138, type: 2}
   updateMove: {fileID: 11400000, guid: 2f9a732882f368f4d8072e2a16c6217e, type: 2}
+  updateDie: {fileID: 11400000, guid: 8f8c6766f1ff92242b3843513d194af3, type: 2}
   AtkHitBox: {fileID: 1275292086721249091}
   UpdateHitBox: {fileID: 6569273868692869710}
   startAtk: 0.4
   endAtk: 0.07
   updateStartAtk: 0.3
   updateEndAtk: 0.2
+--- !u!114 &789730341279264073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5450406196338925060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd15cc74e2aeffd49a4dffe7580578d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 50
 --- !u!1 &5895037878854825371
 GameObject:
   m_ObjectHideFlags: 0
