@@ -35,6 +35,14 @@ public class PlayerControl : MonoBehaviour
     public AnimationReferenceAsset idle, attack, move, update, updateIdle, updateAttack, updateMove;
     private string currentState;
 
+    //设置攻击HitBox
+    public GameObject AtkHitBox;
+    public GameObject UpdateHitBox;
+    public float startAtk;
+    public float endAtk;
+    public float updateStartAtk;
+    public float updateEndAtk;
+
     private Rigidbody2D myRigidbody;
     private BoxCollider2D myFeet;
     private bool isOnGround;
@@ -42,9 +50,11 @@ public class PlayerControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //初始化状态机
         buildingPlayer.SetActive(false);
         updateBattlePlayer.SetActive(false);
         updateBuildingPlayer.SetActive(false);
+
         //获取Player物理模型
         myRigidbody = GetComponent<Rigidbody2D>();
         myFeet = GetComponent<BoxCollider2D>();
@@ -61,6 +71,7 @@ public class PlayerControl : MonoBehaviour
         OnGround();
     }
 
+    //通过状态机进行主要控制
     void Control()
     {
         switch (playerState) 
@@ -246,6 +257,7 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetButtonDown("Attack"))
         {
             playerState = State.stateAttack;
+            StartCoroutine(StartAtk(AtkHitBox, startAtk, endAtk));
         }
     }
 
@@ -255,6 +267,7 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetButtonDown("Attack"))
         {
             playerState = State.stateUpdateAttack;
+            StartCoroutine(StartAtk(UpdateHitBox, updateStartAtk, updateEndAtk));
         }
     }
 
@@ -313,4 +326,17 @@ public class PlayerControl : MonoBehaviour
         skeletonAnimation.state.SetAnimation(0, animation, loop).TimeScale = timeScale;
     }
 
+    //通过协程控制前摇和后摇
+    IEnumerator StartAtk(GameObject HitBox, float startTime, float endTime)
+    {
+        yield return new WaitForSeconds(startTime);
+        HitBox.SetActive(true);
+        StartCoroutine(EndAtk(HitBox, endTime));
+    }
+
+    IEnumerator EndAtk(GameObject HitBox, float endTime)
+    {
+        yield return new WaitForSeconds(endTime);
+        HitBox.SetActive(false);
+    }
 }

@@ -6,6 +6,8 @@ using Spine.Unity;
 public class EnemyNasbr : MonoBehaviour
 {
     //…Ë÷√ Ù–‘
+    public int health;
+    public int damage;
     public float speed;
     public float waitTime;
     public Transform[] movePos;
@@ -118,5 +120,15 @@ public class EnemyNasbr : MonoBehaviour
             return;
         }
         skeletonAnimation.state.SetAnimation(0, animation, loop).TimeScale = timeScale;
+    }
+
+    // ‹…À
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }
