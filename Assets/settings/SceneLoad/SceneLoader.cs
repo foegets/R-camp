@@ -14,6 +14,7 @@ public class SceneLoader : MonoBehaviour
     public GameSceneSO firstLoadScene;
     public GameSceneSO currentLoadScene;
 
+
     private GameSceneSO sceneToLoad;
     private Vector3 positionToGo;
     private bool fadeScreen;

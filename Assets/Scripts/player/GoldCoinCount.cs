@@ -22,9 +22,9 @@ public class GoldCoinCount : MonoBehaviour
 
         if (CoinCount >= 10)
         {
-            canvas.SetActive(false);
-            loadEventSO.RaiseLoadRequestEvent(sceneToGo, positionToGo, true);
-            player.SetActive(false);
+            //canvas.SetActive(false);
+           // loadEventSO.RaiseLoadRequestEvent(sceneToGo, positionToGo, true);
+           // player.SetActive(false);
         }
     }
 

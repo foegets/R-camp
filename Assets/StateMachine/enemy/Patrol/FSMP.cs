@@ -8,16 +8,18 @@ using static UnityEditor.VersionControl.Asset;
 [Serializable]
 public class Parameter 
 {
-    public int health;
+   
     public float moveSpeed;
     public float chaseSpeed;
     public float rushSpeed;
     public float idleTime;
+    public float hurtForce;
     public GameObject target;
     public float rushRange;
     public Transform[] patrolPoints;
     public Transform[] chasePoints;
     public Animator animator;
+    public bool isAttack;
     
 }
 
@@ -31,6 +33,8 @@ public enum StateType
 public class FSMP : MonoBehaviour  
 {
     public Parameter parameter;
+    public Character character;
+    public Rigidbody2D rb;
     private IState currentState;
     private Dictionary<StateType, IState> states = new Dictionary<StateType, IState>();
     public bool isFaceLeft;
@@ -48,6 +52,7 @@ public class FSMP : MonoBehaviour
         
         parameter.animator = GetComponent<Animator>();
         parameter.target = GameObject.Find("player");
+        character = GetComponent<Character>();  
     }
 
 
@@ -76,4 +81,11 @@ public class FSMP : MonoBehaviour
                 transform.localScale = new Vector3(1, 1, 1); 
          }
     }
+
+    public void Dead()
+    {
+        gameObject.SetActive(false);
+    }
+
+
 }
