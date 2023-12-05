@@ -6,6 +6,9 @@ using UnityEngine.InputSystem;//调用大库中InputSystem在下面启用我们创建的GameInp
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("事件监听")]
+    public SceneLoadEventSO loadEvent;//menu中限制人物移动
+    public VoidEventSO afterSceneLoadedEvent;//menu切换后启动人物移动
     public GameInput inputControl;
     public Vector2 inputDirection;
     public Rigidbody2D rb;
@@ -48,11 +51,16 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         inputControl.Enable();
+        loadEvent.LoadRequestEvent += OnLoadEvent;
+        afterSceneLoadedEvent.OnEventRaised += OnAfterSceneLoadedEvent;
     }
     private void OnDisable()
     {
         inputControl.Disable();
+        loadEvent.LoadRequestEvent -= OnLoadEvent;
+        afterSceneLoadedEvent.OnEventRaised -= OnAfterSceneLoadedEvent;
     }
+
     private void Update()
     {
         //时刻更新人物朝向
@@ -73,6 +81,14 @@ public class PlayerController : MonoBehaviour
             currentJumpNumber = numberOfJump;
     }
 
+    private void OnLoadEvent(GameSceneSO arg0, Vector3 arg1, bool arg2)
+    {
+        inputControl.Player.Disable();
+    }
+    private void OnAfterSceneLoadedEvent()
+    {
+        inputControl.Player.Enable();
+    }
     public void Move()
     {
         //实现移动

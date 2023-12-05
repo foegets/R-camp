@@ -1,3 +1,6 @@
+using System;
+using TMPro;
+using UnityEditor.AddressableAssets.Build.Layout;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -7,4 +10,5 @@ public class GameSceneSO : ScriptableObject
 {
     //加载asset的引用
     public AssetReference sceneReference;
+    public AssetType sceneType;
 }

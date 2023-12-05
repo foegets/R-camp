@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEditor;
+using UnityEditor.AddressableAssets.Build.Layout;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -12,16 +14,20 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : MonoBehaviour
 {
     public Transform playerTrans;
+    public Vector3 firstPosition;
+    public Vector3 menuPosition;
     [Header("事件监听")]
     public SceneLoadEventSO LoadEventSO;
-    public GameSceneSO firstLoadScene;
-    public GameSceneSO secondLoadScene;
-    private GameSceneSO curruntLoadedScene;
     //下面三行变量用于暂时储存事件传进来的参数，为了做场景切换的等待时间
     private GameSceneSO sceneToLoad;
     private Vector3 positionToGo;
+    [Header("场景")]
+    public GameSceneSO menuLoadScene;
+    public GameSceneSO firstLoadScene;
+    private GameSceneSO curruntLoadedScene;
     private bool fadeScreen;
-
+    [Header("广播")]
+    public VoidEventSO afterSceneLoadedEvent;
     public float fadeDuration;
     private bool isLoading;//用于加载场景过程中关闭场景加载的事件，防止玩家频繁按E加载场景
    
@@ -36,12 +42,17 @@ public class SceneLoader : MonoBehaviour
     private void OnEnable()
     {
         LoadEventSO.LoadRequestEvent += OnLoadRequestEvent;
+        LoadEventSO.RaiseLoadRequestEvent(menuLoadScene, menuPosition, true);
     }
 
     //注销事件
     private void OnDisable()
     {
         LoadEventSO.LoadRequestEvent -= OnLoadRequestEvent;
+    }
+    private void Start()
+    {
+        NewGame();
     }
 
     //调用传进来的参数，加载新场景和坐标
@@ -55,9 +66,21 @@ public class SceneLoader : MonoBehaviour
         sceneToLoad = locationToLoad;
         positionToGo = posToGo;
         this.fadeScreen = fadeScreen;//this用于当出现相同名字时指代该脚本内创建的变量？
-        StartCoroutine(UnLoadPreviousScene());
+        if(curruntLoadedScene != null )
+        {
+            StartCoroutine(UnLoadPreviousScene());
+        }
+        else
+        {
+            LoadNewScene();
+        }
     }
-    
+    public void NewGame()
+    {
+        sceneToLoad = firstLoadScene;
+        LoadEventSO.RaiseLoadRequestEvent(sceneToLoad, firstPosition, true);
+    }
+
     //创建一个携程的方法,卸载旧的当前的场景
     private IEnumerator UnLoadPreviousScene()
     {
@@ -92,5 +115,10 @@ public class SceneLoader : MonoBehaviour
 
         }
         isLoading = false;
+        if(curruntLoadedScene.sceneType == AssetType.Scene)
+        {
+            afterSceneLoadedEvent.RaiseEvent();
+        }
+        
     }
 }

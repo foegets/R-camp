@@ -236,9 +236,12 @@ MonoBehaviour:
   runningSpped: 100
   currentSpped: 100
   faceDir: {x: 0, y: 0, z: 0}
+  attacker: {fileID: 0}
+  hurtForce: 0
   waitTime: 0
   waitTimeCounter: 0
   wait: 0
+  isHurt: 0
 --- !u!114 &8863557564178365413
 MonoBehaviour:
   m_ObjectHideFlags: 0
