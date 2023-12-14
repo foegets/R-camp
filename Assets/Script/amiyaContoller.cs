@@ -9,6 +9,7 @@ public class amiyaContoller : MonoBehaviour
     private Rigidbody2D rig;
     private BoxCollider2D box;
     private Animator ani;
+    private Animation animation;
     private CapsuleCollider2D capbox;
     public Text recordText;
     

@@ -41,4 +41,6 @@ public abstract class Enemy : MonoBehaviour
        
         sr.color = oriColor;
     }
+
+    abstract public void Attack();
 }

@@ -7,6 +7,7 @@ public class saveManager : MonoBehaviour
 {
     public static saveManager instance;
     public amiyaContoller player;
+
     private void Awake()
     {
         if(instance!=null)
@@ -19,8 +20,7 @@ public class saveManager : MonoBehaviour
     {
        
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         if(player.isCompleteTarget())

@@ -25,6 +25,7 @@ public class playAttack : MonoBehaviour
 
     void Attack()
     {
+        
         if(Input.GetButtonDown("Attack"))
         {
             

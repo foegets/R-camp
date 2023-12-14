@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class seaMonster : Enemy
 {
+    [Header("²ÎÊý")]
     public float startWaitTime;
     public float waitTime;
     public float speed;
+    public float crazySpeed;
 
     public bool isFind;
 
     public Transform movePos;
     public Transform leftPos;
     public Transform rightPos;
+    public Transform attackOjbect;
     public Animator ani;
     private Rigidbody2D rig;
 
@@ -85,6 +88,7 @@ public class seaMonster : Enemy
         {
             Debug.Log("onttigger");
             isFind = true;
+            speed += crazySpeed;
             movePos.position = new Vector2(other.transform.position.x,transform.position.y);
         }
     }
@@ -92,7 +96,13 @@ public class seaMonster : Enemy
     {
         if (other.CompareTag("Player"))
         {
+            speed -= crazySpeed;
             isFind = false;
         }
+    }
+
+    public override void Attack()
+    {
+
     }
 }
